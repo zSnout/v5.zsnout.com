@@ -1,0 +1,185 @@
+@use "../.." as *;
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+.markdown {
+  min-width: 200px;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 6 * $margin;
+  height: calc(100% - (12 * $margin));
+  line-height: 1.5;
+  font-family: $sans;
+  word-wrap: break-word;
+
+  @include small {
+    padding: 2 * $margin;
+    height: calc(100% - (4 * $margin));
+  }
+
+  a {
+    background: $element;
+    padding: 0.25em;
+    border-radius: 0.25em;
+    color: $text-color;
+    text-decoration: none;
+
+    @include focus {
+      background: $focused;
+      text-decoration: underline;
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: normal;
+    font-family: "Montserrat", $sans;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: $heading-color;
+  }
+
+  h1,
+  h2,
+  h3 {
+    padding-bottom: 0.125em;
+    margin: 0.67em 0;
+    border-bottom: 0.0625em solid $seperator;
+  }
+
+  h1 {
+    font-size: 2em;
+    font-weight: 600;
+  }
+
+  h2 {
+    font-size: 1.5em;
+  }
+
+  h3 {
+    font-size: 1.25em;
+  }
+
+  h4 {
+    font-size: 1em;
+  }
+
+  h5 {
+    font-size: 0.875em;
+  }
+
+  h6 {
+    font-size: 0.75em;
+  }
+
+  h5,
+  h6 {
+    font-weight: 600;
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: $margin;
+  }
+
+  ol,
+  ul {
+    padding-left: 2em;
+    margin-top: 0;
+    margin-bottom: 0;
+
+    ol {
+      list-style-type: lower-roman;
+    }
+
+    ol,
+    ul {
+      margin-top: 0.25em;
+      margin-bottom: 0;
+
+      ol {
+        list-style-type: lower-alpha;
+      }
+    }
+  }
+
+  li {
+    word-wrap: break-all;
+
+    > p {
+      margin-top: 1em;
+    }
+
+    + li {
+      margin-top: 0.25em;
+    }
+  }
+
+  p {
+    &.buttonlist {
+      display: grid;
+      grid-gap: $margin;
+      grid-template-columns: repeat(auto-fill, minmax(min(12em, 100%), 1fr));
+
+      a {
+        padding: 0.25em 0.5em;
+        text-align: center;
+        cursor: pointer;
+      }
+    }
+
+    &.header {
+      font-size: 3em;
+      font-weight: bold;
+      font-family: Montserrat, $sans;
+
+      @include small {
+        font-size: 2em;
+      }
+    }
+
+    &.subheader {
+      font-size: 2em;
+      font-weight: bold;
+      font-family: Montserrat, $sans;
+
+      @include small {
+        font-size: 1em;
+      }
+    }
+  }
+
+  div {
+    &.centered {
+      display: flex;
+      flex-flow: column;
+      height: 100%;
+      text-align: center;
+
+      > :first-child {
+        margin-top: auto;
+      }
+
+      > :last-child {
+        margin-bottom: auto;
+      }
+
+      > * {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  }
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}

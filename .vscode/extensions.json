@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "digitalbrainstem.javascript-ejs-support",
+    "bierner.github-markdown-preview",
+    "yzhang.markdown-all-in-one",
+    "esbenp.prettier-vscode",
+    "mrmlnc.vscode-scss"
+  ]
+}

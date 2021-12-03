@@ -1,0 +1,20 @@
+<% css("/assets/css/form.css"), js("./index.js"), title("Create a zSnout account!") %>
+
+<form id="form">
+  <label for="username"><strong>Username</strong>: Must be at least 5 letters, begin with a letter or
+    underscore, and can only contain letters, numbers, and underscores.</label>
+  <input class="validate" type="text" id="username" placeholder="professor_frink" autocomplete="username" minlength="5"
+    maxlength="16" pattern="^[A-Za-z_][0-9A-Za-z_]{4,15}$" required>
+
+  <label for="password"><strong>Password</strong>: Must be at least 8 characters long and contain an
+    alphanumeric character and symbol.</label>
+  <input class="validate" type="password" id="password" placeholder="********" autocomplete="current-password"
+    minlength="8" pattern=".*([0-9A-Za-z].*[^0-9A-Za-z]|[^0-9A-Za-z].*[0-9A-Za-z]).*" required>
+
+  <label for="email"><strong>Email</strong>: You will be sent a verification email to this address to confirm that you
+    own it.</label>
+  <input class="validate" type="email" id="email" placeholder="frinksaysglayvin@example.com" autocomplete="email"
+    minlength="8" required>
+
+  <input type="submit" value="Create Account">
+</form>

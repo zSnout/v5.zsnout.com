@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.json",
+  "exclude": [""],
+  "compilerOptions": {
+    "module": "esnext",
+    "jsx": "react",
+    "jsxFactory": "jsx",
+    "outDir": "../.client"
+  }
+}

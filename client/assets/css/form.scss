@@ -1,0 +1,93 @@
+@use "../.." as *;
+
+main {
+  display: flex;
+}
+
+#form {
+  margin: auto;
+  width: min(100%, 500px);
+
+  label {
+    display: block;
+    text-align: left;
+    font-size: 1em;
+    margin: $margin 0 0 0;
+    padding: 0 0 $margin 0;
+
+    @include focus {
+      + input {
+        background: $focused;
+      }
+    }
+  }
+
+  input + label,
+  input + input[type="submit"] {
+    margin-top: 3 * $margin;
+  }
+
+  input,
+  button {
+    display: block;
+    font-size: 1em;
+    margin: $margin 0;
+    border: none;
+    border-radius: $margin;
+    padding: $margin;
+    background: $element;
+    color: $text-color;
+    width: 100%;
+    outline: 0;
+    font-weight: normal;
+
+    @include focus {
+      background: $focused;
+    }
+  }
+
+  input:not([type="submit"]) {
+    width: calc(100% - (2 * $margin));
+  }
+
+  label + input {
+    margin-top: 0;
+  }
+
+  input::placeholder {
+    color: $text-color;
+    opacity: 0.5;
+  }
+
+  input[type="submit"],
+  button {
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  hr {
+    margin: 8px 0;
+    border: 0;
+    padding: 0;
+    width: 100%;
+    background: $seperator;
+    height: 2px;
+  }
+
+  .validate:invalid {
+    border-color: red;
+  }
+
+  .validate {
+    transition: box-shadow 0.5s, border-color 0.5s;
+  }
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}

@@ -1,0 +1,84 @@
+// $background: var(--background);
+// $text: var(--text);
+// $header: var(--header);
+// $shadow: var(--shadow);
+// $div: var(--div);
+// $subdiv: var(--subdiv);
+// $border: var(--border);
+// $disabled: var(--disabled);
+// $focused: var(--focused);
+// $focused-color: var(--focused-color);
+// $selection-bg: var(--selection-bg);
+// $selection-color: var(--selection-color);
+// $error: var(--error);
+
+$background: var(--background);
+$element: var(--element);
+$focused: var(--focused);
+
+$text-color: var(--text-color);
+$heading-color: var(--heading-color);
+$shadow: var(--shadow);
+$seperator: var(--seperator);
+
+$selection-bg: var(--selection-bg);
+$selection-color: var(--selection-color);
+
+$serif: "Cambria", "Cochin", "Georgia", "Times", "Times New Roman", serif;
+$sans: "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen",
+  "Ubuntu", "Cantarell", "Open Sans", "Helvetica Neue", sans-serif;
+$mono: "Courier New", "Courier", monospace;
+
+$margin: 0.5em;
+
+$inset-top: env(safe-area-inset-top, 0);
+$inset-left: env(safe-area-inset-left, 0);
+$inset-bottom: env(safe-area-inset-bottom, 0);
+$inset-right: env(safe-area-inset-right, 0);
+
+$margin-top: calc($inset-top + $margin);
+$margin-left: calc($inset-left + $margin);
+$margin-bottom: calc($inset-bottom + $margin);
+$margin-right: calc($inset-right + $margin);
+
+@mixin small {
+  @media (max-width: 500px), (max-height: 750px) {
+    @content;
+  }
+}
+
+@mixin large {
+  @media screen and (min-width: 500px) and (min-height: 750px) {
+    @content;
+  }
+}
+
+@mixin hover {
+  @media (hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+@mixin focus {
+  &:focus {
+    @content;
+  }
+
+  @include hover {
+    @content;
+  }
+}
+
+@mixin dark {
+  @media screen and (prefers-color-scheme: dark) {
+    @content;
+  }
+}
+
+@mixin animation {
+  @media screen and (prefers-reduced-motion: no-preference) {
+    @content;
+  }
+}

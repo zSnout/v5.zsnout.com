@@ -1,0 +1,174 @@
+@use "../.." as *;
+@use "sass:math";
+
+:root {
+  @mixin theme-light {
+    --background: #fff;
+    --element: #f0f0f0;
+    --focused: #e0e0e0;
+
+    --text-color: #000;
+    --heading-color: #404040;
+    --shadow: #000;
+    --seperator: #13474b;
+
+    --selection-bg: #c0c0c0;
+    --selection-color: #000;
+  }
+
+  @mixin theme-dark {
+    --background: #073739;
+    --element: #13474b;
+    --focused: #167175;
+
+    --text-color: #fff;
+    --heading-color: #59918d;
+    --shadow: #fff;
+    --seperator: #418183;
+
+    --selection-bg: #7ca2a4;
+    --selection-color: #000;
+  }
+
+  @include theme-light;
+
+  @include dark {
+    @include theme-dark;
+  }
+
+  &.light {
+    @include theme-light;
+  }
+
+  &.dark {
+    @include theme-dark;
+  }
+}
+
+html {
+  font-family: sans-serif;
+  background: $background;
+  color: $text-color;
+  overflow: hidden;
+}
+
+.select {
+  user-select: text;
+}
+
+.noselect {
+  user-select: none;
+}
+
+$navbar-height: 1.5em;
+
+#nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: calc($margin-top - math.div($margin, 2))
+    calc($margin-right - math.div($margin, 2)) math.div($margin, 2)
+    calc($margin-left - math.div($margin, 2));
+  height: calc($navbar-height + $margin);
+  z-index: 2;
+  display: flex;
+  overflow: visible;
+  background: $background;
+
+  a {
+    padding: math.div($margin, 2);
+    border-radius: math.div($margin, 4);
+
+    @include focus {
+      background: $focused;
+    }
+
+    svg {
+      width: $navbar-height;
+      height: $navbar-height;
+
+      use {
+        fill: $text-color;
+      }
+    }
+  }
+
+  name {
+    flex: 1;
+    text-align: center;
+    font-weight: bold;
+    margin: auto 0;
+    font-size: 0.75 * $navbar-height;
+  }
+}
+
+#main {
+  z-index: 1;
+  position: fixed;
+  top: calc($margin-top + $navbar-height + $margin);
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: 0 $margin-right $margin-bottom $margin-left;
+  overflow: auto visible;
+  background: $background;
+}
+
+.notification {
+  z-index: 3;
+  overflow: hidden;
+  width: 25em;
+  padding: $margin;
+  max-width: calc(100% - 4 * $margin);
+  border-radius: $margin;
+  position: fixed;
+  bottom: $margin-bottom;
+  background: $element;
+  box-shadow: $shadow 0 0 0.375em 0.0625em;
+  transition: opacity 1s;
+  display: flex;
+  gap: $margin;
+
+  &.hide {
+    opacity: 0;
+    transition: opacity 1s;
+
+    @include animation {
+      opacity: 1;
+      transition: transform 1s;
+      transform: translateY(calc($margin-bottom + 2em + 2 * $margin));
+    }
+  }
+
+  span {
+    flex: 1;
+    margin: auto 0;
+  }
+
+  button {
+    appearance: none;
+    background: transparent;
+    border: none;
+    color: $text-color;
+    font-size: inherit;
+    padding: 0.125em 0.25em;
+    border-radius: 0.125em;
+    background: $background;
+    cursor: pointer;
+
+    @include focus {
+      background: $focused;
+    }
+  }
+}
+
+:focus,
+:active {
+  outline: none;
+}
+
+::selection {
+  background: $selection-bg;
+  color: $selection-color;
+}

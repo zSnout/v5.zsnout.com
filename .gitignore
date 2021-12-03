@@ -1,0 +1,9 @@
+**/*.css
+**/*.html
+**/*.js
+**/*.map
+**/.DS_Store
+.git
+.client
+node_modules
+package-lock.json

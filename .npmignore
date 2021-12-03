@@ -1,0 +1,6 @@
+**/.DS_Store
+.git
+.client
+logs
+node_modules
+package-lock.json

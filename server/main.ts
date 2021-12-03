@@ -1,0 +1,9 @@
+import "./log";
+import "./fastify/redirect";
+import "./fastify/capture";
+import "./fastify/socket";
+import "./fastify/static";
+import "./systems/database";
+import "./systems/mail";
+import "./routes";
+import "./fastify/listen";
