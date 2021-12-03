@@ -101,22 +101,36 @@ function makeIcon(title: string, href: string, icon: string) {
 }
 
 /**
+ * Minifies some HTML, making the assumption that it does not contain embedded CSS or JS.
+ * Specifically, it minified streams of whitespace to a single space and changes `> <` to `><`.
+ * @param content The content to minify.
+ * @returns The minified content.
+ */
+function minifyHTML(content: string) {
+  return content.replace(/\s+/g, " ").replace(/>\s+</g, "><");
+}
+
+/**
  * Renders an EJS template to HTML using specific data.
  * @param data The data to pass to the rendered function.
  * @returns A promise resolving to the rendered HTML.
  */
 export async function render({ body, title, icons, ...assets }: RenderOptions) {
-  return await ejsRenderFile(
-    join(__dirname, "../../layout.ejs"),
-    {
-      body,
-      title,
-      indent,
-      buttons: icons.map(([title, href, icon]) => makeIcon(title, href, icon)),
-      assets: makeAssetList(assets),
-      xml,
-    },
-    ejsOptions
+  return minifyHTML(
+    await ejsRenderFile(
+      join(__dirname, "../../layout.ejs"),
+      {
+        body,
+        title,
+        indent,
+        buttons: icons.map(([title, href, icon]) =>
+          makeIcon(title, href, icon)
+        ),
+        assets: makeAssetList(assets),
+        xml,
+      },
+      ejsOptions
+    )
   );
 }
 
@@ -150,7 +164,7 @@ export async function renderText(content: string) {
     );
 
     let rendered = await render({ body, title, icons, meta, styles, scripts });
-    return rendered;
+    return minifyHTML(rendered);
   } catch (err: any) {
     return `This page failed to render. Sorry!\n\n${err?.message || err}`;
   }
