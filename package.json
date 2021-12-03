@@ -14,8 +14,7 @@
     "url": "https://github.com/zsnout/zsnout.com"
   },
   "license": "GNU",
-  "keywords": [],
-  "author": "zsnout",
+  "author": "zsakowitz",
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/ejs": "^3.1.0",
