@@ -1,6 +1,6 @@
 This is the source code for the third iteration of https://zsnout.com/. Mostly, this document is for personal reference, so there might be some details missing. For more information, check out JSDoc comments, which are available on all exported members. Additionally, expected environment variables are included in the NodeJS.ProcessEnv interface.
 
-- [](#)
+- [Building the Project](#building-the-project)
 - [REPL](#repl)
 - [Markdown Directives](#markdown-directives)
 - [Schema Systems](#schema-systems)
