@@ -11,7 +11,9 @@ This is the source code for the third iteration of https://zsnout.com/. Mostly, 
 
 To build files, run the `build` script. Once `build` has been run at least once, you may run `watch` to automatically rebuild files when they change.
 
-Our list of build scripts includes TypeScript, Sass, EJS, and Markdown. We also recompile JavaScript files in `client` with UglifyJS to improve the end-user experience.
+Our list of build scripts includes TypeScript, Sass, EJS, and Markdown. To optimize the end-user experience, we minify all content. Sass minifies CSS itself, UglifyJS minifies JavaScript, and a custom function minifies HTML.
+
+To ensure that the TypeScript -> UglifyJS -> JavaScript build process works properly, we compile TypeScript into the `.client` folder and copy it using `Uglify` back into the `client` folder. Three benefits of this are 1) we can write TypeScript normally and use auto-imports, 2) we avoid race conditions that might happen by TS and Uglify trying to compile the same files, and 3) source maps still work properly, leading to a better debug experience. Yay!
 
 ## REPL
 
