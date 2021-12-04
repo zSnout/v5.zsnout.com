@@ -17,7 +17,7 @@ zSnout is a collection of different projects created for fun by [Zachary Sakowit
 \buttonlist
 <a id="theme-native">Use Native Theme</a>
 <a id="theme-light">Use Light Theme</a>
-<a id="theme-dark">Use Dark Theme</a>
+<a id="theme-dark">Use Aqua Theme</a>
 
 # External Links
 
