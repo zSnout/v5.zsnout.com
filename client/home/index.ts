@@ -11,7 +11,7 @@ function setTheme(theme: typeof localStorage.theme) {
   checkTheme();
 }
 
-$("#theme-native").on("click", () => setTheme(undefined));
+$("#theme-native").on("click", () => setTheme("native"));
 $("#theme-light").on("click", () => setTheme("light"));
 $("#theme-dark").on("click", () => setTheme("dark"));
 

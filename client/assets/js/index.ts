@@ -1,14 +1,16 @@
 import $ from "./jsx.js";
 
-if (localStorage.theme == "light") $.root.addClass("light");
-if (localStorage.theme == "dark") $.root.addClass("dark");
-
 /** Checks the current theme set in `localStorage` and updates the page accordingly. */
 export function checkTheme() {
-  $.root.removeClass("light").removeClass("dark");
+  $.root.removeClass("light", "dark", "native");
+
   if (localStorage.theme == "light") $.root.addClass("light");
-  if (localStorage.theme == "dark") $.root.addClass("dark");
+  else if (localStorage.theme == "dark") $.root.addClass("dark");
+  else if (localStorage.theme == "native") $.root.addClass("native");
+  else (localStorage.theme = "dark"), $.root.addClass("dark");
 }
+
+checkTheme();
 
 window.addEventListener(
   "storage",
@@ -18,7 +20,7 @@ window.addEventListener(
 declare global {
   interface Storage {
     /** The user's selected theme. When omitted, use the native theme. */
-    theme?: "light" | "dark";
+    theme?: "light" | "dark" | "native";
   }
 }
 
