@@ -264,20 +264,20 @@ export class zQuery extends Array<HTMLElement> {
 
   /**
    * Adds a class to each element in this zQuery.
-   * @param className The name of the class to add.
+   * @param classNames The names of the classes to add.
    * @returns The current zQuery, to allow for chaining.
    */
-  addClass(className: string): this {
-    return this.each((el) => el.classList.add(className));
+  addClass(...classNames: string[]): this {
+    return this.each((el) => el.classList.add(...classNames));
   }
 
   /**
    * Removes a class from each element in this zQuery.
-   * @param className The name of the class to remove.
+   * @param classNames The names of the classes to remove.
    * @returns The current zQuery, to allow for chaining.
    */
-  removeClass(className: string): this {
-    return this.each((el) => el.classList.remove(className));
+  removeClass(...classNames: string[]): this {
+    return this.each((el) => el.classList.remove(...classNames));
   }
 
   /**
