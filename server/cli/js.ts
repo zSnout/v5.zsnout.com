@@ -23,6 +23,7 @@ export async function buildFile(file: string) {
     if (!existsSync(dirname(outPath)))
       await mkdir(dirname(outPath), { recursive: true });
     await writeFile(outPath, minified.code);
+    await writeFile(outPath + ".map", minified.map);
   } catch (err) {
     log.failure("js", err);
   }
