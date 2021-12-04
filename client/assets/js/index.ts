@@ -25,6 +25,16 @@ declare global {
   }
 }
 
+if (!navigator.onLine) {
+  let hide = createNotification(
+    "Because you're offline, some features may not work properly.",
+    undefined,
+    {
+      Dismiss: () => hide(),
+    }
+  );
+}
+
 let hasPrompted = false;
 if (
   !localStorage.didInstall ||
