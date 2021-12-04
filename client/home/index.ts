@@ -36,3 +36,8 @@ if (localStorage.auth)
         });
     }
   });
+
+navigator.serviceWorker
+  .register("/worker.js")
+  .then((worker) => {})
+  .catch((error) => {});
