@@ -10,49 +10,49 @@
   "start_url": "/",
   "icons": [
     {
-      "src": "/icons/x48.png",
+      "src": "/icons/mask-x48.png",
       "sizes": "48x48",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/icons/x72.png",
+      "src": "/icons/mask-x72.png",
       "sizes": "72x72",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/icons/x96.png",
+      "src": "/icons/mask-x96.png",
       "sizes": "96x96",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/icons/x128.png",
+      "src": "/icons/mask-x128.png",
       "sizes": "128x128",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/icons/x192.png",
+      "src": "/icons/mask-x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/icons/x384.png",
+      "src": "/icons/mask-x384.png",
       "sizes": "384x384",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/icons/x512.png",
+      "src": "/icons/mask-x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/icons/x768.png",
+      "src": "/icons/mask-x768.png",
       "sizes": "768x768",
       "type": "image/png",
       "purpose": "maskable"
