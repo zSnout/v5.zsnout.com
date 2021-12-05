@@ -4,6 +4,11 @@ import { writeFile, watch as fsWatch, readFile, mkdir } from "fs/promises";
 import { dirname, basename, join } from "path";
 import { minify } from "uglify-js";
 
+/**
+ * Minifies JS files and resaves them along with a sourcemap.
+ * @param file The path to the file that will be built.
+ * @returns A promise resolving once the operation is completed.
+ */
 export async function buildFile(file: string) {
   try {
     if (!file.endsWith(".js")) throw new Error(`${file} is not a JS file.`);
@@ -29,13 +34,23 @@ export async function buildFile(file: string) {
   }
 }
 
+/**
+ * Minifies all JS files in a directory and resaves them along with sourcemaps.
+ * @param dir The path to the directory that will be built.
+ * @returns A promise resolving once the operation is completed.
+ */
 export async function buildDir(dir: string) {
-  let files = await glob(join(dir, "**/*.js"));
+  let files = await glob(join(dir, "/**/*.js"));
 
   await Promise.all(files.map(buildFile));
   log("js", "built directory");
 }
 
+/**
+ * Watches a directory for changes and minifies JS files in it along with sourcemaps.
+ * @param dir The path to the directory that will be watched.
+ * @returns A promise resolving once the operation is completed.
+ */
 export async function watchDir(dir: string) {
   await buildDir(dir);
   log("js", "watching for changes");
