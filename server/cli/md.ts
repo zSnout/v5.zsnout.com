@@ -157,7 +157,7 @@ export async function buildFile(file: string): Promise<void> {
  * @returns A promise resolving once the operation is completed.
  */
 export async function buildDir(dir: string) {
-  let files = await glob([join(dir, "/**/*.md"), "!node_modules/**"]);
+  let files = await glob(join(dir, "/**/*.md"));
 
   await Promise.all(files.map(buildFile));
   log("md", "built directory");
