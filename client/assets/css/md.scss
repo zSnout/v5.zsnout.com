@@ -17,16 +17,22 @@
     height: calc(100% - (4 * $margin));
   }
 
-  a {
+  a,
+  button {
     background: $element;
     padding: 0.25em;
     border-radius: 0.25em;
     color: $text-color;
     text-decoration: none;
+    font-size: 1em;
+    border: 0;
+    line-height: 1.5;
+    position: relative;
 
     @include focus {
       background: $focused;
       text-decoration: underline;
+      z-index: 1;
     }
   }
 
@@ -125,7 +131,8 @@
       grid-gap: $margin;
       grid-template-columns: repeat(auto-fill, minmax(min(12em, 100%), 1fr));
 
-      a {
+      a,
+      button {
         padding: 0.25em 0.5em;
         text-align: center;
         cursor: pointer;
