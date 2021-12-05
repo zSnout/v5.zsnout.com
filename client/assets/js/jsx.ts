@@ -391,13 +391,17 @@ export class zQuery extends Array<HTMLElement> {
  * @param items The items to convert to a zQuery.
  * @returns A zQuery containing the items.
  */
-export default function $(...items: (zQuery | HTMLElement | string)[]): zQuery {
+export default function $(
+  ...items: (Iterable<HTMLElement> | EventTarget | HTMLElement | string)[]
+): zQuery {
   let els: HTMLElement[] = [];
 
   for (let item of items) {
-    if (item instanceof HTMLElement) els.push(item);
-    else if (item instanceof zQuery) els.push(...item);
-    else els.push(...document.querySelectorAll<HTMLElement>(item));
+    if (typeof item == "string")
+      els.push(...document.querySelectorAll<HTMLElement>(item));
+    else if (item instanceof HTMLElement) els.push(item);
+    else if (item instanceof EventTarget) els.push(item as HTMLElement);
+    else if (Symbol.iterator in item) els.push(...item);
   }
 
   return new zQuery(...els);
