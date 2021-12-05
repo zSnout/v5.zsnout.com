@@ -30,7 +30,7 @@ export async function buildFile(file: string) {
 }
 
 export async function buildDir(dir: string) {
-  let files = await glob([join(dir, "/**/*.ejs"), "!node_modules/**"]);
+  let files = await glob(join(dir, "**/*.js"));
 
   await Promise.all(files.map(buildFile));
   log("js", "built directory");
