@@ -149,10 +149,10 @@ export class zQuery extends Array<HTMLElement> {
    */
   on<E extends keyof HTMLElementEventMap>(
     event: E,
-    callback: (event: HTMLElementEventMap[E]) => void,
+    callback: (event: HTMLElementEventMap[E] & { target: HTMLElement }) => void,
     options: Omit<AddEventListenerOptions, "once"> = {}
   ): this {
-    this.forEach((el) => el.addEventListener(event, callback, options));
+    this.forEach((el) => el.addEventListener(event, callback as any, options));
 
     return this;
   }
@@ -166,11 +166,11 @@ export class zQuery extends Array<HTMLElement> {
    */
   once<E extends keyof HTMLElementEventMap>(
     event: E,
-    callback: (event: HTMLElementEventMap[E]) => void,
+    callback: (event: HTMLElementEventMap[E] & { target: HTMLElement }) => void,
     options: Omit<AddEventListenerOptions, "once"> = {}
   ): this {
     this.forEach((el) =>
-      el.addEventListener(event, callback, { ...options, once: true })
+      el.addEventListener(event, callback as any, { ...options, once: true })
     );
 
     return this;
@@ -389,19 +389,16 @@ export class zQuery extends Array<HTMLElement> {
 /**
  * Creates a zQuery from CSS selectors, zQueries, and HTMLElements.
  * @param items The items to convert to a zQuery.
- * @returns A zQuery containing the items.
+ * @returns A zQuery containing the given items.
  */
-export default function $(
-  ...items: (Iterable<HTMLElement> | EventTarget | HTMLElement | string)[]
-): zQuery {
+export default function $(...items: (zQuery | HTMLElement | string)[]): zQuery {
   let els: HTMLElement[] = [];
 
   for (let item of items) {
     if (typeof item == "string")
       els.push(...document.querySelectorAll<HTMLElement>(item));
     else if (item instanceof HTMLElement) els.push(item);
-    else if (item instanceof EventTarget) els.push(item as HTMLElement);
-    else if (Symbol.iterator in item) els.push(...item);
+    else if (item instanceof zQuery) els.push(...item);
   }
 
   return new zQuery(...els);
