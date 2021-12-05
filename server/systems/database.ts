@@ -4,6 +4,7 @@ import {
   MongoClient,
   OptionalId,
   UpdateFilter,
+  WithId,
 } from "mongodb";
 import server from "..";
 
@@ -42,9 +43,9 @@ class DBCollection<T extends {}> {
    * @param query A filter to match documents against.
    * @returns A promise resolving to an array of documents.
    */
-  async find(query: Filter<T>): Promise<T[]> {
+  async find(query: Filter<T>) {
     await connect;
-    return await this.collection.find(query).toArray();
+    return this.collection.find(query).toArray();
   }
 
   /**
