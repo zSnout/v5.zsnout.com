@@ -1,0 +1,67 @@
+@use ".." as *;
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+#main {
+  display: flex;
+}
+
+#board {
+  margin: auto;
+  display: grid;
+  grid-gap: 0.25em;
+  grid-template-columns: repeat(5, minmax(min(1.5em, 100%), 1fr));
+
+  span,
+  button {
+    text-align: center;
+    cursor: pointer;
+    background: $element;
+    padding: $margin;
+    color: $text-color;
+    text-decoration: none;
+    font-size: 1.5em;
+    font-family: Montserrat, $serif;
+    border: 0;
+    width: 1.5em;
+    margin: auto;
+    appearance: none;
+
+    @include small {
+      font-size: 1em;
+    }
+  }
+
+  span {
+    background: $focused;
+    font-weight: bold;
+  }
+
+  button {
+    width: $margin + 2em;
+
+    @include focus {
+      background: $focused;
+    }
+
+    &.selected {
+      background: $focused;
+    }
+  }
+
+  span:first-child {
+    border-top-left-radius: 0.5em;
+  }
+
+  span:last-of-type {
+    border-top-right-radius: 0.5em;
+  }
+
+  button:nth-last-child(5) {
+    border-bottom-left-radius: 0.5em;
+  }
+
+  button:last-child {
+    border-bottom-right-radius: 0.5em;
+  }
+}

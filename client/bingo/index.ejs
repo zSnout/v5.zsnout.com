@@ -1,0 +1,13 @@
+<% title("BINGO"), css("./index.css"), js("./index.js") %>
+
+<div id="board">
+  <span>B</span>
+  <span>I</span>
+  <span>N</span>
+  <span>G</span>
+  <span>O</span>
+
+  <% for (let i of Array(25).fill()) { %>
+  <button><%= Math.floor(Math.random() * 75 + 1) %></button>
+  <% } %>
+</div>
