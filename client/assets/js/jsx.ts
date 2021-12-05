@@ -281,7 +281,7 @@ export class zQuery extends Array<HTMLElement> {
   }
 
   /**
-   * 
+   * Toggles a class on each element in this zQuery.
    * @param className The name of the class to toggle.
    * @param force Whether to force this class on or off.
    * @returns The current zQuery to allow for chaining.
