@@ -281,6 +281,16 @@ export class zQuery extends Array<HTMLElement> {
   }
 
   /**
+   * 
+   * @param className The name of the class to toggle.
+   * @param force Whether to force this class on or off.
+   * @returns The current zQuery to allow for chaining.
+   */
+  toggleClass(className: string, force?: boolean): this {
+    return this.each((el) => el.classList.toggle(className, force));
+  }
+
+  /**
    * Hides each element in this zQuery.
    * @returns The current zQuery, to allow for chaining.
    */
