@@ -1,11 +1,22 @@
 This is the source code for the third iteration of https://zsnout.com/. Mostly, this document is for personal reference, so there might be some details missing. For more information, check out JSDoc comments, which are available on all exported members. Additionally, expected environment variables are included in the NodeJS.ProcessEnv interface.
 
+- [Getting the Source Code](#getting-the-source-code)
 - [Building the Project](#building-the-project)
 - [REPL](#repl)
 - [Markdown Directives](#markdown-directives)
 - [Schema Systems](#schema-systems)
   - [Schema Definition](#schema-definition)
   - [Using Schemas](#using-schemas)
+
+## Getting the Source Code
+
+To quickly copy everything, open a terminal and run the following command:
+
+```sh
+curl https://raw.githubusercontent.com/zSnout/zsnout.com/main/install.sh | bash
+```
+
+This will clone this repository into `zsnout.com` in the current working directory. It also installs dependencies and builds the project.
 
 ## Building the Project
 
