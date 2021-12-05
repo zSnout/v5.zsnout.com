@@ -26,7 +26,7 @@ export class zQuery extends Array<HTMLElement> {
   /**
    * Calls a function on each element in this zQuery.
    * @param callback The function to call on each element.
-   * @returns The current zQuery, to allow for chaining.
+   * @returns The current zQuery to allow for chaining.
    */
   each(callback: (element: HTMLElement) => void): this {
     this.forEach(callback);
@@ -43,7 +43,7 @@ export class zQuery extends Array<HTMLElement> {
   /**
    * Sets the text content of all elements in this zQuery.
    * @param content The text to fill elements with.
-   * @returns The current zQuery, to allow for chaining.
+   * @returns The current zQuery to allow for chaining.
    */
   text(content: string): this;
 
@@ -61,7 +61,7 @@ export class zQuery extends Array<HTMLElement> {
   /**
    * Sets the inner HTML of all elements in this zQuery.
    * @param content The HTML content to fill elements with.
-   * @returns The current zQuery, to allow for chaining.
+   * @returns The current zQuery to allow for chaining.
    */
   html(content: string): this;
 
@@ -72,7 +72,7 @@ export class zQuery extends Array<HTMLElement> {
 
   /**
    * Moves all elements in a zQuery into the `main` element.
-   * @returns The current zQuery, to allow for chaining.
+   * @returns The current zQuery to allow for chaining.
    */
   render(): this {
     return this.appendTo($.main);
@@ -88,7 +88,7 @@ export class zQuery extends Array<HTMLElement> {
 
   /**
    * Empties all elements in this zQuery.
-   * @returns The current zQuery, to allow for chaining.
+   * @returns The current zQuery to allow for chaining.
    */
   empty(): this {
     return this.each((el) => (el.innerHTML = ""));
@@ -96,7 +96,7 @@ export class zQuery extends Array<HTMLElement> {
 
   /**
    * Removes all elements in this zQuery from the DOM.
-   * @returns The current zQuery, to allow for chaining.
+   * @returns The current zQuery to allow for chaining.
    */
   remove(): this {
     return this.each((el) => el.remove());
@@ -105,7 +105,7 @@ export class zQuery extends Array<HTMLElement> {
   /**
    * Appends elements to the first item in this zQuery.
    * @param els The elements to append.
-   * @returns The current zQuery, to allow for chaining.
+   * @returns The current zQuery to allow for chaining.
    */
   append(...els: (HTMLElement | zQuery | string)[]): this {
     this[0]?.append(...els.flat());
@@ -116,7 +116,7 @@ export class zQuery extends Array<HTMLElement> {
   /**
    * Prepends elements to the first item in this zQuery.
    * @param els The elements to append.
-   * @returns The current zQuery, to allow for chaining.
+   * @returns The current zQuery to allow for chaining.
    */
   prepend(...els: (HTMLElement | zQuery)[]): this {
     if (this.length == 0) return this;
@@ -132,7 +132,7 @@ export class zQuery extends Array<HTMLElement> {
   /**
    * Appends items in this zQuery to another element.
    * @param item The item to append to. Can be a selector, zQuery, or HTMLElement.
-   * @returns The current zQuery, to allow for chaining.
+   * @returns The current zQuery to allow for chaining.
    */
   appendTo(item: zQuery | HTMLElement | string): this {
     $(item).append(this);
@@ -145,7 +145,7 @@ export class zQuery extends Array<HTMLElement> {
    * @param event The event to listen for.
    * @param callback A callback that will be called when the event is triggered.
    * @param options Options to add to the event listener.
-   * @returns The current zQuery, to allow for chaining.
+   * @returns The current zQuery to allow for chaining.
    */
   on<E extends keyof HTMLElementEventMap>(
     event: E,
@@ -162,7 +162,7 @@ export class zQuery extends Array<HTMLElement> {
    * @param event The event to listen for.
    * @param callback A callback that will be called when the event is triggered.
    * @param options Options to add to the event listener.
-   * @returns The current zQuery, to allow for chaining.
+   * @returns The current zQuery to allow for chaining.
    */
   once<E extends keyof HTMLElementEventMap>(
     event: E,
@@ -181,7 +181,7 @@ export class zQuery extends Array<HTMLElement> {
    * @param event The event that was listened to.
    * @param callback The callback attatched to the event listener.
    * @param options Options to pass to the event listener.
-   * @returns The current zQuery, to allow for chaining.
+   * @returns The current zQuery to allow for chaining.
    */
   off(
     event: keyof HTMLElementEventMap,
@@ -243,7 +243,7 @@ export class zQuery extends Array<HTMLElement> {
   /**
    * Sets the class name of each element in this zQuery.
    * @param className The class name to set each element to.
-   * @returns The current zQuery, to allow for chaining.
+   * @returns The current zQuery to allow for chaining.
    */
   className(className: string): this;
 
@@ -265,7 +265,7 @@ export class zQuery extends Array<HTMLElement> {
   /**
    * Adds a class to each element in this zQuery.
    * @param classNames The names of the classes to add.
-   * @returns The current zQuery, to allow for chaining.
+   * @returns The current zQuery to allow for chaining.
    */
   addClass(...classNames: string[]): this {
     return this.each((el) => el.classList.add(...classNames));
@@ -274,7 +274,7 @@ export class zQuery extends Array<HTMLElement> {
   /**
    * Removes a class from each element in this zQuery.
    * @param classNames The names of the classes to remove.
-   * @returns The current zQuery, to allow for chaining.
+   * @returns The current zQuery to allow for chaining.
    */
   removeClass(...classNames: string[]): this {
     return this.each((el) => el.classList.remove(...classNames));
@@ -292,7 +292,7 @@ export class zQuery extends Array<HTMLElement> {
 
   /**
    * Hides each element in this zQuery.
-   * @returns The current zQuery, to allow for chaining.
+   * @returns The current zQuery to allow for chaining.
    */
   hide(): this {
     return this.each((el) => (el.style.display = "none"));
@@ -300,7 +300,7 @@ export class zQuery extends Array<HTMLElement> {
 
   /**
    * Shows each element in this zQuery.
-   * @returns The current zQuery, to allow for chaining.
+   * @returns The current zQuery to allow for chaining.
    */
   show(): this {
     return this.each((el) => (el.style.display = ""));
@@ -310,21 +310,21 @@ export class zQuery extends Array<HTMLElement> {
    * Sets a CSS property on every element in this zQuery.
    * @param prop The property to set.
    * @param val The value to set the property to.
-   * @returns The current zQuery, to allow for chaining.
+   * @returns The current zQuery to allow for chaining.
    */
   css<K extends keyof CSSRules>(prop: K, val: CSSRules[K]): this;
 
   /**
    * Gets the value of a CSS property on the first element in this zQuery.
    * @param prop The property to get.
-   * @returns The current zQuery, to allow for chaining.
+   * @returns The current zQuery to allow for chaining.
    */
   css<K extends keyof CSSRules>(prop: K): CSSRules[K];
 
   /**
    * Sets several CSS properties on every element in this zQuery.
    * @param items An object containing key-value pairs to set.
-   * @returns The current zQuery, to allow for chaining.
+   * @returns The current zQuery to allow for chaining.
    */
   css(items: Partial<CSSRules>): this;
 
@@ -356,7 +356,7 @@ export class zQuery extends Array<HTMLElement> {
   /**
    * Sets the value of all elements in this zQuery.
    * @param val The value to set elements to.
-   * @returns The current zQuery, to allow for chaining.
+   * @returns The current zQuery to allow for chaining.
    */
   val(val: string): this;
 
@@ -376,7 +376,7 @@ export class zQuery extends Array<HTMLElement> {
    * Sets an attribute on all elements in this zQuery.
    * @param key The attribute to set.
    * @param val The value to set the attribute to.
-   * @returns The current zQuery, to allow for chaining.
+   * @returns The current zQuery to allow for chaining.
    */
   attr(key: string, val: string | null): this;
 
