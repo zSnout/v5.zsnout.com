@@ -42,7 +42,7 @@ class DBCollection<T extends {}> {
    * @param query A filter to match documents against.
    * @returns A promise resolving to an array of documents.
    */
-  async find(query: Filter<T>): Promise<readonly Readonly<T>[]> {
+  async find(query: Filter<T>): Promise<T[]> {
     await connect;
     return await this.collection.find(query).toArray();
   }
