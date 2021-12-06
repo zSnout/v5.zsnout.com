@@ -2,10 +2,19 @@ import glob = require("fast-glob");
 import { writeFile, watch as fsWatch, readFile, mkdir } from "fs/promises";
 import MarkdownIt = require("markdown-it");
 import meta = require("markdown-it-meta");
-import MarkdownItAnchor from "markdown-it-anchor";
+import MIAnchor from "markdown-it-anchor";
+import { init } from "mathjax";
 import { join, basename, dirname } from "path";
 import { renderText } from "./ejs";
 import { existsSync } from "fs";
+
+let MathJax: any;
+let onMathJaxLoaded = init({
+  loader: { load: ["input/tex", "output/svg"] },
+}).then((mj) => (MathJax = mj));
+
+// const svg = MathJax.tex2svg("\\frac{1}{x^2-1}", { display: true });
+// console.log(MathJax.startup.adaptor.outerHTML(svg));
 
 // I use a VSCode extension to generate TOCs when needed, so we try to match that extension's slugify function.
 // https://github.com/yzhang-gh/vscode-markdown/blob/master/src/util/slugify.ts
@@ -15,7 +24,7 @@ let punctuators =
   /[\]\[\!\'\#\$\%\&\(\)\*\+\,\.\/\:\;\<\=\>\?\@\\\^\_\{\|\}\~\`。，、；：？！…—·ˉ¨‘’“”々～‖∶＂＇｀｜〃〔〕〈〉《》「」『』．〖〗【】（）［］｛｝]/g;
 
 /** The main Markdown renderer. */
-let renderer = new MarkdownIt({ html: true }).use(meta).use(MarkdownItAnchor, {
+let renderer = new MarkdownIt({ html: true }).use(meta).use(MIAnchor, {
   slugify(str: string) {
     return str
       .trim()
@@ -72,6 +81,8 @@ export async function getRawData(
 ): Promise<MarkdownFileData | null> {
   if (!file.endsWith(".md")) throw new Error(`${file} is not a Markdown file.`);
 
+  await onMathJaxLoaded;
+
   let markdown = await readFile(file, "utf8").catch(() => null);
   if (markdown === null) return null;
 
@@ -94,6 +105,17 @@ export async function getRawData(
 
     let css = meta.css || [];
     css = typeof css == "string" ? [css] : css;
+
+    html = html
+      .replaceAll(
+        /(?<!\\)\$\$([^$\n\r]+)\$\$/g,
+        (_, latex) => {
+          let svg = MathJax.tex2svg(latex, { display: true });
+          return MathJax.startup.adaptor.outerHTML(svg);
+        }
+        // '<p class="centered"><tex>$1</tex></p>'
+      )
+      .replaceAll(/(?<!\\)\$([^$\n\r]+)\$/g, "<tex>$1</tex>");
 
     return { markdown, title, desc, html, js, css };
   } catch {

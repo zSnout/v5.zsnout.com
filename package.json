@@ -30,6 +30,7 @@
     "markdown-it": "^12.2.0",
     "markdown-it-anchor": "^8.4.1",
     "markdown-it-meta": "^0.0.1",
+    "mathjax": "^3.2.0",
     "mongodb": "^4.1.4",
     "nodemailer": "^6.7.1",
     "prettier": "^2.5.0",

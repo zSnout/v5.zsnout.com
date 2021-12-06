@@ -5,7 +5,7 @@ import server from "..";
 
 let csp = `default-src 'self'
   connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com/
-  style-src 'self' https://fonts.googleapis.com
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com
   font-src 'self' https://fonts.gstatic.com/
   object-src 'none'
   base-uri 'none'
