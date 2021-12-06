@@ -108,15 +108,14 @@ export async function getRawData(
     css = typeof css == "string" ? [css] : css;
 
     html = html
-      .replaceAll(
-        /(?<!\\)\$\$([^$\n\r]+)\$\$/g,
-        (_, latex) => {
-          let svg = MathJax.tex2svg(latex, { display: true });
-          return MathJax.startup.adaptor.outerHTML(svg);
-        }
-        // '<p class="centered"><tex>$1</tex></p>'
-      )
-      .replaceAll(/(?<!\\)\$([^$\n\r]+)\$/g, "<tex>$1</tex>");
+      .replaceAll(/(?<!\\)\$\$([^$\n\r]+)\$\$/g, (_, latex) => {
+        let svg = MathJax.tex2svg(latex, { display: true });
+        return `<p class="centered">${MathJax.startup.adaptor.outerHTML(svg)}</p>`; // prettier-ignore
+      })
+      .replaceAll(/(?<!\\)\$([^$\n\r]+)\$/g, (_, latex) => {
+        let svg = MathJax.tex2svg(latex, { display: true });
+        return MathJax.startup.adaptor.outerHTML(svg); // prettier-ignore
+      });
 
     return { markdown, title, desc, html, js, css };
   } catch {
