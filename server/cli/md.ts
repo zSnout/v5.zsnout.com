@@ -97,7 +97,8 @@ export async function getRawData(
 
     let meta = ((renderer as any)?.meta || {}) as MarkdownMeta;
 
-    let title = meta.title || markdown.match(/^# (.*)$/m)?.[1] || basename(file, ".md"); // prettier-ignore
+    let title =
+      meta.title || markdown.match(/^# (.*)$/m)?.[1] || basename(file, ".md");
     let desc = meta.desc || markdown.match(/^([^#-<\\\s].+)$/m)?.[1] || "";
 
     let js = meta.js || [];
