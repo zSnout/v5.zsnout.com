@@ -8,7 +8,7 @@ js: ./index.js
 
 zSnout is a collection of different projects created for fun by [Zachary Sakowitz](https://github.com/zsakowitz). It runs on the open-source code available at <https://github.com/zsnout/zsnout.com>. It was initially created during COVID-19, and has undergone two major revisions since then.
 
-# Pages
+### Main Pages
 
 \buttonlist
 [Sign Up](/account/create/)
@@ -20,7 +20,7 @@ zSnout is a collection of different projects created for fun by [Zachary Sakowit
 <button id="theme-light">Use Light Theme</button>
 <button id="theme-dark">Use Aqua Theme</button>
 
-# External Links
+### External Resources
 
 \buttonlist
 [Website Source Code](/gh/repo)
