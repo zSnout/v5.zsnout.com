@@ -134,7 +134,8 @@
   q {
     border-left: 0.25em solid $seperator;
     margin-left: 1em;
-    padding: 0.5em 0 0.5em 1em;
+    margin-right: 1em;
+    padding: 1em 0 1em 1em;
     background: $element;
 
     > :first-child {
