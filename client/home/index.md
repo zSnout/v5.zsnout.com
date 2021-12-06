@@ -15,6 +15,8 @@ zSnout is a collection of different projects created for fun by [Zachary Sakowit
 <a id="login" href="/account/login/">Log In</a>
 [Bingo Board Generator](/bingo/)
 
+### Settings
+
 \buttonlist
 <button id="theme-native">Use Native Theme</button>
 <button id="theme-light">Use Light Theme</button>
