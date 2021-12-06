@@ -108,9 +108,9 @@ export async function getRawData(
     css = typeof css == "string" ? [css] : css;
 
     html = html
-      .replaceAll(/(?<!\\)\$\$([^$\n\r]+)\$\$/g, (_, latex) => {
+      .replaceAll(/<p>\s*\$\$([^$\n\r]+)\$\$\s*<\/p>/g, (_, latex) => {
         let svg = MathJax.tex2svg(latex, { display: true });
-        return `<p class="centered">${MathJax.startup.adaptor.outerHTML(svg)}</p>`; // prettier-ignore
+        return `<div class="centered">${MathJax.startup.adaptor.outerHTML(svg)}</div>`; // prettier-ignore
       })
       .replaceAll(/(?<!\\)\$([^$\n\r]+)\$/g, (_, latex) => {
         let svg = MathJax.tex2svg(latex, { display: true });
