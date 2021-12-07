@@ -27,7 +27,7 @@ if (localStorage.auth)
         `Welcome to zSnout, @${result.data.username}!`
       );
 
-      $("#login")
+      $('[href="/account/login/"]')
         .text("Log Out")
         .attr("href", "")
         .on("click", () => {
