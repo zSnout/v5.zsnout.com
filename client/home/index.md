@@ -8,21 +8,24 @@ js: ./index.js
 
 zSnout is a collection of different projects created for fun by [Zachary Sakowitz](https://github.com/zsakowitz). It runs on the open-source code available at <https://github.com/zsnout/zsnout.com>. It was initially created during COVID-19, and has undergone two major revisions since then.
 
-### Main Pages
+<br>
+
+#### Main Pages
 
 \buttonlist
 [Sign Up](/account/create/)
-<a id="login" href="/account/login/">Log In</a>
+[Log In](/account/login/)
 [Bingo Board Generator](/bingo/)
+[Tic-Tac-Toe Board Generator](/tictactoe/generator/)
 
-### Settings
+#### Settings
 
 \buttonlist
 <button id="theme-native">Use Native Theme</button>
 <button id="theme-light">Use Light Theme</button>
 <button id="theme-dark">Use Aqua Theme</button>
 
-### External Resources
+#### External Resources
 
 \buttonlist
 [Website Source Code](/gh/repo)
