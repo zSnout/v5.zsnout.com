@@ -112,12 +112,15 @@ export async function getRawData(
     html = html
       .replaceAll(/<p>\s*\$\$([^$]+)\$\$\s*<\/p>/g, (_, latex) => {
         let svg = MathJax.tex2svg(unescapeXML(latex), { display: true });
-        return `<div class="center">${MathJax.startup.adaptor.outerHTML(svg)}</div>`; // prettier-ignore
+        let html = prune(MathJax.startup.adaptor.outerHTML(svg));
+        return `<div class="center">${html}</div>`;
       })
       .replaceAll(/(?<!\\)\$([^$]+)\$/g, (_, latex) => {
         let svg = MathJax.tex2svg(unescapeXML(latex), { display: true });
-        return MathJax.startup.adaptor.outerHTML(svg); // prettier-ignore
+        return prune(MathJax.startup.adaptor.outerHTML(svg));
       });
+
+    html = pruneIDs(html);
 
     return { markdown, title, desc, html, js, css };
   } catch {
@@ -140,17 +143,48 @@ export function escapeJS(str: string): string {
 
 /**
  * Unescapes certain XML characters in some XML content.
- * @param str The string to unescape.
+ * @param xml The string to unescape.
  * @returns An escaped string.
  */
-export function unescapeXML(str: string): string {
-  return str
+export function unescapeXML(xml: string): string {
+  return xml
     .replaceAll("&amp;", "&")
     .replaceAll("&lt;", "<")
     .replaceAll("&gt;", ">")
     .replaceAll("&apos;", "'")
     .replaceAll("&#39;", "'")
     .replaceAll("&quot;", '"');
+}
+
+/**
+ * Prunes some MJX content.
+ * @param mjx The content to prune.
+ * @returns A slightly minified version of the content.
+ */
+export function prune(mjx: string): string {
+  return mjx
+    .replaceAll(/data-[\w-]+="[^"]+"/g, "")
+    .replaceAll(/<mjx-container [^>]+>/g, "")
+    .replaceAll("</mjx-container>", "")
+    .replaceAll("xlink:", "")
+    .replaceAll("<g >", "<g>");
+}
+
+/**
+ * Changes IDs in MJX content to make them shorter.
+ * @param xml The content to filter.
+ * @returns Shortened content.
+ */
+export function pruneIDs(xml: string): string {
+  let id = 0;
+
+  let matches = xml.match(/(?<=#|id=")MJX-[\w\d-]+/g);
+  if (!matches) return xml;
+
+  for (let match of matches)
+    xml = xml.replaceAll(match, `mjx${(id++).toString()}`);
+
+  return xml;
 }
 
 /**
