@@ -13,9 +13,6 @@ let onMathJaxLoaded = init({
   loader: { load: ["input/tex", "output/svg"] },
 }).then((mj) => (MathJax = mj));
 
-// const svg = MathJax.tex2svg("\\frac{1}{x^2-1}", { display: true });
-// console.log(MathJax.startup.adaptor.outerHTML(svg));
-
 // I use a VSCode extension to generate TOCs when needed, so we try to match that extension's slugify function.
 // https://github.com/yzhang-gh/vscode-markdown/blob/master/src/util/slugify.ts
 
@@ -89,8 +86,9 @@ export async function getRawData(
   try {
     let html = renderer
       .render(markdown)
+      .replace(/<p>\\(\w+)doc<\/p>/, "#$1#")
       .replace(
-        /<p>\\(\w+)<\/p>([\s\S]+?)(?=<h. |<h.>|$)/g,
+        /<p>\\(\w+)<\/p>([\s\S]+?)(?=<p>\\(\w+)<\/p>|<h. |<h.>|$)/g,
         '<div class="$1">$2</div>\n'
       )
       .replace(/<p>\\(\w+)\s/g, '<p class="$1">');
@@ -110,7 +108,7 @@ export async function getRawData(
     html = html
       .replaceAll(/<p>\s*\$\$([^$\n\r]+)\$\$\s*<\/p>/g, (_, latex) => {
         let svg = MathJax.tex2svg(latex, { display: true });
-        return `<div class="centered">${MathJax.startup.adaptor.outerHTML(svg)}</div>`; // prettier-ignore
+        return `<div class="center">${MathJax.startup.adaptor.outerHTML(svg)}</div>`; // prettier-ignore
       })
       .replaceAll(/(?<!\\)\$([^$\n\r]+)\$/g, (_, latex) => {
         let svg = MathJax.tex2svg(latex, { display: true });
@@ -164,8 +162,12 @@ export async function buildFile(file: string): Promise<void> {
     .map((asset) => `js("${asset}")`)
     .join(", ");
 
-  body = `<% ${cssList}; ${jsList}; title("${title}"); desc("${desc}") %>
-    <div class="markdown">${body}</div>`;
+  body = `<div class="markdown">${body}</div>`.replace(
+    /^<div class="markdown">\s*#(\w+)#/,
+    '<div class="markdown $1">'
+  );
+
+  body = `<% ${cssList}; ${jsList}; title("${title}"); desc("${desc}") %>${body}`;
 
   let outPath = file.replace(".md", ".html");
   if (!existsSync(dirname(outPath)))
