@@ -3,7 +3,10 @@ This is the source code for the third iteration of https://zsnout.com/. Mostly, 
 - [Getting the Source Code](#getting-the-source-code)
 - [Building the Project](#building-the-project)
 - [REPL](#repl)
-- [Markdown Directives](#markdown-directives)
+- [Markdown Documents](#markdown-documents)
+  - [YAML Front-Matter](#yaml-front-matter)
+  - [LaTeX Support](#latex-support)
+  - [Markdown Directives](#markdown-directives)
 - [Schema Systems](#schema-systems)
   - [Schema Definition](#schema-definition)
   - [Using Schemas](#using-schemas)
@@ -30,7 +33,21 @@ To ensure that the TypeScript -> UglifyJS -> JavaScript build process works prop
 
 If you want to debug some stuff, you can run 'npm run repl'. This runs Node's normal REPL, but starts the zSnout server automatically and places the Fastify instance into the `server` variable.
 
-## Markdown Directives
+## Markdown Documents
+
+Because Markdown is so simple, we use it to generate many of our pages. To make this process easier, we've added features such as YAML front-matter, GitHub Flavored Markdown, a custom directive system, and LaTeX support.
+
+### YAML Front-Matter
+
+YAML front-matter has been a good Markdown system, and we at zSnout take full advantage of it. We use it to define metadata for each page, such as the title, description, and CSS and JS files to include.
+
+To add a title or description, add a `title` or `desc` field to the YAML, which must be strings. To add CSS or JS files, add a `css` or `js` field to the YAML, which can either be strings or arrays of strings.
+
+### LaTeX Support
+
+We have support for embedded LaTeX using `$`-based notation. It is rendered as an SVG on the server. Be careful with the amount of LaTeX used, as it takes up a lot of space, which is bad for both the server and client.
+
+### Markdown Directives
 
 To style Markdown, we use a custom directive system. This allows us to keep harnessing the brevity of Markdown while maintaining good style capabilities. We have three types of directives: global, section, and block.
 
