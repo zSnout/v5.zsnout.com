@@ -1,5 +1,6 @@
-This is the source code for the third iteration of https://zsnout.com/. Mostly, this document is for personal reference, so there might be some details missing. For more information, check out JSDoc comments, which are available on all exported members. Additionally, expected environment variables are included in the NodeJS.ProcessEnv interface.
+This is the source code for the third iteration of https://zsnout.com/. For more information, check out JSDoc comments, which are available on all exported members. Additionally, expected environment variables are included in the NodeJS.ProcessEnv interface.
 
+- [Versioning System](#versioning-system)
 - [Getting the Source Code](#getting-the-source-code)
 - [Building the Project](#building-the-project)
 - [REPL](#repl)
@@ -10,6 +11,12 @@ This is the source code for the third iteration of https://zsnout.com/. Mostly, 
 - [Schema Systems](#schema-systems)
   - [Schema Definition](#schema-definition)
   - [Using Schemas](#using-schemas)
+
+## Versioning System
+
+zSnout uses a versioning system based on [Minecraft Java Edition](https://minecraft.net/).
+
+For dev versions, we use `YYwWWn` where `YY` is the year, `WW` is the week number, and `n` is the letter of this version, incrementing from `a`. For prereleases, we use `MAJOR.MINOR-preN` where `MAJOR` is the major version, `MINOR` is the minor version, and `N` is the prerelease number, incrementing from `1`. For complete releases, we use `MAJOR.MINOR` where `MAJOR` is the major version and `MINOR` is the minor version.
 
 ## Getting the Source Code
 
