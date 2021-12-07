@@ -115,6 +115,8 @@ $navbar-height: 1.5em;
   padding: 0 $margin-right $margin-bottom $margin-left;
   overflow: auto visible;
   background: $background;
+  max-width: 980px;
+  margin: 0 auto;
 }
 
 .notification {
