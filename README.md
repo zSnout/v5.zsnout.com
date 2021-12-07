@@ -16,7 +16,7 @@ This is the source code for the third iteration of https://zsnout.com/. For more
 
 zSnout uses a versioning system based on [Minecraft Java Edition](https://minecraft.net/).
 
-For dev versions, we use `YYwWWn` where `YY` is the year, `WW` is the week number, and `n` is the letter of this version, incrementing from `a`. For prereleases, we use `MAJOR.MINOR-preN` where `MAJOR` is the major version, `MINOR` is the minor version, and `N` is the prerelease number, incrementing from `1`. For complete releases, we use `MAJOR.MINOR` where `MAJOR` is the major version and `MINOR` is the minor version.
+For snapshots, we use `YYwWWn` where `YY` is the year, `WW` is the week number, and `n` is the letter of this version, incrementing from `a`. For prereleases, we use `MAJOR.MINOR-preN` where `MAJOR` is the major version, `MINOR` is the minor version, and `N` is the prerelease number, incrementing from `1`. For complete releases, we use `MAJOR.MINOR` where `MAJOR` is the major version and `MINOR` is the minor version.
 
 ## Getting the Source Code
 
