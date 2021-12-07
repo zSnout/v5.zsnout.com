@@ -16,7 +16,7 @@ zSnout is a collection of different projects created for fun by [Zachary Sakowit
 [Sign Up](/account/create/)
 [Log In](/account/login/)
 [Bingo Board Generator](/bingo/)
-[Tic-Tac-Toe Board Generator](/tictactoe/generator/)
+[Tic-Tac-Toe Generator](/tictactoe/generator/)
 
 #### Settings
 
