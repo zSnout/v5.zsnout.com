@@ -1,0 +1,87 @@
+@use "../.." as *;
+
+#info {
+  text-align: center;
+}
+
+#buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  button {
+    display: block;
+    width: 100%;
+    margin-bottom: $margin;
+    padding: 0.25em 0.5em;
+    text-align: center;
+    cursor: pointer;
+    background: $element;
+    border-radius: 0.25em;
+    color: $text-color;
+    text-decoration: none;
+    font-size: 1em;
+    border: 0;
+    line-height: 1.5;
+    position: relative;
+
+    @include focus {
+      background: $focused;
+      text-decoration: underline;
+      z-index: 1;
+    }
+  }
+}
+
+#boards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  .board {
+    margin: 0.5em;
+    border-radius: 0.25em;
+  }
+
+  .row {
+    height: 2em;
+
+    $border-radius: 0.5em;
+
+    &:first-child span:first-child {
+      border-top-left-radius: $border-radius;
+    }
+    &:first-child span:last-child {
+      border-top-right-radius: $border-radius;
+    }
+    &:last-child span:first-child {
+      border-bottom-left-radius: $border-radius;
+    }
+    &:last-child span:last-child {
+      border-bottom-right-radius: $border-radius;
+    }
+
+    &:last-child span {
+      border-bottom: 0.0625em solid $seperator;
+    }
+
+    span {
+      display: inline-block;
+      width: 2em;
+      height: 2em;
+      border-top: 0.0625em solid $seperator;
+      border-left: 0.0625em solid $seperator;
+      background: $element;
+
+      &:last-child {
+        border-right: 0.0625em solid $seperator;
+      }
+
+      &.blocker {
+        background: $text-color;
+      }
+    }
+  }
+}
