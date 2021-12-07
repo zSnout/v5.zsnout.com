@@ -84,6 +84,10 @@ export async function getRawData(
   if (markdown === null) return null;
 
   try {
+    markdown = markdown.replaceAll(/(?<!\\)\$([^$]+)\$/g, (match) =>
+      match.replaceAll("\\", "\\\\")
+    );
+
     let html = renderer
       .render(markdown)
       .replace(/<p>\\(\w+)doc<\/p>/, "#$1#")
@@ -106,12 +110,12 @@ export async function getRawData(
     css = typeof css == "string" ? [css] : css;
 
     html = html
-      .replaceAll(/<p>\s*\$\$([^$\n\r]+)\$\$\s*<\/p>/g, (_, latex) => {
-        let svg = MathJax.tex2svg(latex, { display: true });
+      .replaceAll(/<p>\s*\$\$([^$]+)\$\$\s*<\/p>/g, (_, latex) => {
+        let svg = MathJax.tex2svg(unescapeXML(latex), { display: true });
         return `<div class="center">${MathJax.startup.adaptor.outerHTML(svg)}</div>`; // prettier-ignore
       })
-      .replaceAll(/(?<!\\)\$([^$\n\r]+)\$/g, (_, latex) => {
-        let svg = MathJax.tex2svg(latex, { display: true });
+      .replaceAll(/(?<!\\)\$([^$]+)\$/g, (_, latex) => {
+        let svg = MathJax.tex2svg(unescapeXML(latex), { display: true });
         return MathJax.startup.adaptor.outerHTML(svg); // prettier-ignore
       });
 
@@ -132,6 +136,21 @@ export function escapeJS(str: string): string {
     .replaceAll('"', '\\"')
     .replaceAll("'", "\\'")
     .replaceAll("\n", "\\n");
+}
+
+/**
+ * Unescapes certain XML characters in some XML content.
+ * @param str The string to unescape.
+ * @returns An escaped string.
+ */
+export function unescapeXML(str: string): string {
+  return str
+    .replaceAll("&amp;", "&")
+    .replaceAll("&lt;", "<")
+    .replaceAll("&gt;", ">")
+    .replaceAll("&apos;", "'")
+    .replaceAll("&#39;", "'")
+    .replaceAll("&quot;", '"');
 }
 
 /**
