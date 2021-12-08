@@ -5,6 +5,8 @@ desc: Learn how to make people think of certain numbers by using simple math.
 
 _Published by Zachary Sakowitz on December 7, 2021._
 
+Did you know that using math we can force people to think of certain numbers? We can use 9, 1089, or any other number you can think of using the simple tricks described below!
+
 \toc
 
 - [Forcing an Arbitrary Number](#forcing-an-arbitrary-number)

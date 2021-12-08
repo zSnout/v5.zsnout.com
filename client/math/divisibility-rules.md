@@ -5,6 +5,8 @@ desc: Learn some quick divisibility rules and tricks to help you solve division 
 
 _Published by Zachary Sakowitz on December 7, 2021._
 
+You probably know how to find out if a number is divisible by 2, 5, or 10. But did you know that there's simple divisibility rules for other numbers? Let's check them out, from 2 to 11. Afterwards, we'll explore some other divisibility tricks.
+
 \toc
 
 - [2](#2)
@@ -18,10 +20,6 @@ _Published by Zachary Sakowitz on December 7, 2021._
 - [10](#10)
 - [11](#11)
 - [12](#12)
-
-\none
-
-You probably know how to find out if a number is divisible by 2, 5, or 10. But did you know that there's simple divisibility rules for other numbers? Let's check them out, from 2 to 11. Afterwards, we'll explore some other divisibility tricks.
 
 ## 2
 

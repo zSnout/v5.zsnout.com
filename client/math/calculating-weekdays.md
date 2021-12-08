@@ -5,6 +5,8 @@ desc: Learn to calculate the day of the week for any date in the past or future!
 
 _Published by Zachary Sakowitz on December 7, 2021._
 
+Ever wondered what day your friend's birthday occurred, or whether the next July 4th will be a Thursday?
+
 \toc
 
 - [Overview](#overview)
@@ -12,10 +14,6 @@ _Published by Zachary Sakowitz on December 7, 2021._
 - [Month Codes](#month-codes)
 - [Century Codes](#century-codes)
 - [Day Codes](#day-codes)
-
-\none
-
-Ever wondered what day your friend's birthday occurred, or whether the next July 4th will be a Thursday?
 
 ## Overview
 
