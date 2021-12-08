@@ -11,11 +11,11 @@ async function makeBoards(size: number) {
   )
     return;
 
+  $("#buttons").remove();
   let html = (await bestBoards(size)).join("");
   boards.html(html);
 
   $("#info").remove();
-  $("#buttons").remove();
   boards.appendTo($.main);
 }
 
@@ -32,11 +32,11 @@ async function approxBoards(size: number) {
   )!;
   if (Number.isNaN(num)) return;
 
+  $("#buttons").remove();
   let html = (await approxBestBoards(size, num)).join("");
   boards.html(html);
 
   $("#info").remove();
-  $("#buttons").remove();
   boards.appendTo($.main);
 }
 
