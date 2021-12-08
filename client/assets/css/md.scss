@@ -146,7 +146,7 @@
     &.buttonlist {
       display: grid;
       grid-gap: $margin;
-      grid-template-columns: repeat(auto-fill, minmax(min(12em, 100%), 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(15em, 100%), 1fr));
 
       a,
       button {
