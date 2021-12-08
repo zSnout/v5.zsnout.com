@@ -132,13 +132,17 @@ export async function bestBoards(size: number) {
   let start = Date.now();
 
   let c = 2 ** (size * size);
+  let t = Math.ceil(c / 100000);
   for (let i = 0; i < c; i++) {
     if (i % 100000 == 0) {
       let percentDone = Math.floor((i / c) * 10000) / 100;
       let timeUsed = Math.floor((Date.now() - start) / 100) / 10;
+      let timeLeft = Math.floor((timeUsed / (i / c)) * (1 - i / c) * 100) / 100;
 
       info.text(
-        `Generated ${i} out of ${c} boards in ${timeUsed}s (${percentDone}%)...`
+        `Generated ${
+          i / 100000
+        } out of ${t} rounds in ${timeUsed}s, ~${timeLeft}s left (${percentDone}%)...`
       );
       await new Promise((resolve) => setTimeout(resolve, 0));
     }
