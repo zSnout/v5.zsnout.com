@@ -209,6 +209,28 @@
     &.center {
       text-align: center;
     }
+
+    &.toc {
+      background: $element;
+      border: 0.0625em solid $seperator;
+      border-radius: 0.25em;
+      padding: 0.75em 0.5em;
+
+      a,
+      button {
+        text-decoration: none;
+        background: none;
+
+        @include focus {
+          text-decoration: underline;
+        }
+      }
+
+      > ul {
+        margin-bottom: 0;
+        padding-left: 2em;
+      }
+    }
   }
 
   > :first-child {
