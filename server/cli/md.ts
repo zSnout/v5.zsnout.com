@@ -84,6 +84,7 @@ export async function getRawData(
   if (markdown === null) return null;
 
   try {
+    // All Markdown-LaTeX packages we've tested can't parse block LaTeX, so we make our own implementation using MathJax and regexes.
     markdown = markdown.replaceAll(/(?<!\\)(\${1,2})([^$]+?)\1/g, (match) =>
       match.replace(/[\\`*_{}[\]()#+.!-]/g, "\\$&")
     );
