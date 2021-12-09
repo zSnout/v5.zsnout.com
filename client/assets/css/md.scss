@@ -166,6 +166,26 @@
       }
     }
 
+    &.gallery,
+    &.codegallery {
+      display: grid;
+      grid-gap: $margin;
+      grid-template-columns: repeat(auto-fill, minmax(min(20em, 100%), 1fr));
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: inline-block;
+        margin: 0;
+        background: $element;
+      }
+    }
+
+    &.codegallery img {
+      background: #0d364b;
+    }
+
     &.header {
       font-size: 3em;
       font-weight: bold;
