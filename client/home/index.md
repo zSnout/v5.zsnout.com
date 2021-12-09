@@ -10,12 +10,13 @@ zSnout is a collection of different projects created for fun by [Zachary Sakowit
 
 <br>
 
-#### Main Pages
+#### General Pages
 
 \buttonlist
 [Sign Up](/account/create/)
 [Log In](/account/login/)
 [Bingo Board Generator](/bingo/)
+[TicTacToe Generator](/tictactoe/generator/)
 
 #### Math Articles
 
