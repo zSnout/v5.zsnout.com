@@ -16,7 +16,15 @@ zSnout is a collection of different projects created for fun by [Zachary Sakowit
 [Sign Up](/account/create/)
 [Log In](/account/login/)
 [Bingo Board Generator](/bingo/)
-[Tic-Tac-Toe Generator](/tictactoe/generator/)
+
+#### Math Articles
+
+\buttonlist
+[Divisibility Rules & Tricks](/math/divisibility-rules/)
+[Force People to Think Of 1089](/math/forcing-1089/)
+[Is It A Thursday? Calculate It!](/math/calculating-weekdays/)
+[Proving That 0 = 1](/math/does-0-equal-1/)
+[1 + 2 + 3 + 4 ... = 1/12?](/math/infinity-is-0.0833/)
 
 #### Settings
 
