@@ -8,8 +8,6 @@ js: ./index.js
 
 zSnout is a collection of different projects created for fun by [Zachary Sakowitz](https://github.com/zsakowitz). It runs on the open-source code available at <https://github.com/zsnout/zsnout.com>. It was initially created during COVID-19, and has undergone two major revisions since then.
 
-<br>
-
 #### General Pages
 
 \buttonlist
@@ -17,6 +15,11 @@ zSnout is a collection of different projects created for fun by [Zachary Sakowit
 [Log In](/account/login/)
 [Bingo Board Generator](/bingo/)
 [TicTacToe Generator](/tictactoe/generator/)
+
+#### Blog Articles
+
+\buttonlist
+[What makes zSnout different?](/blog/what-makes-zsnout-different/)
 
 #### Math Articles
 
