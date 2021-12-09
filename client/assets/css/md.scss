@@ -35,6 +35,8 @@
     max-height: 20em;
     display: block;
     margin: 0 auto;
+    border: 0.0625em solid $seperator;
+    border-radius: 0.25em;
   }
 
   h1,
