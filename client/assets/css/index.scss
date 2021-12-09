@@ -77,6 +77,9 @@ $navbar-height: 1.5em;
   background: $background;
   max-width: 980px;
   margin: 0 auto;
+  border-bottom-left-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+  box-shadow: 0 0em 0.5em 0.25em $background;
 
   a {
     padding: math.div($margin, 2);
