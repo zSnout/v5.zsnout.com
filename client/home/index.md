@@ -4,9 +4,15 @@ desc: zSnout is a collection of different projects created for fun by Zachary Sa
 js: ./index.js
 ---
 
-# Welcome to zSnout!
+<h1 id="welcome-to-zsnout">Welcome to zSnout!</h1>
 
-zSnout is a collection of different projects created for fun by [Zachary Sakowitz](https://github.com/zsakowitz). It runs on the open-source code available at <https://github.com/zsnout/zsnout.com>. It was initially created during COVID-19, and has undergone two major revisions since then.
+\toc
+
+- [General Pages](#general-pages)
+- [Blog Articles](#blog-articles)
+- [Math Articles](#math-articles)
+- [Settings](#settings)
+- [External Resources](#external-resources)
 
 #### General Pages
 
