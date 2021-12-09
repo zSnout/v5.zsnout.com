@@ -1,5 +1,5 @@
 git clone https://github.com/zsnout/zsnout.com.git zsnout
-cd zsnout.com
+cd zsnout
 npm install
 npm run build
 echo "
