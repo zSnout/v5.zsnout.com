@@ -3,7 +3,7 @@ title: Proving That 0 = 1!
 desc: Learn a simple proof that shows how 0 equals 1, then learn how you can apply it to any two numbers!
 ---
 
-_Published by Zachary Sakowitz on December 8._
+_Published by Zachary Sakowitz on December 8, 2021._
 
 The "0 = 1" paradox states that the numbers 0 and 1 are equivalent. We can easily prove this. Once done, we'll show you how you can use this to prove that any two numbers are equivalent!
 

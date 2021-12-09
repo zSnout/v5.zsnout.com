@@ -3,6 +3,8 @@ title: 1 + 2 + 3 ... = -1/12!
 desc: Did you know that the sum of all whole numbers is equal to -1/12? In this article we find out how it's possible and prove it ourselves!
 ---
 
+_Published by Zachary Sakowitz on December 8, 2021._
+
 Did you know that the sum of all whole numbers is equal to -1/12? In this article we find out how it's possible and prove it ourselves!
 
 \toc
