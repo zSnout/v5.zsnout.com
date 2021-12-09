@@ -84,8 +84,8 @@ export async function getRawData(
   if (markdown === null) return null;
 
   try {
-    markdown = markdown.replaceAll(/(?<!\\)\$([^$]+)\$/g, (match) =>
-      match.replaceAll("\\", "\\\\")
+    markdown = markdown.replaceAll(/(?<!\\)(\${1,2})([^$]+?)\1/g, (match) =>
+      match.replace(/[\\`*_{}[\]()#+.!-]/g, "\\$&")
     );
 
     let html = renderer
