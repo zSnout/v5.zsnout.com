@@ -26,6 +26,7 @@ js: ./index.js
 
 \buttonlist
 [What makes zSnout different?](/blog/what-makes-zsnout-different/)
+[GitHub Copilot is Amazing](/blog/github-copilot-is-amazing/)
 
 #### Math Articles
 
