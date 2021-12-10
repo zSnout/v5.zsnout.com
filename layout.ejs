@@ -22,8 +22,10 @@
       <%- indent(buttons.join("\n"), 6) %>
     </nav>
 
-    <main id="main">
-      <%- indent(body, 6).trim() %>
-    </main>
+    <outer id="outer">
+      <main id="main">
+        <%- indent(body, 6).trim() %>
+      </main>
+    </outer>
   </body>
 </html>
