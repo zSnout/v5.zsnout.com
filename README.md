@@ -38,7 +38,7 @@ To ensure that the TypeScript -> UglifyJS -> JavaScript build process works prop
 
 ## REPL
 
-If you want to debug some stuff, you can run 'npm run repl'. This runs Node's normal REPL, but starts the zSnout server automatically and places the Fastify instance into the `server` variable.
+If you want to debug some stuff, you can run `npm run repl`. This runs Node's normal REPL, but starts the zSnout server automatically and places the Fastify instance into the `server` variable.
 
 ## Markdown Documents
 
