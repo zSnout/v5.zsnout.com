@@ -8,7 +8,8 @@ This is the source code for the third iteration of https://zsnout.com/. For more
   - [YAML Front-Matter](#yaml-front-matter)
   - [LaTeX Support](#latex-support)
   - [Markdown Directives](#markdown-directives)
-- [Schema Systems](#schema-systems)
+- [Client-Side Multithreading](#client-side-multithreading)
+- [Schema System](#schema-system)
   - [Schema Definition](#schema-definition)
   - [Using Schemas](#using-schemas)
 
@@ -108,7 +109,128 @@ Hello, _my friends_...
 </div>
 ```
 
-## Schema Systems
+## Client-Side Multithreading
+
+At zSnout, we've developed our own multithreading system. To use it, import `thread` from `assets/js/thread.js`. Then, create a function and pass it to `thread`. The function will be executed in a new thread.
+
+When starting a worker, two `Thread` objects are created: one for the worker thread and one for the main thread. You can use these to communicate with each other.
+
+```ts
+import thread, { Thread } from "/assets/js/thread.js";
+
+function myWorker(workerThread: Thread) {
+  // do some expensive work
+}
+
+let mainThread = thread(myWorker);
+```
+
+The `Thread` objects have each have `send` method that can be used to send data to the other thread.
+
+```ts
+import thread, { Thread } from "/assets/js/thread.js";
+
+function myWorker(workerThread: Thread) {
+  // do some expensive work
+  workerThread.send(1 + 1);
+}
+
+let mainThread = thread(myWorker);
+mainThread.send(myRequestInfo);
+```
+
+To get the data, you can use the `reciever` property, which is set to an async generator that yields values sent by the other end.
+
+```ts
+import thread, { Thread } from "/assets/js/thread.js";
+
+async function myWorker(workerThread: Thread) {
+  let request = await workerThread.reciever.next();
+
+  // do some expensive work
+  workerThread.send(1 + 1);
+}
+
+async function runLongTask() {
+  let mainThread = thread(myWorker);
+  mainThread.send(myRequestInfo);
+
+  return await mainThread.reciever.next();
+}
+
+runLongTask().then(console.log);
+```
+
+Because it's an async generator, you can use `for await .. of` to iterate over messages.
+
+```ts
+import thread, { Thread } from "/assets/js/thread.js";
+
+async function myWorker(workerThread: Thread) {
+  for await (let [n1, n2] of workerThread.reciever) workerThread.send(n1 + n2);
+}
+
+let mainThread = thread(myWorker);
+
+export function add(n1: number, n2: number) {
+  mainThread.send([n1, n2]);
+}
+
+console.log(await add(7, 8));
+```
+
+You can also use the `kill` function to terminate the worker from either end.
+
+```ts
+import thread, { Thread } from "/assets/js/thread.js";
+
+async function myWorker(workerThread: Thread) {
+  for await (let [n1, n2] of workerThread.reciever) workerThread.send(n1 + n2);
+}
+
+let mainThread = thread(myWorker);
+setTimeout(mainThread.kill, 1000);
+```
+
+To keep it type-safe, you can assign a generic to the `Thread` object. This limits the data that can be sent.
+
+```ts
+import thread, { Thread } from "/assets/js/thread.js";
+
+async function myWorker(workerThread: Thread<number>) {
+  // error TS2488: Type 'number' must have a '[Symbol.iterator]()' method that returns an iterator.
+  for await (let [n1, n2] of workerThread.reciever);
+}
+
+let mainThread = thread(myWorker);
+// error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
+mainThread.send("Hello, world!");
+setTimeout(mainThread.kill, 1000);
+```
+
+For seperate recieved and sent data, set the first generic to the type you want this `Thread` to recieve and the second to the type you want to send. For example, to make a worker that recieves a string and sends a number, you would do:
+
+```ts
+import thread, { Thread } from "/assets/js/thread.js";
+
+async function myWorker(workerThread: Thread<string, number>) {
+  // AsyncGenerator<string>
+  workerThread.reciever;
+
+  // (data: number) => void
+  workerThread.send;
+}
+
+let mainThread = thread(myWorker);
+
+// AsyncGenerator<number>
+mainThread.reciever;
+
+// (data: string) => void
+mainThread.send;
+```
+
+## Schema System
 
 Because we think that schema systems like JSON Schema and JTD are too wordy, we came up with our own super-simple format. There is a demonstration below. More documentation is available in the [Schema Definition](#schema-definition) section.
 
