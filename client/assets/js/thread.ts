@@ -10,7 +10,7 @@ export interface Thread<R = any, S = R> {
   kill(): void;
 
   /** A receiver that contains all data from the thread. */
-  reciever: AsyncIterableIterator<R>;
+  reciever: AsyncGenerator<R>;
 }
 
 /**
