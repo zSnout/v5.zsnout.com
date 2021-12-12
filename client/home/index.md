@@ -21,6 +21,7 @@ js: ./index.js
 [Log In](/account/login/)
 [Bingo Board Generator](/bingo/)
 [TicTacToe Generator](/tictactoe/generator/)
+[zSnout Installation Status](/installation/)
 
 #### Blog Articles
 
