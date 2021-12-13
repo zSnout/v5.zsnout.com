@@ -18,7 +18,10 @@ export async function buildFile(file: string) {
 
     let minified = minify(javascript, {
       sourceMap: {
-        content: { ...sourcemap, sources: [file.replace(".js", ".ts")] },
+        content: {
+          ...sourcemap,
+          sources: [basename(file).replace(".js", ".ts")],
+        },
         url: basename(file) + ".map",
       },
     });
