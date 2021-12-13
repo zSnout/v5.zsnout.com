@@ -4,11 +4,11 @@ import { join } from "path";
 import server from "..";
 
 let csp = `default-src 'self'
-  connect-src 'self' blob: https://fonts.googleapis.com https://fonts.gstatic.com/
+  connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com/
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com
   font-src 'self' https://fonts.gstatic.com/
   object-src 'none'
-  worker-src 'self' blob:
+  worker-src 'self'
   base-uri 'none'
   report-uri /csp`.replaceAll("\n", "; ");
 
