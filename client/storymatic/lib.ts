@@ -350,8 +350,8 @@ export function parseExpr(expr: string): Expression[] {
   let tokens: Expression[] = [];
   let quote: false | (string | { type: "variable"; name: string })[] = false;
   let quoteMark: '"' | "'" | null = null;
-  let twochars = ["<=", ">=", "!=", "=="];
-  let chars = ["+", "-", "*", "/", "%", ">", "<", "(", ")", "[", "]", ","];
+  let twochars = ["<=", ">=", "!=", "==", "&&", "||"];
+  let chars = ["+", "-", "*", "/", "%", ">", "<", "(", ")", "[", "]", ",", "!"];
 
   while ((expr = quote ? expr : expr.trim())) {
     let match;
