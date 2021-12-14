@@ -1,0 +1,13 @@
+<%
+  title("Storymatic Editor");
+  desc("Run and edit a Storymatic program directly from your browser!");
+  css("./index.css");
+  css("/assets/css/cobalt2.css");
+  js("https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.13/ace.min.js");
+  js("./syntax.js");
+  js("./index.js");
+  nav("Save Program", "#save", "save");
+%>
+
+<div id="editor" class="cobalt2"></div>
+<iframe src="/storymatic/view/?fullscreen=true" id="viewer"></iframe>
