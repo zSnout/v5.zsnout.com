@@ -9,8 +9,8 @@ declare namespace AceAjax {
   export interface Ace {
     define(
       name: string,
-      deps: ["require", "exports"],
-      callback: (require: typeof ace.require, exports: any) => any
+      deps: string[],
+      callback: (...deps: any[]) => any
     ): void;
   }
 }
