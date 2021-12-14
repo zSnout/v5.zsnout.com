@@ -16,6 +16,7 @@
   "license": "GNU",
   "author": "zsakowitz",
   "dependencies": {
+    "@types/ace": "^0.0.47",
     "@types/bcrypt": "^5.0.0",
     "@types/ejs": "^3.1.0",
     "@types/markdown-it": "^12.2.3",
