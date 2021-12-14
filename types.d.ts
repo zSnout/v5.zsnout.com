@@ -4,3 +4,13 @@ declare module "markdown-it-meta";
 declare module "mathjax" {
   export function init(arg: any): Promise<any>;
 }
+
+declare namespace AceAjax {
+  export interface Ace {
+    define(
+      name: string,
+      deps: ["require", "exports"],
+      callback: (require: typeof ace.require, exports: any) => any
+    ): void;
+  }
+}
