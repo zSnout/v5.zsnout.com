@@ -82,8 +82,9 @@ export type Expression =
   | "*"
   | "/"
   | "%"
-  | "&"
-  | "|"
+  | "=="
+  | "&&"
+  | "||"
   | ",";
 
 /** An array containing a single line of content along with its indentation level. */
@@ -351,24 +352,7 @@ export function parseExpr(expr: string): Expression[] {
   let quote: false | (string | { type: "variable"; name: string })[] = false;
   let quoteMark: '"' | "'" | null = null;
   let twochars = ["<=", ">=", "!="];
-  let chars = [
-    "+",
-    "-",
-    "*",
-    "/",
-    "%",
-    "=",
-    ">",
-    "<",
-    "!",
-    "&",
-    "|",
-    "(",
-    ")",
-    "[",
-    "]",
-    ",",
-  ];
+  let chars = ["+", "-", "*", "/", "%", ">", "<", "(", ")", "[", "]", ","];
 
   while ((expr = quote ? expr : expr.trim())) {
     let match;
@@ -412,6 +396,13 @@ export function parseExpr(expr: string): Expression[] {
     } else if (chars.includes(expr[0])) {
       tokens.push(expr[0] as Expression);
       expr = expr.slice(1);
+    } else if (expr[0] == "=") {
+      tokens.push("==");
+      expr = expr.slice(1);
+    } else if ((match = expr.match(/^(not|and|or)([^\w\d_].*|$)$/))) {
+      let keyword = match[1] as "not" | "and" | "or";
+      tokens.push(({ not: "!", and: "&&", or: "||" } as const)[keyword]);
+      expr = match[2];
     } else if ((match = expr.match(/^(\d+(?:\.\d+)?)([^\w\d_].*|$)$/))) {
       let number = parseFloat(match[1]);
       if (!Number.isNaN(number)) tokens.push({ type: "number", value: number });
