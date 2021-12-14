@@ -199,7 +199,11 @@ export function parseActionGroups(groups: Group): Action[] {
     }
 
     let match;
-    if ((match = e.match(/^\$([\w_][\w\d_]*)\s*([+*%\/\-]=|=)\s*(.+)$/))) {
+    if (e.startsWith("#")) {
+      continue;
+    } else if (
+      (match = e.match(/^\$([\w_][\w\d_]*)\s*([+*%\/\-]=|=)\s*(.+)$/))
+    ) {
       actions.push({
         type: "variable",
         name: match[1],
