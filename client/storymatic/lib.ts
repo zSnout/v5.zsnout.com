@@ -350,7 +350,7 @@ export function parseExpr(expr: string): Expression[] {
   let tokens: Expression[] = [];
   let quote: false | (string | { type: "variable"; name: string })[] = false;
   let quoteMark: '"' | "'" | null = null;
-  let twochars = ["<=", ">=", "!="];
+  let twochars = ["<=", ">=", "!=", "=="];
   let chars = ["+", "-", "*", "/", "%", ">", "<", "(", ")", "[", "]", ","];
 
   while ((expr = quote ? expr : expr.trim())) {
@@ -398,9 +398,34 @@ export function parseExpr(expr: string): Expression[] {
     } else if (expr[0] == "=") {
       tokens.push("==");
       expr = expr.slice(1);
-    } else if ((match = expr.match(/^(not|and|or)([^\w\d_].*|$)$/))) {
-      let keyword = match[1] as "not" | "and" | "or";
-      tokens.push(({ not: "!", and: "&&", or: "||" } as const)[keyword]);
+    } else if (
+      (match = expr.match(/^(is not|isnt|is|not|and|or)([^\w\d_].*|$)$/))
+    ) {
+      let phrase = match[1] as "is not" | "isnt" | "is" | "not" | "and" | "or";
+
+      switch (phrase) {
+        case "is not":
+        case "isnt":
+          tokens.push("!=");
+          break;
+
+        case "is":
+          tokens.push("==");
+          break;
+
+        case "not":
+          tokens.push("!");
+          break;
+
+        case "and":
+          tokens.push("&&");
+          break;
+
+        case "or":
+          tokens.push("||");
+          break;
+      }
+
       expr = match[2];
     } else if ((match = expr.match(/^(\d+(?:\.\d+)?)([^\w\d_].*|$)$/))) {
       let number = parseFloat(match[1]);
@@ -490,7 +515,6 @@ export function exprToJS(exprs: Expression[]): string {
 
   for (let expr of exprs) {
     if (Array.isArray(expr)) code += ` ( ${exprToJS(expr)} ) `;
-    else if (typeof expr == "string" && expr == "=") code += ` === `;
     else if (typeof expr == "string") code += ` ${expr} `;
     else if (expr.type == "number") code += ` ${expr.value} `;
     else if (expr.type == "boolean") code += ` ${expr.value} `;
