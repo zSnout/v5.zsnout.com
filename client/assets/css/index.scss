@@ -136,6 +136,21 @@ $navbar-height: 1.5em;
   }
 }
 
+.fullscreen {
+  #nav {
+    display: none;
+  }
+
+  #outer {
+    top: 0;
+    padding: 0;
+  }
+
+  #main {
+    max-width: initial;
+  }
+}
+
 .notification {
   z-index: 3;
   overflow: hidden;

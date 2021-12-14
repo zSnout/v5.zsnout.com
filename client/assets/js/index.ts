@@ -13,6 +13,10 @@ export function checkTheme() {
 
 checkTheme();
 
+if (new URL(location.href).searchParams.has("nonav")) $.root.addClass("nonav");
+if (new URL(location.href).searchParams.has("fullscreen"))
+  $.root.addClass("fullscreen");
+
 window.addEventListener(
   "storage",
   (event) => event.key == "theme" && checkTheme()
@@ -78,5 +82,3 @@ declare global {
     lastInstallTime?: string;
   }
 }
-
-if (new URL(location.href).searchParams.has("nonav")) $.root.addClass("nonav");
