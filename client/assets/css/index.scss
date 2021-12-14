@@ -125,6 +125,17 @@ $navbar-height: 1.5em;
   margin: 0 auto;
 }
 
+.nonav {
+  #nav {
+    display: none;
+  }
+
+  #outer {
+    top: 0;
+    padding: $margin-top $margin-right $margin-bottom $margin-left;
+  }
+}
+
 .notification {
   z-index: 3;
   overflow: hidden;

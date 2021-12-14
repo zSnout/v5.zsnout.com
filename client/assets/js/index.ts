@@ -78,3 +78,5 @@ declare global {
     lastInstallTime?: string;
   }
 }
+
+if (new URL(location.href).searchParams.has("nonav")) $.root.addClass("nonav");
