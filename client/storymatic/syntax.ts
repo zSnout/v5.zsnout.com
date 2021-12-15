@@ -1,4 +1,4 @@
-/// <reference types="../../../types" />
+/// <reference types="../../types" />
 
 ace.define(
   "ace/mode/storymatic",
