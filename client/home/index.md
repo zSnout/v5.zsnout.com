@@ -21,6 +21,7 @@ js: ./index.js
 [Log In](/account/login/)
 [Bingo Board](/bingo/)
 [TicTacToe Generator](/tictactoe/generator/)
+[Storymatic To JavaScript](/storymatic/smtojs/)
 
 #### Blog Articles
 
