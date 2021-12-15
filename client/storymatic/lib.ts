@@ -287,11 +287,14 @@ export function parseActionGroups(groups: Group): Action[] {
     } else if (
       (match = e.match(/^(?:func|function|def)\s+@([\w_][\w\d_]*)(?:\s+(.+))?/))
     ) {
-      let args = match[2]
-        .split(/\s+/)
-        .map((e) => e.match(/^\$([\w_][\w\d_]*)$/))
-        .map((e) => e?.[1])
-        .filter((e): e is string => !!e);
+      let args: string[] = [];
+
+      if (match[2])
+        args = match[2]
+          .split(/\s+/)
+          .map((e) => e.match(/^\$([\w_][\w\d_]*)$/))
+          .map((e) => e?.[1])
+          .filter((e): e is string => !!e);
 
       let block: Action[];
       let group = groups[i + 1];
