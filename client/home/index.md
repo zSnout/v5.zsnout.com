@@ -21,7 +21,6 @@ js: ./index.js
 [Log In](/account/login/)
 [Bingo Board](/bingo/)
 [TicTacToe Generator](/tictactoe/generator/)
-[zSnout Installation Status](/installation/)
 
 #### Blog Articles
 
@@ -41,6 +40,7 @@ js: ./index.js
 #### Settings
 
 \buttonlist
+[Cache Manager](/installation/)
 <button id="theme-native">Use Native Theme</button>
 <button id="theme-light">Use Light Theme</button>
 <button id="theme-dark">Use Aqua Theme</button>
