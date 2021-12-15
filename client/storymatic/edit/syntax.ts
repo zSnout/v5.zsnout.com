@@ -27,7 +27,65 @@ ace.define(
     let { TextHighlightRules } = require("ace/mode/text_highlight_rules");
     let SMHighlightRules = function (this: any) {
       this.$rules = {
-        start: [],
+        start: [
+          {
+            token: "comment.line",
+            regex: /#.*/,
+          },
+          {
+            token: "storage.type.function",
+            regex: /func|let/,
+          },
+          {
+            token: "keyword",
+            regex:
+              /if|elif|else|unless|while|until|each|return|and|or|not|is|isnt|in|of/,
+          },
+          {
+            token: "constant.language",
+            regex: /true|false|null/,
+          },
+          {
+            token: "keyword.operator",
+            regex: /[+\-*\/%>=<!]|&&|\|\|/,
+          },
+          {
+            token: "paren",
+            regex: /[()[\]]/,
+          },
+          {
+            token: "entity.name.function",
+            regex: /@[\w_][\w\d_]*/,
+          },
+          {
+            token: "variable.storymatic",
+            regex: /\$[\w_][\w\d_]*/,
+          },
+          {
+            token: "constant.numeric",
+            regex: /\d+(?:\.\d+)?/,
+          },
+          {
+            token: "string",
+            regex: /"/,
+            next: "string-doublequote",
+          },
+        ],
+        "string-doublequote": [
+          {
+            token: "string",
+            regex: /"|$/,
+            next: "start",
+          },
+          {
+            token: "variable.storymatic",
+            regex: /\$[\w_][\w\d_]*/,
+          },
+          {
+            token: "string",
+            regex: /./,
+          },
+        ],
       };
     };
 
