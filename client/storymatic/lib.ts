@@ -555,78 +555,78 @@ export function actionToJS(actions: Action[]): string {
   for (let action of actions) {
     switch (action.type) {
       case "print":
-        code += `_print( ${exprToJS(action.content)} ); `;
+        code += `_print( ${exprToJS(action.content)} );\n`;
         break;
 
       case "variable":
-        code += `$${action.name} ${action.mode} ${exprToJS(action.value)}; `;
+        code += `$${action.name} ${action.mode} ${exprToJS(action.value)};\n`;
         break;
 
       case "let":
-        code += `let $${action.name} = ${exprToJS(action.value)}; `;
+        code += `let $${action.name} = ${exprToJS(action.value)};\n`;
         break;
 
       case "function":
         code += `async function $${action.name}( [ ${action.args
           .map((e) => `$${e}`)
-          .join(" , ")} ] = [] ) { ${actionToJS(action.block)} } `;
+          .join(" , ")} ] = [] ) {\n${actionToJS(action.block)}\n}\n\n`;
         break;
 
       case "command":
         if (action.block)
           code += `await $${action.name}( [ ${action.args
             .map(exprToJS)
-            .join(" , ")} ], async function () { ${actionToJS(
+            .join(" , ")} ], async function () {\n${actionToJS(
             action.block
-          )} } ); `;
+          )}\n} );\n`;
         else
           code += `$${action.name}( [ ${action.args
             .map(exprToJS)
-            .join(" , ")} ] ); `;
+            .join(" , ")} ] );\n`;
         break;
 
       case "if":
       case "while":
-        code += `${action.type} ( ${exprToJS(action.cond)} ) { ${actionToJS(
+        code += `${action.type} ( ${exprToJS(action.cond)} ) {\n${actionToJS(
           action.block
-        )} } `;
+        )}\n}\n`;
         break;
 
       case "unless":
-        code += `if ( ! ( ${exprToJS(action.cond)} ) ) { ${actionToJS(
+        code += `if ( ! ( ${exprToJS(action.cond)} ) ) {\n${actionToJS(
           action.block
-        )} } `;
+        )}\n}\n`;
         break;
 
       case "until":
-        code += `while ( ! ( ${exprToJS(action.cond)} ) ) { ${actionToJS(
+        code += `while ( ! ( ${exprToJS(action.cond)} ) ) {\n${actionToJS(
           action.block
-        )} } `;
+        )}\n}\n`;
         break;
 
       case "elif":
-        code += `else if ( ${exprToJS(action.cond)} ) { ${actionToJS(
+        code += `else if ( ${exprToJS(action.cond)} ) {\n${actionToJS(
           action.block
-        )} } `;
+        )}\n}\n`;
         break;
 
       case "else":
-        code += `else { ${actionToJS(action.block)} } `;
+        code += `else {\n${actionToJS(action.block)}\n}\n`;
         break;
 
       case "return":
-        code += `return ${exprToJS(action.value)}; `;
+        code += `return ${exprToJS(action.value)};\n`;
         break;
 
       case "each":
         code += `for (let $${action.name} of ${exprToJS(
           action.value
-        )}) { ${actionToJS(action.block)} } `;
+        )}) {\n${actionToJS(action.block)}\n}\n`;
         break;
     }
   }
 
-  return code.replace(/\s+/g, " ").trim();
+  return code.replace(/ +/g, " ").trim();
 }
 
 /**
