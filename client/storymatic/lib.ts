@@ -212,15 +212,23 @@ export function parseActionGroups(groups: Group): Action[] {
       });
     } else if ((match = e.match(/^@([\w_][\w\d_]*)\s*(.*)$/))) {
       let block: Action[] | null = null;
+      let expr = match[2] ? parseExpr(match[2]) : [];
+      let first: Expression | undefined = expr[0];
 
-      let submatch;
-      if ((submatch = match[2].match(/^\(([^\)]+)\)\s*(.*)$/))) {
+      if (Array.isArray(first)) {
+        let block: Action[] | null = null;
+
+        if (expr.slice(1).length)
+          block = [{ type: "print", content: expr.slice(1) }];
+
         actions.push({
           type: "command",
           name: match[1],
-          args: submatch[1] ? splitOnComma(parseExpr(match[1])) : [],
-          block: submatch[2] ? parseActionGroups([submatch[2]]) : null,
+          args: splitOnComma(first),
+          block,
         });
+
+        continue;
       }
 
       if (typeof groups[i + 1] == "object") {
@@ -231,7 +239,7 @@ export function parseActionGroups(groups: Group): Action[] {
       actions.push({
         type: "command",
         name: match[1],
-        args: match[2] ? splitOnComma(parseExpr(match[2])) : [],
+        args: splitOnComma(expr),
         block,
       });
     } else if ((match = e.match(/^(if|elif|unless|while|until)\s+(.+)$/))) {
@@ -548,6 +556,18 @@ export function exprToJS(exprs: Expression[]): string {
 }
 
 /**
+ * Adds two spaces before each line in the string.
+ * @param string The string to indent.
+ * @returns An indented string.
+ */
+export function indent(string: string): string {
+  return string
+    .split("\n")
+    .map((line) => "  " + line)
+    .join("\n");
+}
+
+/**
  * Converts a list of actions to JavaScript code.
  * @param actions The actions to convert.
  * @returns JavaScript code representing the actions.
@@ -572,49 +592,49 @@ export function actionToJS(actions: Action[]): string {
       case "function":
         code += `async function $${action.name}( [ ${action.args
           .map((e) => `$${e}`)
-          .join(" , ")} ] = [] ) {\n${actionToJS(action.block)}\n}\n\n`;
+          .join(" , ")} ] = [] ) {\n${indent(actionToJS(action.block))}\n}\n\n`;
         break;
 
       case "command":
         if (action.block)
           code += `await $${action.name}( [ ${action.args
             .map(exprToJS)
-            .join(" , ")} ], async function () {\n${actionToJS(
-            action.block
+            .join(" , ")} ], async function () {\n${indent(
+            actionToJS(action.block)
           )}\n} );\n`;
         else
-          code += `$${action.name}( [ ${action.args
+          code += `await $${action.name}( [ ${action.args
             .map(exprToJS)
             .join(" , ")} ] );\n`;
         break;
 
       case "if":
       case "while":
-        code += `${action.type} ( ${exprToJS(action.cond)} ) {\n${actionToJS(
-          action.block
+        code += `${action.type} ( ${exprToJS(action.cond)} ) {\n${indent(
+          actionToJS(action.block)
         )}\n}\n`;
         break;
 
       case "unless":
-        code += `if ( ! ( ${exprToJS(action.cond)} ) ) {\n${actionToJS(
-          action.block
+        code += `if ( ! ( ${exprToJS(action.cond)} ) ) {\n${indent(
+          actionToJS(action.block)
         )}\n}\n`;
         break;
 
       case "until":
-        code += `while ( ! ( ${exprToJS(action.cond)} ) ) {\n${actionToJS(
-          action.block
+        code += `while ( ! ( ${exprToJS(action.cond)} ) ) {\n${indent(
+          actionToJS(action.block)
         )}\n}\n`;
         break;
 
       case "elif":
-        code += `else if ( ${exprToJS(action.cond)} ) {\n${actionToJS(
-          action.block
+        code += `else if ( ${exprToJS(action.cond)} ) {\n${indent(
+          actionToJS(action.block)
         )}\n}\n`;
         break;
 
       case "else":
-        code += `else {\n${actionToJS(action.block)}\n}\n`;
+        code += `else {\n${indent(actionToJS(action.block))}\n}\n`;
         break;
 
       case "return":
@@ -624,12 +644,16 @@ export function actionToJS(actions: Action[]): string {
       case "each":
         code += `for (let $${action.name} of ${exprToJS(
           action.value
-        )}) {\n${actionToJS(action.block)}\n}\n`;
+        )}) {\n${indent(actionToJS(action.block))}\n}\n`;
         break;
     }
   }
 
-  return code.replace(/ +/g, " ").trim();
+  return code
+    .split("\n")
+    .map((e) => e.replace(/([^ ]) +/gm, "$1 "))
+    .join("\n")
+    .trim();
 }
 
 /**
