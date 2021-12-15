@@ -43,6 +43,10 @@
   &.dark {
     @include theme-dark;
   }
+
+  @media only print {
+    @include theme-light;
+  }
 }
 
 html {
@@ -137,6 +141,21 @@ $navbar-height: 1.5em;
 }
 
 .fullscreen {
+  #nav {
+    display: none;
+  }
+
+  #outer {
+    top: 0;
+    padding: 0;
+  }
+
+  #main {
+    max-width: initial;
+  }
+}
+
+@include print {
   #nav {
     display: none;
   }
