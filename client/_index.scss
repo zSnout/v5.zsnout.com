@@ -47,6 +47,12 @@ $margin-right: calc($inset-right + $margin);
   }
 }
 
+@mixin print {
+  @media print {
+    @content;
+  }
+}
+
 @mixin focus {
   &:focus {
     @content;
