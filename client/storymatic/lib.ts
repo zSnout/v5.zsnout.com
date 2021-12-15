@@ -625,3 +625,12 @@ export function actionToJS(actions: Action[]): string {
 
   return code.replace(/\s+/g, " ").trim();
 }
+
+/**
+ * Converts a Storymatic script to JavaScript code.
+ * @param script The script to convert.
+ * @returns The script as JavaScript code.
+ */
+export function storyToJS(script: string): string {
+  return actionToJS(parseStory(script));
+}
