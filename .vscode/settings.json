@@ -1,3 +1,23 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "files.exclude": {
+    "**/.client": true,
+    "**/*.d.ts": true,
+    "**/*.map": true,
+    "**/*.css": {
+      "when": "$(basename).scss"
+    },
+    "**/*.js": {
+      "when": "$(basename).ts"
+    },
+    "**/**/*.js": {
+      "when": "$(basename).tsx"
+    },
+    "**/*.html": {
+      "when": "$(basename).ejs"
+    },
+    "**/**/*.html": {
+      "when": "$(basename).md"
+    }
+  }
 }
