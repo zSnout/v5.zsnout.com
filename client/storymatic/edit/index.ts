@@ -5,3 +5,4 @@ editor.session.setMode("ace/mode/storymatic");
 editor.session.setUseWrapMode(true);
 editor.session.setUseSoftTabs(true);
 editor.session.setTabSize(2);
+editor.container.classList.remove("ace-tm");
