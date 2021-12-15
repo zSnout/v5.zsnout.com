@@ -34,7 +34,7 @@ ace.define(
           },
           {
             token: "storage.type.function",
-            regex: /func|let/,
+            regex: /function|func|def|let/,
           },
           {
             token: "keyword",
