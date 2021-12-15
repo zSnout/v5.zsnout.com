@@ -1,0 +1,28 @@
+@use "../.." as *;
+
+#main {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+}
+
+#outereditor,
+#outerjseditor {
+  border: 0.0625em solid $seperator;
+  border-radius: 0.5em;
+  height: calc(100% - 0.125em);
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+#editor,
+#jsviewer {
+  margin: 0.25em 0.25em 0.25em 0;
+  height: calc(100% - 0.5em);
+  width: calc(100% - 0.25em);
+}
+
+#jsviewer .ace_cursor-layer {
+  display: none;
+}
