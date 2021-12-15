@@ -1,9 +1,4 @@
-let editor = ace.edit("editor");
-editor.setFontSize("1em");
-editor.setShowPrintMargin(false);
-editor.setOption("scrollPastEnd", true);
+import { edit } from "../../assets/js/ace.js";
+
+let editor = edit("editor");
 editor.session.setMode("ace/mode/storymatic");
-editor.session.setUseWrapMode(true);
-editor.session.setUseSoftTabs(true);
-editor.session.setTabSize(2);
-editor.container.classList.remove("ace-tm");
