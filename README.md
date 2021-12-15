@@ -111,7 +111,7 @@ Hello, _my friends_...
 
 ## Client-Side Multithreading
 
-At zSnout, we've developed our own multithreading system. To use it, import `thread` from `assets/js/thread.js`. Then, create a function and pass it to `thread`. The function will be executed in a new thread.
+At zSnout, we've developed our own multithreading system, as standard `Worker`s are too complicated to use for simple tasks. To use it, import `thread` from `assets/js/thread.js`. Then, create a function and pass it to `thread`. The function will be executed in a new thread.
 
 When starting a worker, two `Thread` objects are created: one for the worker thread and one for the main thread. You can use these to communicate with each other.
 
