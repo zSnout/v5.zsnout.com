@@ -25,6 +25,6 @@ server.register(fastifyStatic, {
     if (path.substring(path.length - 3) == ".ts")
       res.setHeader("content-type", "text/typescript");
     else if (path.substring(path.length - 4) == ".ejs")
-      res.setHeader("content-type", "text/html");
+      res.setHeader("content-type", "text/ejs");
   },
 });
