@@ -438,6 +438,9 @@ export function parseExpr(expr: string): Expression[] {
       let bool = match[1] == "true" || match[1] == "yes" ? true : false;
       tokens.push({ type: "boolean", value: bool });
       expr = match[2];
+    } else if ((match = expr.match(/^(null)([^\w\d_].*|$)$/))) {
+      tokens.push({ type: "null" });
+      expr = match[2];
     } else if ((match = expr.match(/^null([^\w\d_].*|$)$/))) {
       tokens.push({ type: "null" });
       expr = match[2];
