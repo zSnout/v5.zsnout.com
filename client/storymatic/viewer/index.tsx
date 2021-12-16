@@ -53,6 +53,38 @@ async function smWorker(thread: Thread<ScriptMessage, WorkerMessage>) {
     return new Promise((resolve) => setTimeout(resolve, 1000 * ms));
   }
 
+  function $random([min, max]: [any?, any?] = [0, 1]) {
+    min = +min;
+    max = +max;
+
+    if (Number.isNaN(min) || Number.isNaN(max)) return;
+
+    return Math.random() * (max - min) + min;
+  }
+
+  function $randint([min, max]: [any?, any?] = [0, 9]) {
+    min = +min;
+    max = +max;
+
+    if (Number.isNaN(min) || Number.isNaN(max)) return;
+
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function* $range([min, max]: [any?, any?] = [1, NaN]) {
+    min = +min;
+    max = +max;
+
+    if (Number.isNaN(min)) return;
+    if (Number.isNaN(max)) {
+      [max, min] = [min, 0];
+    }
+
+    for (let i = min; i <= max; i++) {
+      yield i;
+    }
+  }
+
   // This section prevents UglifyJS from removing the functions defined above.
   // We need to call each twice so Uglify doesn't inline them.
   if (Math.random() == Math.random()) {
@@ -70,6 +102,15 @@ async function smWorker(thread: Thread<ScriptMessage, WorkerMessage>) {
 
     $wait();
     $wait();
+
+    $random();
+    $random();
+
+    $randint();
+    $randint();
+
+    $range();
+    $range();
   }
 }
 
