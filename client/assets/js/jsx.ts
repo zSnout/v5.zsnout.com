@@ -384,6 +384,11 @@ export class zQuery extends Array<HTMLElement> {
     if (val === undefined) return this[0]?.getAttribute?.(key);
     return this.each((el) => el.setAttribute(key, val || ""));
   }
+
+  focus(): this {
+    this[0]?.focus();
+    return this;
+  }
 }
 
 /**
