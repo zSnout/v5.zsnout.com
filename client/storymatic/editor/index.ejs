@@ -1,0 +1,15 @@
+<%
+  title("Storymatic Playground");
+  desc("Write some Storymatic code and run it directly from your browser!");
+  css("./index.css");
+  css("/assets/css/cobalt2.css");
+  js("https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.13/ace.min.js");
+  js("../syntax.js");
+  js("./index.js");
+%>
+
+<div id="outereditor" class="cobalt2">
+  <div id="editor"></div>
+</div>
+
+<iframe id="viewer" src="/storymatic/viewer/?fullscreen"></iframe>

@@ -1,0 +1,28 @@
+@use "../.." as *;
+
+#main {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+}
+
+#outereditor {
+  border: 0.0625em solid $seperator;
+  border-radius: 0.5em;
+  height: calc(100% - 0.125em);
+  width: calc(100% - 0.125em);
+  padding: 0;
+  margin: 0;
+}
+
+#editor {
+  margin: 0.25em 0.25em 0.25em 0;
+  height: calc(100% - 0.5em);
+  width: calc(100% - 0.25em);
+}
+
+#viewer {
+  display: block;
+  width: 33%;
+  border: none;
+}
