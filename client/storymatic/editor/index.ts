@@ -12,30 +12,20 @@ function onchange() {
   if (skipChange) return;
 }
 
+$("#editor").text(`"Hello world!"\ndef @myfunc $param\n  # pass`);
+try {
+  let hash = location.hash.slice(1);
+  let script = atob(hash);
+  $("#editor").text(script);
+} catch {}
+
 let editor = edit("editor");
 editor.session.setMode("ace/mode/storymatic");
 
 let viewer = $("#viewer")[0] as HTMLIFrameElement;
 
-editor.setValue(`"Hello world!"\ndef @myfunc $param\n  # pass`);
-
 onchange();
-
 editor.session.on("change", onchange);
-
-declare global {
-  interface Storage {
-    /** The code in the Storymatic tester. */
-    smToJS?: string;
-  }
-}
-
-try {
-  let hash = location.hash.slice(1);
-  let script = atob(hash);
-
-  editor.setValue(script);
-} catch {}
 
 addEventListener("hashchange", (event) => {
   if (window.location.hash == "#!open") {
@@ -43,3 +33,10 @@ addEventListener("hashchange", (event) => {
     window.location.hash = btoa(editor.getValue());
   }
 });
+
+declare global {
+  interface Storage {
+    /** The code in the Storymatic tester. */
+    smToJS?: string;
+  }
+}
