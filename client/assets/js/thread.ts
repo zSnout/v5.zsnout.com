@@ -47,7 +47,7 @@ function prepareWorker(): Thread {
  * @param func The function to run inside the worker.
  * @returns A Blob containing the worker code.
  */
-function makeWorkerBlob(func: (thread: Thread) => void): Blob {
+function makeWorkerBlob(func: ((thread: Thread) => void) | string): Blob {
   return new Blob([`(${func})(${prepareWorker}())`], {
     type: "text/javascript",
   });
@@ -59,7 +59,7 @@ function makeWorkerBlob(func: (thread: Thread) => void): Blob {
  * @returns A Thread that can be used to exchange messages with the worker.
  */
 export default function thread<R, S = R>(
-  func: (thread: Thread<R, S>) => void
+  func: ((thread: Thread<R, S>) => void) | string
 ): Thread<S, R> {
   let blob = makeWorkerBlob(func);
   let url = URL.createObjectURL(blob);
