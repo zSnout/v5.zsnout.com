@@ -4,7 +4,8 @@ import { storyToJS } from "../lib.js";
 
 type ScriptMessage =
   | { type: "field"; value: string }
-  | { type: "menu"; index: number };
+  | { type: "menu"; index: number }
+  | { type: "submit" };
 
 type WorkerMessage =
   | { type: "text"; content: string }
@@ -36,6 +37,36 @@ async function smWorker(thread: Thread<ScriptMessage, WorkerMessage>) {
 
       if (value.type == "field") {
         return value.value;
+      }
+    }
+  }
+
+  async function $inputnum([data]: [any?] = []) {
+    _print(data);
+
+    while (true) {
+      let { value } = await thread.reciever.next();
+
+      if (value.type == "field") {
+        let num = +value.value;
+        if (Number.isNaN(num)) _print("Sorry, you have to use a number!");
+        else return value.value;
+      }
+    }
+  }
+
+  async function $yesno([data]: [any?] = []) {
+    _print(data);
+
+    while (true) {
+      let { value } = await thread.reciever.next();
+
+      if (value.type == "field") {
+        let val = value.value.toLowerCase().trim();
+        if (val == "true" || val == "yes" || val == "y") return true;
+        if (val == "false" || val == "no" || val == "n") return false;
+
+        _print("Sorry, you need to write 'yes' or 'no'!");
       }
     }
   }
@@ -117,7 +148,13 @@ async function smWorker(thread: Thread<ScriptMessage, WorkerMessage>) {
   }
 
   async function $pause() {
-    await thread.reciever.next();
+    while (true) {
+      let {
+        value: { type },
+      } = await thread.reciever.next();
+
+      if (type == "field" || type == "submit") break;
+    }
   }
 
   async function $clear() {
@@ -162,6 +199,15 @@ async function smWorker(thread: Thread<ScriptMessage, WorkerMessage>) {
 
     $pause();
     $pause();
+
+    $clear();
+    $clear();
+
+    $inputnum();
+    $inputnum();
+
+    $yesno();
+    $yesno();
   }
 }
 
@@ -176,7 +222,9 @@ $("#fieldform").on("submit", (event) => {
     worker.send({ type: "field", value: field.val() });
     output.prepend(<p className="user">{field.val()}</p>);
     field.val("");
-  } else field.val("");
+  } else if (worker) {
+    worker.send({ type: "submit" });
+  }
 });
 
 field.focus();
