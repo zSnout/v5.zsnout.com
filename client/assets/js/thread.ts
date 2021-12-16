@@ -10,7 +10,7 @@ export interface Thread<R = any, S = R> {
   kill(): void;
 
   /** A receiver that contains all data from the thread. */
-  reciever: AsyncIterableIterator<R>;
+  reciever: AsyncGenerator<R, never>;
 }
 
 /**
@@ -28,7 +28,7 @@ function prepareWorker(): Thread {
       (resolve) => (globalThis.onmessage = ({ data }) => resolve(data))
     );
 
-  async function* reciever() {
+  async function* reciever(): AsyncGenerator<any, never> {
     while (true) {
       let data = await onMessage();
       yield data;
@@ -70,7 +70,7 @@ export default function thread<R, S = R>(
       (resolve) => (worker.onmessage = ({ data }) => resolve(data))
     );
 
-  async function* reciever(): AsyncGenerator<S> {
+  async function* reciever(): AsyncGenerator<S, never> {
     while (true) {
       yield await onMessage();
     }
