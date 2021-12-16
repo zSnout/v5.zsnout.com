@@ -1,0 +1,44 @@
+@use "../.." as *;
+
+#field,
+#output {
+  display: block;
+  border: none;
+  margin: none;
+  font-size: 1em;
+}
+
+#field {
+  background: $element;
+  padding: $margin;
+  width: calc(100% - (2 * $margin));
+  border-radius: 0.5em;
+  color: $text-color;
+
+  &::placeholder {
+    color: $text-color;
+    opacity: 0.5;
+  }
+
+  @include focus {
+    background: $focused;
+  }
+}
+
+#output {
+  padding: 0 $margin;
+
+  p {
+    margin: 0;
+    margin-top: $margin;
+
+    &:last-child {
+      border-bottom-left-radius: 0.5em;
+      border-bottom-right-radius: 0.5em;
+    }
+
+    &.user {
+      font-style: italic;
+    }
+  }
+}
