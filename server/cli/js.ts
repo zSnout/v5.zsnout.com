@@ -24,6 +24,7 @@ export async function buildFile(file: string) {
         },
         url: basename(file) + ".map",
       },
+      mangle: { keep_fnames: true },
     });
     if (minified.error) throw minified.error;
 
