@@ -41,6 +41,39 @@
     &.special {
       font-style: italic;
     }
+
+    &.menu {
+      display: flex;
+      gap: $margin;
+      flex-flow: row wrap;
+      align-items: center;
+
+      button {
+        background: $element;
+        color: $text-color;
+        border: none;
+        font-size: 1em;
+        padding: 0.25em 0.5em;
+        border-radius: 0.25em;
+
+        &:enabled {
+          cursor: pointer;
+
+          @include focus {
+            background: $focused;
+          }
+        }
+
+        &:disabled {
+          display: none;
+
+          &.selected {
+            display: inline;
+            background: $focused;
+          }
+        }
+      }
+    }
   }
 
   hr {
