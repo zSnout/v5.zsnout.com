@@ -37,7 +37,8 @@
       border-bottom-right-radius: 0.5em;
     }
 
-    &.user {
+    &.user,
+    &.special {
       font-style: italic;
     }
   }

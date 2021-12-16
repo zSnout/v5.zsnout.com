@@ -100,6 +100,8 @@ addEventListener("message", async ({ data, origin }) => {
     worker?.kill();
     output.empty();
 
+    output.prepend(<p className="special">Running program...</p>);
+
     worker = thread(
       `${smWorker.toString().slice(0, -1)}\n\n${storyToJS(
         data.code
@@ -108,13 +110,10 @@ addEventListener("message", async ({ data, origin }) => {
 
     for await (let data of worker.reciever) {
       if (data.type == "kill") {
-        output.prepend(
-          <p>
-            <i>This program ended.</i>
-          </p>
-        );
-
+        output.prepend(<p className="special">This program ended.</p>);
         worker = null;
+
+        break;
       }
 
       if (data.type == "text") output.prepend(<p>{data.content}</p>);
