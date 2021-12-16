@@ -89,34 +89,43 @@ $("#fieldform").on("submit", (event) => {
 
 field.focus();
 
-addEventListener("message", async ({ data, origin }) => {
-  if (
-    typeof data == "object" &&
-    data !== null &&
-    typeof data.code == "string"
-  ) {
-    if (origin && origin != location.origin) return;
+/**
+ * Starts a Storymatic program.
+ * @param script The script to run.
+ */
+async function startProgram(script: string) {
+  worker?.kill();
+  output.empty();
 
-    worker?.kill();
-    output.empty();
+  output.prepend(<p className="special">Running program...</p>);
 
-    output.prepend(<p className="special">Running program...</p>);
+  worker = thread(
+    `${smWorker.toString().slice(0, -1)}\n\n${storyToJS(script)}\n$kill()\n}`
+  );
 
-    worker = thread(
-      `${smWorker.toString().slice(0, -1)}\n\n${storyToJS(
-        data.code
-      )}\n$kill()\n}`
-    );
+  for await (let data of worker.reciever) {
+    if (data.type == "kill") {
+      output.prepend(<p className="special">This program ended.</p>);
+      worker = null;
 
-    for await (let data of worker.reciever) {
-      if (data.type == "kill") {
-        output.prepend(<p className="special">This program ended.</p>);
-        worker = null;
-
-        break;
-      }
-
-      if (data.type == "text") output.prepend(<p>{data.content}</p>);
+      break;
     }
+
+    if (data.type == "text") output.prepend(<p>{data.content}</p>);
   }
-});
+}
+
+/** Checks the window hash and tries to start a Storymatic program from it. */
+function checkHash() {
+  if (location.hash) {
+    try {
+      let hash = location.hash.slice(1);
+      let script = atob(hash);
+
+      startProgram(script);
+    } catch {}
+  }
+}
+
+checkHash();
+window.addEventListener("hashchange", checkHash);
