@@ -8,6 +8,7 @@ type ScriptMessage =
 
 type WorkerMessage =
   | { type: "text"; content: string }
+  | { type: "line" }
   | { type: "menu"; items: string[]; query?: string }
   | { type: "kill" };
 
@@ -110,6 +111,14 @@ async function smWorker(thread: Thread<ScriptMessage, WorkerMessage>) {
     menu.push([String(data), callback]);
   }
 
+  async function $line() {
+    thread.send({ type: "line" });
+  }
+
+  async function $pause() {
+    await thread.reciever.next();
+  }
+
   // This section prevents UglifyJS from removing the functions defined above.
   // We need to call each twice so Uglify doesn't inline them.
   if (Math.random() == Math.random()) {
@@ -142,6 +151,12 @@ async function smWorker(thread: Thread<ScriptMessage, WorkerMessage>) {
 
     $option();
     $option();
+
+    $line();
+    $line();
+
+    $pause();
+    $pause();
   }
 }
 
@@ -181,10 +196,13 @@ async function startProgram(script: string) {
 
     if (data.type == "text") {
       output.prepend(<p>{data.content}</p>);
+    } else if (data.type == "line") {
+      output.prepend(<hr />);
     } else if (data.type == "menu") {
       function send(index: number) {
         worker?.send?.({ type: "menu", index });
         menu.children().each((el) => ((el as any).disabled = true));
+        $(menu.children()[index]).addClass("selected");
       }
 
       let menu = <p className="menu">{data.query ? data.query + " " : ""}</p>;
