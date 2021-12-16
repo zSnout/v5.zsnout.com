@@ -385,9 +385,22 @@ export class zQuery extends Array<HTMLElement> {
     return this.each((el) => el.setAttribute(key, val || ""));
   }
 
+  /**
+   * Focuses the first element in this zQuery.
+   * @returns The current zQuery to allow for chaining.
+   */
   focus(): this {
     this[0]?.focus();
     return this;
+  }
+
+  /**
+   * Finds all children of the first element in this zQuery.
+   * @returns A zQuery contaning the children.
+   */
+  children(): zQuery {
+    if (this[0]) return new zQuery(...(this[0].children as any));
+    else return new zQuery();
   }
 }
 
