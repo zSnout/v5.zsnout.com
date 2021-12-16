@@ -2,16 +2,13 @@ import $, { jsx } from "../../assets/js/jsx.js";
 import thread, { Thread } from "../../assets/js/thread.js";
 import { storyToJS } from "../lib.js";
 
-type ScriptMessage = {
-  type: "field";
-  value: string;
-};
+type ScriptMessage =
+  | { type: "field"; value: string }
+  | { type: "menu"; index: number };
 
 type WorkerMessage =
-  | {
-      type: "text";
-      content: string;
-    }
+  | { type: "text"; content: string }
+  | { type: "menu"; items: string[]; query?: string }
   | { type: "kill" };
 
 /**
@@ -85,6 +82,34 @@ async function smWorker(thread: Thread<ScriptMessage, WorkerMessage>) {
     }
   }
 
+  let menu: [option: string, callback: Function][] = [];
+  async function $menu([data]: [any?] = [], init?: Function) {
+    if (!init) return;
+
+    let myMenu: [option: string, callback: Function][] = (menu = []);
+    await init();
+
+    thread.send({
+      type: "menu",
+      query: data ? String(data) : undefined,
+      items: myMenu.map(([option]) => option),
+    });
+
+    while (true) {
+      let { value } = await thread.reciever.next();
+
+      if (value.type == "menu") {
+        await myMenu[value.index]?.[1]?.();
+        break;
+      }
+    }
+  }
+
+  async function $option([data]: [any?] = [], callback?: Function) {
+    if ((!data && data !== false && data !== 0) || !callback) return;
+    menu.push([String(data), callback]);
+  }
+
   // This section prevents UglifyJS from removing the functions defined above.
   // We need to call each twice so Uglify doesn't inline them.
   if (Math.random() == Math.random()) {
@@ -111,6 +136,12 @@ async function smWorker(thread: Thread<ScriptMessage, WorkerMessage>) {
 
     $range();
     $range();
+
+    $menu();
+    $menu();
+
+    $option();
+    $option();
   }
 }
 
@@ -148,7 +179,23 @@ async function startProgram(script: string) {
       break;
     }
 
-    if (data.type == "text") output.prepend(<p>{data.content}</p>);
+    if (data.type == "text") {
+      output.prepend(<p>{data.content}</p>);
+    } else if (data.type == "menu") {
+      function send(index: number) {
+        worker?.send?.({ type: "menu", index });
+        menu.children().each((el) => ((el as any).disabled = true));
+      }
+
+      let menu = <p className="menu">{data.query ? data.query + " " : ""}</p>;
+      menu.append(
+        ...data.items.map((option, index) => (
+          <button onClick={() => send(index)}>{option}</button>
+        ))
+      );
+
+      output.prepend(menu);
+    }
   }
 }
 
