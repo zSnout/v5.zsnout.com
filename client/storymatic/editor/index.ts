@@ -7,27 +7,18 @@ function onchange() {
   if (viewer.contentWindow)
     viewer.contentWindow.location.hash = btoa(editor.getValue());
 
-  if (skipChange) return;
-  localStorage.smToJS = editor.getValue();
-}
+  window.location.hash = btoa(editor.getValue());
 
-window.addEventListener("storage", (ev) => {
-  if (ev.key == "smToJS" && ev.newValue) {
-    skipChange = true;
-    editor.session.setValue(ev.newValue);
-    skipChange = false;
-  }
-});
+  if (skipChange) return;
+}
 
 let editor = edit("editor");
 editor.session.setMode("ace/mode/storymatic");
 
 let viewer = $("#viewer")[0] as HTMLIFrameElement;
 
-localStorage.smToJS =
-  localStorage.smToJS || `"Hello world!"\ndef @myfunc $param\n  # pass`;
+editor.setValue(`"Hello world!"\ndef @myfunc $param\n  # pass`);
 
-editor.session.setValue(localStorage.smToJS);
 onchange();
 
 editor.session.on("change", onchange);
@@ -39,10 +30,16 @@ declare global {
   }
 }
 
-addEventListener("hashchange", (event) => {
-  if (window.location.hash == "#open") {
-    open("/storymatic/viewer/#" + btoa(editor.getValue()), "_blank");
-  }
+try {
+  let hash = location.hash.slice(1);
+  let script = atob(hash);
 
-  window.location.hash = "";
+  editor.setValue(script);
+} catch {}
+
+addEventListener("hashchange", (event) => {
+  if (window.location.hash == "#!open") {
+    open("/storymatic/viewer/#" + btoa(editor.getValue()), "_blank");
+    window.location.hash = btoa(editor.getValue());
+  }
 });
