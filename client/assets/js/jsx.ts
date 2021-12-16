@@ -48,7 +48,7 @@ export class zQuery extends Array<HTMLElement> {
   text(content: string): this;
 
   text(content?: string): string | this {
-    if (!content) return this[0]?.textContent || "";
+    if (content === undefined) return this[0]?.textContent || "";
     else return this.each((el) => (el.textContent = content));
   }
 
@@ -66,7 +66,7 @@ export class zQuery extends Array<HTMLElement> {
   html(content: string): this;
 
   html(content?: string): string | this {
-    if (!content) return this[0]?.innerHTML || "";
+    if (content === undefined) return this[0]?.innerHTML || "";
     else return this.each((el) => (el.innerHTML = content));
   }
 
@@ -361,7 +361,7 @@ export class zQuery extends Array<HTMLElement> {
   val(val: string): this;
 
   val(val?: string): this | string {
-    if (!val) return (this[0] as any)?.value || null;
+    if (val === undefined) return (this[0] as any)?.value || null;
     return this.each((el) => ((el as any).value = val));
   }
 
