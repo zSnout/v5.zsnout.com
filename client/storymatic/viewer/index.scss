@@ -42,4 +42,9 @@
       font-style: italic;
     }
   }
+
+  hr {
+    border: none;
+    border-top: 0.125em solid $seperator;
+  }
 }
