@@ -4,7 +4,9 @@ import $ from "../../assets/js/jsx.js";
 let skipChange = false;
 
 function onchange() {
-  viewer.contentWindow?.postMessage({ code: editor.getValue() });
+  if (viewer.contentWindow)
+    viewer.contentWindow.location.hash = btoa(editor.getValue());
+
   if (skipChange) return;
   localStorage.smToJS = editor.getValue();
 }
@@ -36,3 +38,11 @@ declare global {
     smToJS?: string;
   }
 }
+
+addEventListener("hashchange", (event) => {
+  if (window.location.hash == "#open") {
+    open("/storymatic/viewer/#" + btoa(editor.getValue()), "_blank");
+  }
+
+  window.location.hash = "";
+});
