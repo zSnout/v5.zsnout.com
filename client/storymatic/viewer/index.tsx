@@ -8,8 +8,9 @@ type ScriptMessage =
 
 type WorkerMessage =
   | { type: "text"; content: string }
-  | { type: "line" }
   | { type: "menu"; items: string[]; query?: string }
+  | { type: "line" }
+  | { type: "clear" }
   | { type: "kill" };
 
 /**
@@ -119,6 +120,10 @@ async function smWorker(thread: Thread<ScriptMessage, WorkerMessage>) {
     await thread.reciever.next();
   }
 
+  async function $clear() {
+    thread.send({ type: "clear" });
+  }
+
   // This section prevents UglifyJS from removing the functions defined above.
   // We need to call each twice so Uglify doesn't inline them.
   if (Math.random() == Math.random()) {
@@ -198,6 +203,8 @@ async function startProgram(script: string) {
       output.prepend(<p>{data.content}</p>);
     } else if (data.type == "line") {
       output.prepend(<hr />);
+    } else if (data.type == "clear") {
+      output.empty();
     } else if (data.type == "menu") {
       function send(index: number) {
         worker?.send?.({ type: "menu", index });
