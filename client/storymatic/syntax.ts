@@ -66,15 +66,47 @@ ace.define(
             regex: /\d+(?:\.\d+)?/,
           },
           {
+            token: "constant.language",
+            regex: /true|false|null/,
+          },
+          {
             token: "string",
             regex: /"/,
             next: "string-doublequote",
           },
+          {
+            token: "string",
+            regex: /'/,
+            next: "string-singlequote",
+          },
         ],
         "string-doublequote": [
           {
+            token: "constant.language.escape",
+            regex: /\\./,
+          },
+          {
             token: "string",
             regex: /"|$/,
+            next: "start",
+          },
+          {
+            token: "variable.storymatic",
+            regex: /\$[\w_][\w\d_]*/,
+          },
+          {
+            token: "string",
+            regex: /./,
+          },
+        ],
+        "string-singlequote": [
+          {
+            token: "constant.language.escape",
+            regex: /\\./,
+          },
+          {
+            token: "string",
+            regex: /'|$/,
             next: "start",
           },
           {
