@@ -10,6 +10,7 @@ export function edit(el: zQuery | HTMLElement | string): AceAjax.Editor {
 
   let editor = (ace.edit as any)(el as any, { useWorker: false });
   editor.setFontSize("1em");
+  editor.setOption("fontFamily", "'Fira Code', monospace");
   editor.setShowPrintMargin(false);
   editor.setOption("scrollPastEnd", true);
   editor.session.setUseWrapMode(true);
