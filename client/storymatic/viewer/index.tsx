@@ -1,6 +1,6 @@
 import $, { jsx } from "../../assets/js/jsx.js";
 import thread, { Thread } from "../../assets/js/thread.js";
-import { storyToJS } from "../lib.js";
+import { indent, storyToJS } from "../lib.js";
 
 type ScriptMessage =
   | { type: "field"; value: string }
@@ -12,7 +12,7 @@ type WorkerMessage =
   | { type: "menu"; items: string[]; query?: string }
   | { type: "line" }
   | { type: "clear" }
-  | { type: "kill" };
+  | { type: "kill"; error?: string };
 
 /**
  * The main Storymatic worker.
@@ -71,9 +71,13 @@ async function smWorker(thread: Thread<ScriptMessage, WorkerMessage>) {
     }
   }
 
-  async function $kill() {
-    thread.send({ type: "kill" });
-    thread.kill();
+  async function $kill([data]: [any?] = []) {
+    if (data === null || typeof data == "undefined" || data === "")
+      thread.send({ type: "kill" });
+
+    thread.send({ type: "kill", error: String(data) });
+
+    return new Promise<void>(() => {});
   }
 
   function $wait([ms]: [any?] = []) {
@@ -236,14 +240,35 @@ field.focus();
 async function startProgram(script: string) {
   worker?.kill();
   output.empty();
+  output.prepend(
+    <p className="special">
+      If you see this message, the program failed to run. Check that your syntax
+      is correct.
+    </p>
+  );
 
   worker = thread(
-    `${smWorker.toString().slice(0, -1)}\n\n${storyToJS(script)}\n$kill()\n}`
+    `${smWorker.toString().slice(0, -1)}
+    $clear();
+
+    try {
+      ${indent(storyToJS(script))}
+    } catch {
+      $kill(["An error occured while running this program!"]);
+    }
+
+    $kill();
+    
+    }`
   );
 
   for await (let data of worker.reciever) {
     if (data.type == "kill") {
+      if (data.error) output.prepend(<p className="special">{data.error}</p>);
+
+      worker.kill();
       worker = null;
+
       break;
     }
 
