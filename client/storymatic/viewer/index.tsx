@@ -233,6 +233,25 @@ $("#fieldform").on("submit", (event) => {
 
 field.focus();
 
+function makeTag(data: string) {
+  let tag = <p>{data}</p>;
+  let isBold = false;
+  let isItalic = false;
+
+  tag.html(
+    tag.html().replace(/_|\*/g, (match) => {
+      if (match == "_") isItalic = !isItalic;
+      if (match == "*") isBold = !isBold;
+
+      if (match == "*") return `<${isBold ? "" : "/"}b>`;
+      if (match == "_") return `<${isItalic ? "" : "/"}i>`;
+      return "";
+    })
+  );
+
+  return tag;
+}
+
 /**
  * Starts a Storymatic program.
  * @param script The script to run.
@@ -273,7 +292,7 @@ async function startProgram(script: string) {
     }
 
     if (data.type == "text") {
-      output.prepend(<p>{data.content}</p>);
+      output.prepend(makeTag(data.content));
     } else if (data.type == "line") {
       output.prepend(<hr />);
     } else if (data.type == "clear") {
@@ -285,7 +304,8 @@ async function startProgram(script: string) {
         $(menu.children()[index]).addClass("selected");
       }
 
-      let menu = <p className="menu">{data.query ? data.query + " " : ""}</p>;
+      let menu = makeTag(data.query ? data.query + " " : "");
+      menu.addClass("menu");
       menu.append(
         ...data.items.map((option, index) => (
           <button onClick={() => send(index)}>{option}</button>
