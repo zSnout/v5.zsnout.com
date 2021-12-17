@@ -18,13 +18,16 @@
 
   @mixin theme-light {
     --background: #fff;
-    --element: #f0f0f0;
-    --focused: #e0e0e0;
+    --element: #a9d1d4;
+    --focused: #62a1a5;
 
     --text-color: #000;
-    --heading-color: #404040;
+    --heading-color: #13474b;
     --shadow: #000;
     --seperator: #13474b;
+
+    --selection-bg: #b0b0b0;
+    --selection-color: black;
   }
 
   @mixin theme-dark {
