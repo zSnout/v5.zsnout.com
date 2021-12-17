@@ -33,10 +33,3 @@ addEventListener("hashchange", (event) => {
     window.location.hash = btoa(editor.getValue());
   }
 });
-
-declare global {
-  interface Storage {
-    /** The code in the Storymatic tester. */
-    smToJS?: string;
-  }
-}
