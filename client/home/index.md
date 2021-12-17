@@ -23,6 +23,7 @@ js: ./index.js
 [TicTacToe Generator](/tictactoe/generator/)
 [Storymatic Playground](/storymatic/playground/)
 [Storymatic To JavaScript](/storymatic/smtojs/)
+[Bookmarklet Creator](/bookmarklet/)
 
 #### Blog Articles
 
