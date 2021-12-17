@@ -43,9 +43,9 @@ js: ./index.js
 
 \buttonlist
 [Cache Manager](/installation/)
-<button id="theme-native">Use Native Theme</button>
+<button id="theme-aqua">Use Aqua Theme</button>
 <button id="theme-light">Use Light Theme</button>
-<button id="theme-dark">Use Aqua Theme</button>
+<button id="theme-dark">Use Dark Theme</button>
 
 #### External Resources
 

@@ -2,6 +2,20 @@
 @use "sass:math";
 
 :root {
+  @mixin theme-aqua {
+    --background: #073739;
+    --element: #13474b;
+    --focused: #167175;
+
+    --text-color: #fff;
+    --heading-color: #70aca8;
+    --shadow: #fff;
+    --seperator: #418183;
+
+    --selection-bg: #7ca2a4;
+    --selection-color: #000;
+  }
+
   @mixin theme-light {
     --background: #fff;
     --element: #f0f0f0;
@@ -17,30 +31,18 @@
   }
 
   @mixin theme-dark {
-    --background: #073739;
-    --element: #13474b;
-    --focused: #167175;
-
-    --text-color: #fff;
-    --heading-color: #70aca8;
-    --shadow: #fff;
-    --seperator: #418183;
-
-    --selection-bg: #7ca2a4;
-    --selection-color: #000;
+    --background: #181818;
+    --element: #282828;
+    --focused: #404040;
   }
 
-  @include theme-light;
+  @include theme-aqua;
 
-  @include dark {
-    @include theme-dark;
-  }
-
-  &.light {
+  &.theme-light {
     @include theme-light;
   }
 
-  &.dark {
+  &.theme-dark {
     @include theme-dark;
   }
 
