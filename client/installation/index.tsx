@@ -10,8 +10,9 @@ function bytesToWord(bytes: number) {
 async function clearCache(dir: string) {
   let cache = await caches.open("v1");
   let keys = (await cache.keys())
-    .map((e) => new URL(e.url).pathname)
-    .filter((e) => e.startsWith(dir));
+    .map((e) => new URL(e.url))
+    .map(({ origin, href }) => href.slice(origin.length))
+    .filter((e) => e.startsWith(dir.slice(0, -1)));
 
   await Promise.all(keys.map((e) => cache.delete(e)));
   reload();
@@ -96,7 +97,7 @@ function reload() {
           ([, a], [, b]) => b - a
         );
         let buttons = fullDirSizes.map(([dir, size]) => (
-          <button onClick={clearCache.bind(null, dir)}>
+          <button onClick={() => clearCache(dir)}>
             {dir.slice(1, -1)} - {bytesToWord(size)}
           </button>
         ));
