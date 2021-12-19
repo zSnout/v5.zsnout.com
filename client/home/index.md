@@ -11,7 +11,7 @@ js: ./index.js
 - [General Pages](#general-pages)
 - [Blog Articles](#blog-articles)
 - [Math Articles](#math-articles)
-- [Choose a theme!](#choose-a-theme)
+- [Website Themes](#website-themes)
 - [External Resources](#external-resources)
 
 #### General Pages
@@ -41,7 +41,7 @@ js: ./index.js
 [Proving That 0 = 1](/math/does-0-equal-1/)
 [1 + 2 + 3 + 4 ... = 1/12?](/math/infinity-is-0.0833/)
 
-#### Choose a theme!
+#### Website Themes
 
 \buttonlist
 <button id="theme-aqua">Use Aqua Theme</button>
