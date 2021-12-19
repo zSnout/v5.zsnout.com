@@ -11,7 +11,7 @@ js: ./index.js
 - [General Pages](#general-pages)
 - [Blog Articles](#blog-articles)
 - [Math Articles](#math-articles)
-- [Settings](#settings)
+- [Choose a theme!](#choose-a-theme)
 - [External Resources](#external-resources)
 
 #### General Pages
@@ -19,6 +19,7 @@ js: ./index.js
 \buttonlist
 [Sign Up](/account/create/)
 [Log In](/account/login/)
+[Cache Manager](/installation/)
 [Bingo Board](/bingo/)
 [TicTacToe Generator](/tictactoe/generator/)
 [Storymatic Playground](/storymatic/playground/)
@@ -40,13 +41,13 @@ js: ./index.js
 [Proving That 0 = 1](/math/does-0-equal-1/)
 [1 + 2 + 3 + 4 ... = 1/12?](/math/infinity-is-0.0833/)
 
-#### Settings
+#### Choose a theme!
 
 \buttonlist
-[Cache Manager](/installation/)
 <button id="theme-aqua">Use Aqua Theme</button>
 <button id="theme-light">Use Light Theme</button>
 <button id="theme-dark">Use Dark Theme</button>
+<button id="theme-yellow-pink">Use Yellow/Pink Theme</button>
 
 #### External Resources
 

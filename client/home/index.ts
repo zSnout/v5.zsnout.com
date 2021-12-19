@@ -14,6 +14,7 @@ function setTheme(theme: typeof localStorage.theme) {
 $("#theme-aqua").on("click", () => setTheme("aqua"));
 $("#theme-light").on("click", () => setTheme("light"));
 $("#theme-dark").on("click", () => setTheme("dark"));
+$("#theme-yellow-pink").on("click", () => setTheme("yellow-pink"));
 
 if (localStorage.auth)
   fetch(
