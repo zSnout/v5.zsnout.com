@@ -1,0 +1,42 @@
+@use ".." as *;
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#grid {
+  border-radius: 0.5em;
+
+  div {
+    height: 1.5625em;
+    margin: 0;
+    white-space: nowrap;
+
+    span {
+      display: inline-block;
+      width: 1.5em;
+      height: 1.5em;
+      background: $element;
+      border-right: 0.0625em solid $seperator;
+      border-bottom: 0.0625em solid $seperator;
+
+      &:first-child {
+        border-left: 0.0625em solid $seperator;
+      }
+
+      &.filled {
+        background: $focused;
+      }
+    }
+
+    &:first-child {
+      height: 1.625em;
+
+      span {
+        border-top: 0.0625em solid $seperator;
+      }
+    }
+  }
+}

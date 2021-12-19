@@ -1,0 +1,15 @@
+<%
+  title("Game of Life");
+  desc("Run a Conway's Game of Life simulation in your browser!");
+  css("./index.css");
+  js("./index.js");
+  nav("Add Row", "@addrow", "home");
+  nav("Remove Row", "@minrow", "home");
+  nav("Add Column", "@addcol", "home");
+  nav("Remove Column", "@mincol", "home");
+  nav("Step", "@step", "next");
+  nav("Play", "@play", "play");
+  nav("Pause", "@pause", "pause");
+%>
+
+<div id="grid"></div>

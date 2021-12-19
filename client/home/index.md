@@ -25,6 +25,7 @@ js: ./index.js
 [Storymatic Playground](/storymatic/playground/)
 [Storymatic To JavaScript](/storymatic/smtojs/)
 [Bookmarklet Creator](/bookmarklet/)
+[Conway's Game of Life](/gameoflife/)
 
 #### Blog Articles
 
