@@ -317,18 +317,6 @@ export function unique<T = number>(...items: ItemList<T>) {
   return [...new Set(items.flat())] as T[];
 }
 
-/** An array of either `T` or arrays of `T`. May be recursive. */
-export type FlattableArrayOf<T> = readonly (T | FlattableArrayOf<T>)[];
-
-/**
- * Flattens `items` into a single array.
- * @param items The set to look in.
- * @returns `items` flattened to a single array.
- */
-export function flatten<T>(...items: FlattableArrayOf<T>): T[] {
-  return items.flat(Infinity);
-}
-
 /**
  * Finds elements in `items` that are within the inclusive range [min, max].
  * @param min The minimum value to allow.
