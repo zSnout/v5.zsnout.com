@@ -3,11 +3,11 @@ import { createNotification } from "./notification.js";
 
 /** Checks the current theme set in `localStorage` and updates the page accordingly. */
 export function checkTheme() {
-  $.root.removeClass("theme-light", "theme-aqua", "theme-dark");
+  $.root[0].classList.forEach((className) => {
+    if (className.startsWith("theme-")) $.root[0].classList.remove(className);
+  });
 
-  if (localStorage.theme == "light") $.root.addClass("theme-light");
-  else if (localStorage.theme == "dark") $.root.addClass("theme-dark");
-  else (localStorage.theme = "aqua"), $.root.addClass("theme-aqua");
+  $.root.addClass(`theme-${localStorage.theme}`);
 }
 
 checkTheme();
@@ -24,7 +24,7 @@ window.addEventListener(
 declare global {
   interface Storage {
     /** The user's selected theme. When omitted, use the native theme. */
-    theme?: "light" | "aqua" | "dark";
+    theme?: "light" | "aqua" | "dark" | "yellow-pink";
   }
 }
 
