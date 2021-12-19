@@ -88,6 +88,7 @@ $navbar-height: 1.5em;
   margin: 0 auto;
 
   a {
+    cursor: pointer;
     padding: math.div($margin, 2);
     border-radius: math.div($margin, 4);
 
