@@ -27,9 +27,6 @@ let viewer = $("#viewer")[0] as HTMLIFrameElement;
 onchange();
 editor.session.on("change", onchange);
 
-addEventListener("hashchange", (event) => {
-  if (window.location.hash == "#!open") {
-    open("/storymatic/viewer/#" + btoa(editor.getValue()), "_blank");
-    window.location.hash = btoa(editor.getValue());
-  }
+$("#icon-open").on("click", () => {
+  open("/storymatic/viewer/#" + btoa(editor.getValue()), "_blank");
 });
