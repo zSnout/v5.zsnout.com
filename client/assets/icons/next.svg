@@ -1,8 +1,3 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="18px"
-  height="18px"
-  viewBox="2 2 20 20"
->
+<svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="2 2 20 20">
   <polygon id="icon" points="6.23,20.23 8,22 18,12 8,2 6.23,3.77 14.46,12" />
 </svg>
