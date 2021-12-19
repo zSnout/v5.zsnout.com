@@ -36,6 +36,18 @@
     --focused: #404040;
   }
 
+  &.theme-yellow-pink {
+    --background: #ffffc0;
+    --element: #ffc0c0;
+    --focused: #cf8484;
+
+    --text-color: #000;
+    --heading-color: #910091;
+
+    --selection-bg: #ffff83;
+    --selection-color: #000;
+  }
+
   @media only print {
     @include theme-light;
   }
