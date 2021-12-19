@@ -93,7 +93,12 @@ function makeIcon(title: string, href: string, icon: string) {
   href = xml(href);
   icon = xml(icon);
 
-  return `<a href="${href}" title="${title}">
+  // Make an href when `href` doesn't start with `@`, otherwise assign an ID of `icon-href`.
+  let goto = href.startsWith("@")
+    ? `id="icon-${href.slice(1)}"`
+    : `href="${href}"`;
+
+  return `<a ${goto} title="${title}">
   <svg viewBox="2 2 20 20" width="18px" height="18px">
     <use href="/assets/icons/${icon}.svg#icon" />
   </svg>
