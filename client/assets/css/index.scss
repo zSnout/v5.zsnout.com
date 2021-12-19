@@ -183,7 +183,7 @@ $navbar-height: 1.5em;
   position: fixed;
   bottom: $margin-bottom;
   background: $element;
-  box-shadow: $shadow 0 0 0.375em 0.0625em;
+  box-shadow: $seperator 0 0 0.375em 0.0625em;
   transition: opacity 1s;
   display: flex;
   gap: $margin;
