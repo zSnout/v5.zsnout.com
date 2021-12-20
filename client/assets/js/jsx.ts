@@ -402,6 +402,16 @@ export class zQuery extends Array<HTMLElement> {
     if (this[0]) return new zQuery(...(this[0].children as any));
     else return new zQuery();
   }
+
+  /**
+   * Selects all descendents of elements within this zQuery that match the selector.
+   * @param selector The selector to search for.
+   * @returns A zQuery containing elements that match the selector.
+   */
+  select(selector: string): zQuery {
+    let result = this.map((el) => [...el.querySelectorAll(selector)]).flat();
+    return new zQuery(...(result as HTMLElement[]));
+  }
 }
 
 /**
