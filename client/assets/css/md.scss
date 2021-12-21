@@ -6,7 +6,6 @@
   min-width: 200px;
   max-width: 980px;
   margin: 0 auto;
-  padding: 6 * $margin;
   line-height: 1.5;
   font-family: $sans;
   word-wrap: break-word;
@@ -245,7 +244,6 @@
     height: calc(100% - (12 * $margin));
 
     @include small {
-      padding: 2 * $margin;
       height: calc(100% - (4 * $margin));
     }
 

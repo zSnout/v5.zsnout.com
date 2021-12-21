@@ -9,6 +9,8 @@ $seperator: var(--seperator);
 $selection-bg: var(--selection-bg);
 $selection-color: var(--selection-color);
 
+$outer-margin: var(--outer-margin);
+
 $serif: "Cambria", "Cochin", "Georgia", "Times", "Times New Roman", serif;
 $sans: "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen",
   "Ubuntu", "Cantarell", "Open Sans", "Helvetica Neue", sans-serif;
@@ -22,9 +24,9 @@ $inset-bottom: env(safe-area-inset-bottom, 0);
 $inset-right: env(safe-area-inset-right, 0);
 
 $margin-top: calc($inset-top + $margin);
-$margin-left: calc($inset-left + $margin);
-$margin-bottom: calc($inset-bottom + $margin);
-$margin-right: calc($inset-right + $margin);
+$margin-left: calc($outer-margin + $inset-left);
+$margin-bottom: calc($outer-margin + $inset-bottom);
+$margin-right: calc($outer-margin + $inset-right);
 
 @mixin small {
   @media (max-width: 500px), (max-height: 500px) {
