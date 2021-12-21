@@ -22,6 +22,20 @@ let board = split.map((e) =>
     .slice(0, maxlen)
 );
 
+if (!board.length || !board[0].length)
+  board = [
+    [false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, true, true, true, false, false, false, false],
+    [false, false, false, false, false, true, false, false, false, false],
+    [false, false, false, false, true, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false],
+  ];
+
 /**
  * Creates a <span> element with an optional `filled` class.
  * @param obj The JSX attributes passed to this function.
