@@ -31,7 +31,7 @@ interface RenderOptions extends Assets {
 /** A list of assets that are included in built HTML files. */
 let baseAssets: Assets = {
   meta: [],
-  styles: ["/assets/css/index.css"],
+  styles: ["/assets/css/index.css", "/assets/css/theme.css"],
   scripts: ["/assets/js/index.js"],
 };
 
