@@ -4,6 +4,6 @@ desc: Verify your zSnout account by clicking the link in your email.
 js: ./index.js
 ---
 
-\centered
+\centerdoc
 
 \subheader Verifying your account...
