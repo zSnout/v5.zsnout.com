@@ -161,6 +161,28 @@
     background: $element;
   }
 
+  table {
+    overflow-x: auto;
+    border-spacing: 0;
+    border-collapse: collapse;
+    min-width: 50%;
+    max-width: 100%;
+    margin: 0 auto;
+    margin-bottom: $margin;
+    text-align: center;
+
+    thead {
+      font-weight: bold;
+      background: $element;
+    }
+
+    td,
+    th {
+      border: 0.0625em solid $seperator;
+      padding: $margin;
+    }
+  }
+
   p {
     &.buttonlist {
       display: grid;
