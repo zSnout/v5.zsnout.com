@@ -35,7 +35,7 @@ As we explain the process, we'll use **December 16, 2482** as an example.
 ## Month Codes
 
 |    Month | Value |     Month | Value |
-| -------: | ----- | --------: | ----- |
+| -------: | :---- | --------: | :---- |
 |  January | 1\*   |      July | 0     |
 | February | 4\*   |    August | 3     |
 |    March | 4     | September | 6     |
@@ -47,8 +47,8 @@ For leap years, use 2 for January and 5 for February.
 
 ## Century Codes
 
-|                   Century | Value |
-| ------------------------: | ----- |
+| Century                   | Value |
+| ------------------------- | ----- |
 | 1700s, 2100s, 2500s, etc. | 4     |
 | 1800s, 2200s, 2600s, etc. | 2     |
 | 1900s, 2300s, 2700s, etc. | 0     |
@@ -57,11 +57,11 @@ For leap years, use 2 for January and 5 for February.
 ## Day Codes
 
 | Value | Day       |
-| ----: | --------- |
-|     0 | Saturday  |
-|     1 | Sunday    |
-|     2 | Monday    |
-|     3 | Tuesday   |
-|     4 | Wednesday |
-|     5 | Thursday  |
-|     6 | Friday    |
+| ----- | --------- |
+| 0     | Saturday  |
+| 1     | Sunday    |
+| 2     | Monday    |
+| 3     | Tuesday   |
+| 4     | Wednesday |
+| 5     | Thursday  |
+| 6     | Friday    |
