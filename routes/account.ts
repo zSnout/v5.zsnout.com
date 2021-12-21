@@ -109,7 +109,7 @@ server.capture(
         res
           .status(HTTPCode.NotFound)
           .error(
-            "We don't have a user with that username. Make sure you spelled the name correctly, or #FINDYOURUSERNAME#."
+            "We don't have a user with that username. Make sure you spelled the name correctly, or contact zSnout to find your username."
           );
         break;
 
