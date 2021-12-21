@@ -142,15 +142,15 @@ function step() {
 let timerID: number | null = null;
 
 /** Plays the animation continously. */
-function play() {
-  if (timerID) return;
-  timerID = setInterval(step, 100) as any as number;
-}
-
-/** Plays the animation continously. */
-function pause() {
-  if (timerID) clearInterval(timerID);
-  timerID = null;
+function playpause() {
+  if (timerID) {
+    $("#icon-playpause use").attr("href", "/assets/icons/play.svg#icon");
+    clearInterval(timerID);
+    timerID = null;
+  } else {
+    $("#icon-playpause use").attr("href", "/assets/icons/pause.svg#icon");
+    timerID = setInterval(step, 100) as any as number;
+  }
 }
 
 $.root.on("mousedown", onClick);
@@ -158,8 +158,7 @@ $.root.on("mouseup", onClick);
 grid.on("mousemove", onClick);
 
 $("#icon-step").on("click", step);
-$("#icon-play").on("click", play);
-$("#icon-pause").on("click", pause);
+$("#icon-playpause").on("click", playpause);
 
 $("#icon-addrow").on("click", () => {
   board.push(Array(board[0].length).fill(false));

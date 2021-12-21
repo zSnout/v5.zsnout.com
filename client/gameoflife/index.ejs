@@ -3,13 +3,12 @@
   desc("Run a Conway's Game of Life simulation in your browser!");
   css("./index.css");
   js("./index.js");
-  nav("Add Row", "@addrow", "home");
-  nav("Remove Row", "@minrow", "home");
-  nav("Add Column", "@addcol", "home");
-  nav("Remove Column", "@mincol", "home");
-  nav("Step", "@step", "next");
-  nav("Play", "@play", "play");
-  nav("Pause", "@pause", "pause");
+  nav("Add Row", "@addrow", "grow");
+  nav("Add Column", "@addcol", "grow-horiz");
+  nav("Remove Row", "@minrow", "shrink");
+  nav("Remove Column", "@mincol", "shrink-horiz");
+  nav("Step", "@step", "skip_next");
+  nav("Play/Pause", "@playpause", "play");
 %>
 
 <div id="grid"></div>
