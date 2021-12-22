@@ -32,7 +32,7 @@ export function getRecentlyVisited(): { href: string; title: string }[] | null {
       complete.push({ href: data.href, title: data.title });
     }
 
-    return complete.slice(0, 10);
+    return complete.slice(0, 12);
   } catch {
     return null;
   }
@@ -69,7 +69,7 @@ if (new URL(location.href).searchParams.has("embed")) $.root.addClass("embed");
 
 window.addEventListener("storage", (event) => {
   if (event.key == "theme") checkTheme();
-  if (event.key == "lastVisited") checkRecentlyVisited();
+  if (event.key == "recentlyVisited") checkRecentlyVisited();
 });
 
 declare global {
@@ -119,6 +119,7 @@ if (recentlyVisited) {
     ({ href }) => href != location.pathname
   );
   recentlyVisited.unshift({ href: location.pathname, title: document.title });
+  recentlyVisited = recentlyVisited.slice(0, 12);
   localStorage.recentlyVisited = JSON.stringify(recentlyVisited);
 } else {
   resetRecentlyVisited();
@@ -134,7 +135,7 @@ declare global {
     /** The time of the last install. */
     lastInstallTime?: string;
 
-    /** A JSON list of the last 10 pages the user visited. */
+    /** A JSON list of the last 12 pages the user visited. */
     recentlyVisited?: string;
   }
 }
