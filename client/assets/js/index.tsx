@@ -41,26 +41,26 @@ export function getRecentlyVisited(): { href: string; title: string }[] | null {
 /** Checks the "Recently Visited" page list and updates the footer accordingly. */
 export function checkRecentlyVisited() {
   let recentlyVisited = getRecentlyVisited();
+  let footer = $("#last-visited")
+    .empty()
+    .append(<a href="/home/">Home</a>);
+
   if (!recentlyVisited) return;
 
-  try {
-    let footer = $("#last-visited")
-      .empty()
-      .append(<a href="/home/">Home</a>);
-
-    for (let { href, title } of recentlyVisited)
-      footer.append(<a href={href}>{title}</a>);
-  } catch {}
+  for (let { href, title } of recentlyVisited)
+    footer.append(<a href={href}>{title}</a>);
 }
 
 /** Reset the "Recently Visited" list. */
 function resetRecentlyVisited() {
-  localStorage.recentlyVisited = JSON.stringify([
-    {
-      href: location.pathname,
-      title: document.title,
-    },
-  ]);
+  if (location.pathname != "/home/")
+    localStorage.recentlyVisited = JSON.stringify([
+      {
+        href: location.pathname,
+        title: document.title,
+      },
+    ]);
+  else localStorage.recentlyVisited = "[]";
 }
 
 checkTheme();
