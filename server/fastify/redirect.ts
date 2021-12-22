@@ -1,6 +1,12 @@
 import server from "..";
 
 server.decorate("redirect", (path: string, redirectTo: string) => {
+  if (!path.endsWith("/")) {
+    server.get(path + "/", (req, res) => {
+      res.redirect(redirectTo);
+    });
+  }
+
   server.get(path, (req, res) => {
     res.redirect(redirectTo);
   });
