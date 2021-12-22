@@ -45,7 +45,13 @@
     --selection-color: #000;
   }
 
-  @media only print {
-    @include theme-light;
+  @media print {
+    --background: #fff !important;
+    --element: #e0e0e0 !important;
+    --focused: #c0c0c0 !important;
+
+    --text-color: #000 !important;
+    --heading-color: #000 !important;
+    --seperator: #000 !important;
   }
 }
