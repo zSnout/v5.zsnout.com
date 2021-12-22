@@ -23,7 +23,7 @@ $inset-left: env(safe-area-inset-left, 0);
 $inset-bottom: env(safe-area-inset-bottom, 0);
 $inset-right: env(safe-area-inset-right, 0);
 
-$margin-top: calc($inset-top + $margin);
+$margin-top: calc($margin + $inset-top);
 $margin-left: calc($outer-margin + $inset-left);
 $margin-bottom: calc($outer-margin + $inset-bottom);
 $margin-right: calc($outer-margin + $inset-right);

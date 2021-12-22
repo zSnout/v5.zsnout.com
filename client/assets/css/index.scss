@@ -85,18 +85,7 @@ $navbar-height: 1.5em;
   margin: 0 auto;
 }
 
-.nonav {
-  #nav {
-    display: none;
-  }
-
-  #outer {
-    top: 0;
-    padding: $margin-top $margin-right $margin-bottom $margin-left;
-  }
-}
-
-.fullscreen {
+.embed {
   #nav {
     display: none;
   }

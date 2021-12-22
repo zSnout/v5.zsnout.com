@@ -12,9 +12,7 @@ export function checkTheme() {
 
 checkTheme();
 
-if (new URL(location.href).searchParams.has("nonav")) $.root.addClass("nonav");
-if (new URL(location.href).searchParams.has("fullscreen"))
-  $.root.addClass("fullscreen");
+if (new URL(location.href).searchParams.has("embed")) $.root.addClass("embed");
 
 window.addEventListener(
   "storage",
