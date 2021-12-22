@@ -32,7 +32,7 @@ export function getRecentlyVisited(): { href: string; title: string }[] | null {
       complete.push({ href: data.href, title: data.title });
     }
 
-    return complete;
+    return complete.slice(0, 10);
   } catch {
     return null;
   }
