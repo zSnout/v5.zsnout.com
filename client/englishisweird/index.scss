@@ -3,7 +3,10 @@
 main {
   p {
     margin: 0;
-    margin-bottom: $margin;
+    margin-bottom: 2 * $margin;
+  }
+
+  p:not(:first-child) {
     font-size: 1.5em;
     display: flex;
     gap: $margin;
