@@ -32,7 +32,7 @@ export function getRecentlyVisited(): { href: string; title: string }[] | null {
       complete.push({ href: data.href, title: data.title });
     }
 
-    return complete.slice(0, 12);
+    return complete.slice(0, 11);
   } catch {
     return null;
   }
@@ -40,16 +40,16 @@ export function getRecentlyVisited(): { href: string; title: string }[] | null {
 
 /** Checks the "Recently Visited" page list and updates the footer accordingly. */
 export function checkRecentlyVisited() {
-  if (!localStorage.recentlyVisited) return;
+  let recentlyVisited = getRecentlyVisited();
+  if (!recentlyVisited) return;
 
   try {
-    let lastVisited = JSON.parse(localStorage.recentlyVisited);
-    let footer = $("#last-visited").empty();
+    let footer = $("#last-visited")
+      .empty()
+      .append(<a href="/home/">Home</a>);
 
-    if (Array.isArray(lastVisited))
-      for (let { href, title } of lastVisited) {
-        footer.append(<a href={href}>{title}</a>);
-      }
+    for (let { href, title } of recentlyVisited)
+      footer.append(<a href={href}>{title}</a>);
   } catch {}
 }
 
@@ -114,12 +114,12 @@ if (
 }
 
 let recentlyVisited = getRecentlyVisited();
-if (recentlyVisited) {
+if (recentlyVisited && location.pathname != "/home/") {
   recentlyVisited = recentlyVisited.filter(
     ({ href }) => href != location.pathname
   );
   recentlyVisited.unshift({ href: location.pathname, title: document.title });
-  recentlyVisited = recentlyVisited.slice(0, 12);
+  recentlyVisited = recentlyVisited.slice(0, 11);
   localStorage.recentlyVisited = JSON.stringify(recentlyVisited);
 } else {
   resetRecentlyVisited();
@@ -135,7 +135,7 @@ declare global {
     /** The time of the last install. */
     lastInstallTime?: string;
 
-    /** A JSON list of the last 12 pages the user visited. */
+    /** A JSON list of the last 11 pages the user visited. */
     recentlyVisited?: string;
   }
 }
