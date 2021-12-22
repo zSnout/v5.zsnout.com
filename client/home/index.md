@@ -53,6 +53,6 @@ js: ./index.js
 #### External Resources
 
 \buttonlist
-[Website Source Code](/gh/repo)
+[All Website Code](/gh/repo)
 [zSnout on GitHub](/gh/zsnout)
 [Contributors to zSnout](/gh/contributors)

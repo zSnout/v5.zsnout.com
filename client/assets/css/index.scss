@@ -85,8 +85,64 @@ $navbar-height: 1.5em;
   margin: 0 auto;
 }
 
-.embed {
-  #nav {
+#outer-footer {
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: $outer-margin $margin-right $outer-margin $margin-left;
+  border-top: 0.0625em solid $seperator;
+  background: $element;
+  margin-top: $outer-margin;
+
+  #footer {
+    width: min(100%, 980px);
+    margin: 0 auto;
+  }
+
+  div {
+    display: grid;
+    grid-gap: $margin;
+    grid-template-columns: repeat(auto-fill, minmax(min(15em, 100%), 1fr));
+
+    a,
+    button {
+      background: $focused;
+      border-radius: 0.25em;
+      color: $text-color;
+      text-decoration: none;
+      font-size: 1em;
+      border: 0;
+      line-height: 1.5;
+      position: relative;
+      padding: 0.25em 0.5em;
+      text-align: center;
+      cursor: pointer;
+
+      @include focus {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  h1 {
+    padding: 0;
+    margin: 0;
+    margin-bottom: $margin;
+    font-size: 1.5em;
+    color: $heading-color;
+  }
+
+  hr {
+    border: 0;
+    border-top: 0.125em solid $seperator;
+    margin: $margin 0;
+  }
+}
+
+@mixin embed {
+  #nav,
+  #outer-footer {
     display: none;
   }
 
@@ -100,19 +156,12 @@ $navbar-height: 1.5em;
   }
 }
 
+.embed {
+  @include embed;
+}
+
 @include print {
-  #nav {
-    display: none;
-  }
-
-  #outer {
-    top: 0;
-    padding: 0;
-  }
-
-  #main {
-    max-width: initial;
-  }
+  @include embed;
 }
 
 .notification {
