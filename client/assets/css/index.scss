@@ -101,6 +101,7 @@ $navbar-height: 1.5em;
   }
 
   div {
+    margin-bottom: $margin;
     display: grid;
     grid-gap: $margin;
     grid-template-columns: repeat(auto-fill, minmax(min(15em, 100%), 1fr));
@@ -137,6 +138,14 @@ $navbar-height: 1.5em;
     border: 0;
     border-top: 0.125em solid $seperator;
     margin: $margin 0;
+  }
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
   }
 }
 
