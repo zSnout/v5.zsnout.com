@@ -2,16 +2,19 @@
 
 main {
   p {
+    margin: 0;
     margin-bottom: $margin;
     font-size: 1.5em;
+    display: flex;
+    gap: $margin;
+    flex-wrap: wrap;
   }
 
-  p > strong {
+  p > strong em {
+    letter-spacing: normal;
     font-weight: normal;
     padding: 0.25em 0.5em;
     background: $element;
-    border: 0.0625em solid $seperator;
-    margin-right: $margin;
     border-radius: 0.25em;
   }
 
@@ -21,8 +24,6 @@ main {
     background: $element;
     padding: 0 0.125em 0 0.25em;
     border-radius: 0.25em;
-    margin-right: $margin;
-    white-space: nowrap;
 
     strong {
       padding: 0.125em 0.125em 0.125em 0.25em;
