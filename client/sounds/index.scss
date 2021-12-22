@@ -1,0 +1,34 @@
+@use ".." as *;
+
+main {
+  p {
+    margin-bottom: $margin;
+    font-size: 1.5em;
+  }
+
+  p > strong {
+    font-weight: normal;
+    padding: 0.25em 0.5em;
+    background: $element;
+    border: 0.0625em solid $seperator;
+    margin-right: $margin;
+    border-radius: 0.25em;
+  }
+
+  em {
+    font-style: normal;
+    letter-spacing: 0.125em;
+    background: $element;
+    padding: 0 0.125em 0 0.25em;
+    border-radius: 0.25em;
+    margin-right: $margin;
+    white-space: nowrap;
+
+    strong {
+      padding: 0.125em 0.125em 0.125em 0.25em;
+      border-radius: 0.25em;
+      background: $focused;
+      margin-right: 0.125em;
+    }
+  }
+}
