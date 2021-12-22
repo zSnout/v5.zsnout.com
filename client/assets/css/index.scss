@@ -128,8 +128,8 @@ $navbar-height: 1.5em;
 
   h1 {
     padding: 0;
-    margin: 0;
-    margin-bottom: $margin;
+    margin: $margin 0;
+    // margin-bottom: $margin;
     font-size: 1.5em;
     color: $heading-color;
   }
@@ -140,12 +140,14 @@ $navbar-height: 1.5em;
     margin: $margin 0;
   }
 
-  > :first-child {
-    margin-top: 0;
-  }
+  #footer {
+    > :first-child {
+      margin-top: 0;
+    }
 
-  > :last-child {
-    margin-bottom: 0;
+    > :last-child {
+      margin-bottom: 0;
+    }
   }
 }
 
