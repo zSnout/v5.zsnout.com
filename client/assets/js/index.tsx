@@ -114,7 +114,10 @@ if (
 }
 
 let recentlyVisited = getRecentlyVisited();
-if (recentlyVisited && location.pathname != "/home/") {
+
+if (location.pathname == "/home/") {
+  // skip homepage
+} else if (recentlyVisited) {
   recentlyVisited = recentlyVisited.filter(
     ({ href }) => href != location.pathname
   );
