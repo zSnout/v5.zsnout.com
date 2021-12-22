@@ -5,6 +5,7 @@ let cacheID = "v1";
 let files = [
   "/offline/",
   "/assets/css/index.css",
+  "/assets/css/theme.css",
   "/assets/css/md.css",
   "/assets/js/index.js",
   "/assets/js/jsx.js",
