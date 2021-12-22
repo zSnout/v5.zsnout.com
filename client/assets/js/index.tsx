@@ -10,14 +10,14 @@ export function checkTheme() {
   $.root.addClass(`theme-${localStorage.theme}`);
 }
 
-/** Gets all pages in the "Last Visited" list. */
-export function getLastVisited(): { href: string; title: string }[] | null {
-  if (!localStorage.lastVisited) return null;
+/** Gets all pages in the "Recently Visited" list. */
+export function getRecentlyVisited(): { href: string; title: string }[] | null {
+  if (!localStorage.recentlyVisited) return null;
 
   try {
     let lastVisited;
     try {
-      lastVisited = JSON.parse(localStorage.lastVisited);
+      lastVisited = JSON.parse(localStorage.recentlyVisited);
     } catch {
       return null;
     }
@@ -38,12 +38,12 @@ export function getLastVisited(): { href: string; title: string }[] | null {
   }
 }
 
-/** Checks the "Last Visited" page list and updates the footer accordingly. */
-export function checkLastVisited() {
-  if (!localStorage.lastVisited) return;
+/** Checks the "Recently Visited" page list and updates the footer accordingly. */
+export function checkRecentlyVisited() {
+  if (!localStorage.recentlyVisited) return;
 
   try {
-    let lastVisited = JSON.parse(localStorage.lastVisited);
+    let lastVisited = JSON.parse(localStorage.recentlyVisited);
     let footer = $("#last-visited").empty();
 
     if (Array.isArray(lastVisited))
@@ -53,9 +53,9 @@ export function checkLastVisited() {
   } catch {}
 }
 
-/** Reset the "Last Visited" list. */
-function resetLastVisited() {
-  localStorage.lastVisited = JSON.stringify([
+/** Reset the "Recently Visited" list. */
+function resetRecentlyVisited() {
+  localStorage.recentlyVisited = JSON.stringify([
     {
       href: location.pathname,
       title: document.title,
@@ -69,7 +69,7 @@ if (new URL(location.href).searchParams.has("embed")) $.root.addClass("embed");
 
 window.addEventListener("storage", (event) => {
   if (event.key == "theme") checkTheme();
-  if (event.key == "lastVisited") checkLastVisited();
+  if (event.key == "lastVisited") checkRecentlyVisited();
 });
 
 declare global {
@@ -113,16 +113,18 @@ if (
   });
 }
 
-let lastVisited = getLastVisited();
-if (lastVisited) {
-  lastVisited = lastVisited.filter(({ href }) => href != location.pathname);
-  lastVisited.unshift({ href: location.pathname, title: document.title });
-  localStorage.lastVisited = JSON.stringify(lastVisited);
+let recentlyVisited = getRecentlyVisited();
+if (recentlyVisited) {
+  recentlyVisited = recentlyVisited.filter(
+    ({ href }) => href != location.pathname
+  );
+  recentlyVisited.unshift({ href: location.pathname, title: document.title });
+  localStorage.recentlyVisited = JSON.stringify(recentlyVisited);
 } else {
-  resetLastVisited();
+  resetRecentlyVisited();
 }
 
-checkLastVisited();
+checkRecentlyVisited();
 
 declare global {
   interface Storage {
@@ -133,6 +135,6 @@ declare global {
     lastInstallTime?: string;
 
     /** A JSON list of the last 10 pages the user visited. */
-    lastVisited?: string;
+    recentlyVisited?: string;
   }
 }
