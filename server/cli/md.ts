@@ -128,7 +128,7 @@ export async function getRawData(
 
     return {
       markdown,
-      title: meta.title || basename(file, ".md"),
+      title: meta.title || "",
       desc: meta.desc || "",
       html,
       js,
