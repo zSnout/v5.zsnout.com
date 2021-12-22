@@ -40,7 +40,7 @@ js: ./index.js
 [Force People to Think Of 1089](/math/forcing-1089/)
 [Is It A Thursday? Calculate It!](/math/calculating-weekdays/)
 [Proving That 0 = 1](/math/does-0-equal-1/)
-[1 + 2 + 3 + 4 ... = 1/12?](/math/infinity-is-0.0833/)
+[1 + 2 + 3 + 4 ... = -1/12?](/math/infinity-is-0.0833/)
 
 #### Website Themes
 
