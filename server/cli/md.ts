@@ -52,8 +52,12 @@ export interface MarkdownFileData {
 
   /** A list of CSS resources this page needs. */
   css: string[];
+
+  /** If set to `true` doesn't include 'assets/css/md.css' stylesheet. */
+  renderOnly: boolean;
 }
 
+/** The YAML front-matter of a document. */
 export interface MarkdownMeta {
   /** The title of the document. */
   title?: string;
@@ -66,6 +70,9 @@ export interface MarkdownMeta {
 
   /** CSS resources this page needs. */
   css?: string | string[];
+
+  /** If set to `true` doesn't include 'assets/css/md.css' stylesheet. */
+  renderOnly?: boolean;
 }
 
 /**
@@ -123,7 +130,15 @@ export async function getRawData(
 
     html = pruneIDs(html);
 
-    return { markdown, title, desc, html, js, css };
+    return {
+      markdown,
+      title,
+      desc,
+      html,
+      js,
+      css,
+      renderOnly: meta.renderOnly || false,
+    };
   } catch {
     return null;
   }
@@ -199,9 +214,16 @@ export async function buildFile(file: string): Promise<void> {
   let rawData = await getRawData(file);
   if (!rawData) return;
 
-  let { title: pretitle, desc: predesc, html: body, css, js } = rawData;
+  let {
+    title: pretitle,
+    desc: predesc,
+    html: body,
+    css,
+    js,
+    renderOnly,
+  } = rawData;
 
-  css.push("/assets/css/md.css");
+  if (!renderOnly) css.push("/assets/css/md.css");
 
   let title = escapeJS(pretitle);
   let desc = escapeJS(predesc);
