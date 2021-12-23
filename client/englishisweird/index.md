@@ -13,7 +13,7 @@ Each row has the phonetic sound (found by googling "define ..."), a way to prono
 
 ---
 
-_**Ə** **uh** Schwa_ _sciss**o**rs_ _sampl**e**_ _res**ea**rch_ _**u**pside_ _llam**a**_
+_**Ə** **uh** Schwa_ _res**ea**rch_ _**u**pside_ _llam**a**_ _pter**o**dact**y**l_
 
 _**A** **ah** Short A_ _**a**pple_
 
@@ -25,29 +25,43 @@ _**B** **b** B_ _**b**liss_
 
 _**D** **d** D_ _**d**ip_ _tenta**ti**ve_
 
-_**E** **eh** Short E_ _**e**ssay_
+_**E** **eh** Short E_ _**e**ssay_ _r**ea**d_
 
-_**Ē** **ee** Long E_ _r**e**search_ _s**ee**ing_ _necessar**y**_
+_**Ē** **ee** Long E_ _r**e**search_ _s**ee**ing_ _necessar**y**_ _aer**i**al_ _r**ea**d_
 
 _**F** **f** F_ _**f**ish_ _**ph**one_ _tou**gh**_
+
+_**G** **g** Hard G_ _**g**ood_
+
+_**GˈZ** **gz** X_ _e**x**ample_
+
+_**H** **h** H_ _**h**yperbole_
 
 _**I** **ih** Short I_ _**i**nside_ _f**y**tte_
 
 _**Ī** **eye** Long I_ _ups**i**de_ _**eye**_
 
-_**K** **k** Hard C / K_ _**c**oo**k**ie_
+_**J** **j** J_ _**j**ust_
+
+_**K** **k** Hard C / K_ _**c**oo**k**ie_ _sto**ck**s_
+
+_**KˈS** **ks** X_ _a**x**is_
 
 _**L** **l** L_ _**l**eft_ _**ll**ama_
 
-_**Ô** **awe** AW_ _**awe**some_ _sh**o**rt_
+_**M** **m** M_ _**m**eet_
+
+_**N** **n** N_ _**n**eck_ _**kn**ot_ _**pn**eumonia_ _**mn**emonic_
+
+_**Ô** **awe** AW_ _**awe**some_ _sh**o**rt_ _p**aw**_
 
 _**P** **p** P_ _**p**umpkin_ _a**pp**le_
 
 _**R** **r** R_ _pape**r**_
 
-_**S** **s** S_ _**s**ample_ _**ps**alm_ _ne**c**e**ss**ary_
+_**S** **s** Soft C / S_ _**ps**alm_ _ne**c**e**ss**ary_ _in**s**tan**ce**_
 
-_**SH** **sh** SH_ _**sh**ort_ _na**ti**on_ _fu**chsi**a_ _con**sci**ous_
+_**SH** **sh** SH_ _**sh**ort_ _na**ti**on_ _fu**chsi**a_ _con**sci**ous_ _**sch**lep_ _fi**ss**ion_
 
 _**T** **t** T_ _ei**ght**_ _**pt**erodac**t**yl_
 
@@ -55,4 +69,8 @@ _**U** **uh** U_ _vo**w**el_
 
 _**V** **v** V_ _**v**owel_
 
-_**Z** **z** Z_ _sci**ss**ors_
+_**W** **w / hw** W_ _**w**ater_ _**wh**at_
+
+_**Y** **j / y** Y or J_ _**y**ou_
+
+_**Z** **z** Z_ _sci**ss**or**s**_ _**xy**lophone_
