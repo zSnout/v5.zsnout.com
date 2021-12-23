@@ -9,7 +9,7 @@ desc: A comprehensive list of weird examples of English spelling.
 
 I've always thought that English spelling is weird. For example, the "gh" in "tough" makes a "f" sound, the "o" in "women" makes a "ih" sound, and the "chsi" in "fuchsia" makes a "sh" sound. By assembling these, we can rewrite "fish" as "ghochsi"! This page is a compilation of different spellings for specific sounds.
 
-Each row has the phonetic sound (as defined by googling "define ..."), letters making up the sound, and the name associated with the sound. To use this list, replace each sound in a word with a corresponding sequence from the list.
+Each row has the phonetic sound (found by googling "define ..."), a way to pronounce the sound, and the name associated with the sound. To use this list, replace each sound in a word with a corresponding sequence from the list. For example, we could replace the "ay" sound in "eight" with "a" (from "amazing") and the "t" sound with "pt" (from "pterodactyl") to make "aypt". Ta da!
 
 ---
 
@@ -49,7 +49,7 @@ _**S** **s** S_ _**s**ample_ _e**ss**ay_ _**ps**alm_
 
 _**SH** **sh** SH_ _**sh**ort_ _na**ti**on_ _fu**chsi**a_ _con**sci**ous_
 
-_**T** **t** T_ _a**t**e_ _ei**ght**_ _**pt**erodac**t**yl_
+_**T** **t** T_ _ei**ght**_ _**pt**erodac**t**yl_
 
 _**U** **uh** U_ _vo**w**el_
 
