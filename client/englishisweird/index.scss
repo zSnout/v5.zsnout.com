@@ -1,24 +1,23 @@
 @use ".." as *;
 
 main {
-  p {
+  .intro p {
     margin: 0;
-    margin-bottom: 2 * $margin;
+    margin-bottom: $margin;
   }
 
-  p:not(:first-child) {
+  hr {
+    border: 0;
+    border-top: 0.125em solid $seperator;
+    margin: 1em 0;
+  }
+
+  p:not(.intro p) {
     font-size: 1.5em;
     display: flex;
     gap: $margin;
     flex-wrap: wrap;
-  }
-
-  p > strong em {
-    letter-spacing: normal;
-    font-weight: normal;
-    padding: 0.25em 0.5em;
-    background: $element;
-    border-radius: 0.25em;
+    margin: $margin 0;
   }
 
   em {
@@ -33,6 +32,21 @@ main {
       border-radius: 0.25em;
       background: $focused;
       margin-right: 0.125em;
+    }
+
+    &:first-child {
+      font-weight: normal;
+      letter-spacing: 0;
+      padding: 0 0.25em 0 0;
+      outline: 0.0625em solid $seperator;
+
+      strong {
+        margin-right: 0;
+        border-radius: 0;
+        border-top-left-radius: 0.25em;
+        border-bottom-left-radius: 0.25em;
+        padding: 0 0.25em;
+      }
     }
   }
 }
