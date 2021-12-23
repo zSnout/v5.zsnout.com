@@ -27,13 +27,13 @@ _**D** **d** D_ _**d**ip_ _tenta**ti**ve_
 
 _**E** **eh** Short E_ _**e**ssay_
 
-_**Ē** **ee** Long E_ _r**e**search_ _s**ee**ing_
+_**Ē** **ee** Long E_ _r**e**search_ _s**ee**ing_ _necessar**y**_
 
 _**F** **f** F_ _**f**ish_ _**ph**one_ _tou**gh**_
 
 _**I** **ih** Short I_ _**i**nside_ _f**y**tte_
 
-_**Ī** **eye** Long I_ _ups**i**de_
+_**Ī** **eye** Long I_ _ups**i**de_ _**eye**_
 
 _**K** **k** Hard C / K_ _**c**oo**k**ie_
 
@@ -45,7 +45,7 @@ _**P** **p** P_ _**p**umpkin_ _a**pp**le_
 
 _**R** **r** R_ _pape**r**_
 
-_**S** **s** S_ _**s**ample_ _e**ss**ay_ _**ps**alm_
+_**S** **s** S_ _**s**ample_ _**ps**alm_ _ne**c**e**ss**ary_
 
 _**SH** **sh** SH_ _**sh**ort_ _na**ti**on_ _fu**chsi**a_ _con**sci**ous_
 
