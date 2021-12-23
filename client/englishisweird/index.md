@@ -13,8 +13,10 @@ To use this, replace each sound in a word with a corresponding sequence from thi
 
 ---
 
-_**Ə** Schwa (uh)_
+_**Ə** **uh** Schwa_
 
-_**Ā** Long A (ay)_ _am**a**zing_ _tod**ay**_ _**ei**ght_ _sl**eigh**_
+_**Ā** **ay** Long A_ _am**a**zing_ _tod**ay**_ _**ei**ght_ _sl**eigh**_
 
-_**T** (tuh)_ _a**t**e_ _ei**ght**_ _**pt**erodac**t**yl_
+_**D** **d** D_ _**d**ip_
+
+_**T** **t** T_ _a**t**e_ _ei**ght**_ _**pt**erodac**t**yl_
