@@ -13,7 +13,9 @@ Each row has the phonetic sound (found by googling "define ..."), a way to prono
 
 ---
 
-_**Ə** **uh** Schwa_ _res**ea**rch_ _**u**pside_ _llam**a**_ _pter**o**dact**y**l_
+\words
+
+_**Ə** **uh** Schwa_ _y**ea**rn_ _**u**pset_ _llam**a**_ _pterodact**y**l_ _ident**i**ty_ _**o**f_ _vow**e**l_
 
 _**A** **ah** Short A_ _**a**pple_
 
@@ -23,9 +25,9 @@ _**Ä** **aw** Another A_ _ll**a**ma_ _c**o**nscious_
 
 _**B** **b** B_ _**b**liss_
 
-_**D** **d** D_ _**d**ip_ _tenta**ti**ve_
+_**D** **d** D_ _**d**ip_ _tenta**ti**ve_ _aesthe**t**ic_
 
-_**E** **eh** Short E_ _**e**ssay_ _r**ea**d_
+_**E** **eh** Short E_ _**e**ssay_ _r**ea**d_ _**ae**sthetic_
 
 _**Ē** **ee** Long E_ _r**e**search_ _s**ee**ing_ _necessar**y**_ _aer**i**al_ _r**ea**d_
 
@@ -39,7 +41,7 @@ _**H** **h** H_ _**h**yperbole_
 
 _**I** **ih** Short I_ _**i**nside_ _f**y**tte_
 
-_**Ī** **eye** Long I_ _ups**i**de_ _**eye**_
+_**Ī** **eye** Long I_ _ups**i**de_ _**eye**_ _d**y**namic_
 
 _**J** **j** J_ _**j**ust_
 
@@ -53,7 +55,11 @@ _**M** **m** M_ _**m**eet_
 
 _**N** **n** N_ _**n**eck_ _**kn**ot_ _**pn**eumonia_ _**mn**emonic_
 
+_**Ō** *oh* Long O_ _f**oe**_ _**o**rganic_ _**o**rganism_
+
 _**Ô** **awe** AW_ _**awe**some_ _sh**o**rt_ _p**aw**_
+
+_**O͞O** **oo** Half U_ _b**oo**ing_ _y**ou**_ _concl**u**de_
 
 _**P** **p** P_ _**p**umpkin_ _a**pp**le_
 
@@ -74,3 +80,9 @@ _**W** **w / hw** W_ _**w**ater_ _**wh**at_
 _**Y** **j / y** Y or J_ _**y**ou_
 
 _**Z** **z** Z_ _sci**ss**or**s**_ _**xy**lophone_
+
+---
+
+_**WƏNS** **whopnce** Once_ _**wh**at_ _**o**f_ _**pn**eumonia_ _instan**ce**_
+
+_**KƏNˈKLO͞OSHƏN** **ckiknkllouscieamn** Conclusion_ _sto**ck**s_ _ident**i**ty_ _**kn**ot_ _coo**k**ie_ _**ll**ama_ _y**ou**_ _con**sci**ous_ _y**ea**rn_ _**mn**emonic_
