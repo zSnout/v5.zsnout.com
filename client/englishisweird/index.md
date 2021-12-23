@@ -43,7 +43,7 @@ _**I** **ih** Short I_ _**i**nside_ _f**y**tte_
 
 _**Ī** **eye** Long I_ _ups**i**de_ _**eye**_ _d**y**namic_
 
-_**J** **j** J_ _**j**ust_
+_**J** **j** J_ _**j**ust_ _ba**dge**_
 
 _**K** **k** Hard C / K_ _**c**oo**k**ie_ _sto**ck**s_
 
@@ -77,11 +77,21 @@ _**V** **v** V_ _**v**owel_
 
 _**W** **w / hw** W_ _**w**ater_ _**wh**at_
 
-_**Y** **j / y** Y or J_ _**y**ou_
+_**Y** **j / y** J or Y_ _**y**ou_
+
+_**YO͞O** **yoo** Long U_ _**you**_ _**u**biquitous_
 
 _**Z** **z** Z_ _sci**ss**or**s**_ _**xy**lophone_
 
 ---
+
+\intro
+
+The following are examples of using this list to create new words with the same sounds. Each example label has the phonetic sound, the final word, and the original word. Each row also shows each word used to create the final word.
+
+DISCLAIMER: You cannot actually mix sounds this way; words have rules governing they way you say them. For example, "ps" can only make the "s" sound at the beginning of a word. This is just a thought experiment.
+
+\words
 
 _**WƏNS** **whopnce** Once_ _**wh**at_ _**o**f_ _**pn**eumonia_ _instan**ce**_
 

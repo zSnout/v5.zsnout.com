@@ -9,12 +9,11 @@ main {
   hr {
     border: 0;
     border-top: 0.125em solid $seperator;
-    margin: 1em 0 0 0;
+    margin: 0.75em 0 0 0;
   }
 
   .words + hr {
-    margin: 0;
-    border-style: dashed;
+    margin: 0 0 0.75em 0;
   }
 
   p:not(.intro p) {
