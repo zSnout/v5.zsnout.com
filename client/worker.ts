@@ -11,7 +11,7 @@ let files = [
   "/assets/js/jsx.js",
   "/assets/icons/home.svg",
   "/manifest.json",
-] as const;
+];
 
 /** The handler for the `fetch` event. */
 async function onFetch(event: WindowEventMap["fetch"]) {
