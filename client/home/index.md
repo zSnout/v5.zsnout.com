@@ -26,6 +26,7 @@ js: ./index.js
 [Storymatic To JavaScript](/storymatic/smtojs/)
 [Bookmarklet Creator](/bookmarklet/)
 [Conway's Game of Life](/gameoflife/)
+[English Is Weird...](/englishisweird/)
 
 #### Blog Articles
 
