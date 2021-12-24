@@ -182,7 +182,7 @@ $navbar-height: 1.5em;
   max-width: calc(100% - 4 * $margin);
   border-radius: $margin;
   position: fixed;
-  bottom: $margin-bottom;
+  bottom: calc($inset-bottom + $margin);
   background: $element;
   box-shadow: $seperator 0 0 0.375em 0.0625em;
   transition: opacity 1s;
@@ -212,7 +212,8 @@ $navbar-height: 1.5em;
     color: $text-color;
     font-size: inherit;
     padding: 0.125em 0.25em;
-    border-radius: 0.125em;
+    border: 0.0625em solid $seperator;
+    border-radius: 0.25em;
     cursor: pointer;
 
     @include focus {
