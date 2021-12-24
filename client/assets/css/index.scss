@@ -205,7 +205,6 @@ html {
   }
 
   button {
-    appearance: none;
     background: transparent;
     border: none;
     color: $text-color;
@@ -229,4 +228,13 @@ html {
 ::selection {
   background: $selection-bg;
   color: $selection-color;
+}
+
+main {
+  input,
+  button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
 }
