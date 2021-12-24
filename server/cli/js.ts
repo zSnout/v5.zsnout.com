@@ -14,13 +14,14 @@ export async function buildFile(file: string) {
     if (!file.endsWith(".js")) throw new Error(`${file} is not a JS file.`);
 
     let sourcemap = JSON.parse(await readFile(file + ".map", "utf8"));
+    let isTSX = sourcemap.sources[0].endsWith(".tsx");
     let javascript = await readFile(file, "utf8");
 
     let minified = minify(javascript, {
       sourceMap: {
         content: {
           ...sourcemap,
-          sources: [basename(file).replace(".js", ".ts")],
+          sources: [basename(file).replace(".js", isTSX ? ".tsx" : ".ts")],
         },
         url: basename(file) + ".map",
       },
