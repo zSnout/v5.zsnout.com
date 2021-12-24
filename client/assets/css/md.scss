@@ -6,6 +6,7 @@
   line-height: 1.5;
   font-family: $sans;
   word-wrap: break-word;
+  width: 100%;
 
   a,
   button {
@@ -235,10 +236,12 @@
   }
 
   &.center {
-    display: flex;
-    flex-flow: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     text-align: center;
-    height: calc(100% - (12 * $margin));
+    display: block;
 
     @include small {
       height: calc(100% - (4 * $margin));
