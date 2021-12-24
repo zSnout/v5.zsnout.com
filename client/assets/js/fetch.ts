@@ -68,7 +68,7 @@ export default async function fetch<T extends Schema | undefined>(
 
     // throws after getting body so that we can use fastify's json message if possible
     if (!response.ok)
-      throw new Error(`${response.statusText}: ${(respBody as any).message ?? respBody}`); // prettier-ignore
+      throw new Error(`${(respBody as any).message ?? respBody}`); // prettier-ignore
 
     if (!schema) return { ok: true } as FetchResult<T>;
     if (validate(respBody, schema))
