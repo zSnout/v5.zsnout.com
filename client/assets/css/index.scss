@@ -92,7 +92,7 @@ html {
   padding: $outer-margin $margin-right $outer-margin $margin-left;
   border-top: 0.0625em solid $seperator;
   background: $element;
-  margin-top: $outer-margin;
+  margin-top: $margin-bottom;
 
   #footer {
     width: min(100%, 980px);
