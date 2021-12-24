@@ -28,6 +28,13 @@ $margin-left: calc($outer-margin + $inset-left);
 $margin-bottom: calc($outer-margin + $inset-bottom);
 $margin-right: calc($outer-margin + $inset-right);
 
+$navbar-height: 1.5em;
+
+$main-width: calc($margin-left + $margin-right);
+$main-height: calc(
+  $margin-top + ($navbar-height + $margin + $outer-margin) + $margin-bottom
+);
+
 @mixin small {
   @media (max-width: 500px), (max-height: 500px) {
     @content;
