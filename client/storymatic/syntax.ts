@@ -34,7 +34,7 @@ ace.define(
 
       let sq = [
         { token: "constant.language.escape", regex: /\\./ },
-        { regex: /'|$/, next: "start" },
+        { token: "string", regex: /'|$/, next: "start" },
         { token: "variable.storymatic", regex: /\$[\w_][\w\d_]*/ },
       ];
 
