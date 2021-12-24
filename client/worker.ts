@@ -17,7 +17,6 @@ let files = [
 async function onFetch(event: WindowEventMap["fetch"]) {
   event.respondWith(
     new Promise<Response | undefined>(async (resolve) => {
-      let timeout = new Promise((resolve) => setTimeout(resolve, 1000));
       let cache = await caches.open(cacheID);
       let cached = await cache.match(event.request);
       let fetched = fetch(event.request)
@@ -36,10 +35,18 @@ async function onFetch(event: WindowEventMap["fetch"]) {
 
           return res;
         })
-        .catch(async () => cached || (await cache.match("/offline/")));
+        .catch(
+          async () =>
+            (await cache.match("/offline/")) ||
+            new Response(
+              "Your zSnout installation is broken. Please connect to the internet to reinstall it."
+            )
+        );
 
-      fetched.then(resolve);
-      timeout.then(() => resolve(fetched || cached));
+      event.waitUntil(fetched as any);
+
+      if (cached) resolve(cached);
+      else resolve(fetched);
     })
   );
 }
