@@ -23,7 +23,10 @@ server.addHook("preHandler", (req, res, next) => {
 server.register(fastifyStatic, {
   root: join(__dirname, "../../client"),
   setHeaders(res: ServerResponse, path: string) {
-    if (path.substring(path.length - 3) == ".ts")
+    if (
+      path.substring(path.length - 3) == ".ts" ||
+      path.substring(path.length - 3) == ".tsx"
+    )
       res.setHeader("content-type", "text/typescript");
     else if (path.substring(path.length - 4) == ".ejs")
       res.setHeader("content-type", "text/ejs");
