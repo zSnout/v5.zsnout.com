@@ -1,103 +1,183 @@
 .cobalt2 {
-  background-color: #193549;
-  color: #ffffff;
-
-  .ace_gutter {
-    color: #8091a0;
-  }
+  background-color: #fff;
+  color: #000;
 
   .ace_print-margin {
     width: 0;
   }
 
+  .ace_gutter {
+    color: #808080;
+  }
+
   .ace_cursor {
-    color: #ffc600;
+    color: #000;
   }
 
   .ace_marker-layer .ace_selection {
-    background: #0050a480;
-  }
-
-  .ace_marker-layer .ace_step {
-    background: #7f6f13;
+    background: #68b0ff80;
   }
 
   .ace_invisible {
-    color: #ffffff20;
+    color: #00000020;
   }
 
   .ace_keyword {
-    color: #ff9d00;
+    color: #d73a49;
   }
 
   .ace_meta {
-    color: #9effff;
+    color: #6f42c1;
   }
 
   .ace_constant {
-    color: #ff628c;
+    color: #005cc5;
   }
 
   .ace_invalid {
-    color: #f44542;
+    color: #cd3131;
   }
 
   .ace_support {
-    color: #80ffbb;
-  }
+    color: #005cc5;
 
-  .ace_support.ace_function {
-    color: #ff9d00;
+    &.ace_function {
+      color: #d73a49;
+    }
   }
 
   .ace_fold {
-    background-color: #ff9d00;
-    border-color: #ffffff;
+    background-color: #fff;
+    border-color: #000;
   }
 
   .ace_storage {
-    color: #ffc600;
-  }
-
-  .ace_storage.ace_function,
-  .ace_storage.ace_class {
-    color: #ff9d00;
+    color: #d73a49;
   }
 
   .ace_entity {
-    color: #ffc600;
+    color: #6f42c1;
   }
 
   .ace_string {
-    color: #a5ff90;
-  }
-
-  .ace_string.ace_template {
-    color: #3ad900;
+    color: #22863a;
   }
 
   .ace_comment {
     font-style: italic;
-    color: #0088ff;
+    color: #6a737d;
   }
 
   .ace_heading,
   .ace_markup.ace_heading {
-    color: #ffc600;
     font-weight: bold;
   }
 
-  .ace_list,
-  .ace_markup.ace_list {
-    color: #ffc600;
-  }
-
   .ace_variable {
-    color: #e1efff;
-  }
+    color: #005cc5;
 
-  .ace_variable.ace_language,
-  .ace_variable.ace_storymatic {
-    color: #fb94ff;
+    &.ace_language,
+    &.ace_storymatic {
+      color: #e27f2d;
+    }
+  }
+}
+
+.theme-aqua,
+.theme-dark {
+  .cobalt2 {
+    background-color: #193549;
+    color: #fff;
+
+    .ace_gutter {
+      color: #8091a0;
+    }
+
+    .ace_cursor {
+      color: #ffc600;
+    }
+
+    .ace_marker-layer .ace_selection {
+      background: #0050a480;
+    }
+
+    .ace_invisible {
+      color: #ffffff20;
+    }
+
+    .ace_keyword {
+      color: #ff9d00;
+    }
+
+    .ace_meta {
+      color: #9effff;
+    }
+
+    .ace_constant {
+      color: #ff628c;
+    }
+
+    .ace_invalid {
+      color: #f44542;
+    }
+
+    .ace_support {
+      color: #80ffbb;
+
+      &.ace_function {
+        color: #ff9d00;
+      }
+    }
+
+    .ace_fold {
+      background-color: #ff9d00;
+      border-color: #ffffff;
+    }
+
+    .ace_storage {
+      color: #ffc600;
+
+      &.ace_function,
+      &.ace_class {
+        color: #ff9d00;
+      }
+    }
+
+    .ace_entity {
+      color: #ffc600;
+    }
+
+    .ace_string {
+      color: #a5ff90;
+
+      &.ace_template {
+        color: #3ad900;
+      }
+    }
+
+    .ace_comment {
+      font-style: italic;
+      color: #0088ff;
+    }
+
+    .ace_heading,
+    .ace_markup.ace_heading {
+      color: #ffc600;
+      font-weight: bold;
+    }
+
+    .ace_list,
+    .ace_markup.ace_list {
+      color: #ffc600;
+    }
+
+    .ace_variable {
+      color: #e1efff;
+
+      &.ace_language,
+      &.ace_storymatic {
+        color: #fb94ff;
+      }
+    }
   }
 }
