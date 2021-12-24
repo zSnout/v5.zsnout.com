@@ -1,6 +1,6 @@
-import fetch from "../assets/js/fetch.js";
-import { checkTheme } from "../assets/js/index.js";
-import $ from "../assets/js/jsx.js";
+import fetch from "./assets/js/fetch.js";
+import { checkTheme } from "./assets/js/index.js";
+import $ from "./assets/js/jsx.js";
 
 /**
  * Sets the theme of the page and calls `checkTheme`.

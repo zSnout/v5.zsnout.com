@@ -43,7 +43,7 @@ export function checkRecentlyVisited() {
   let recentlyVisited = getRecentlyVisited();
   let footer = $("#last-visited")
     .empty()
-    .append(<a href="/home/">Home</a>);
+    .append(<a href="/">Home</a>);
 
   if (!recentlyVisited) return;
 
@@ -53,7 +53,7 @@ export function checkRecentlyVisited() {
 
 /** Reset the "Recently Visited" list. */
 function resetRecentlyVisited() {
-  if (location.pathname != "/home/")
+  if (location.pathname != "/")
     localStorage.recentlyVisited = JSON.stringify([
       {
         href: location.pathname,
@@ -115,7 +115,7 @@ if (
 
 let recentlyVisited = getRecentlyVisited();
 
-if (location.pathname == "/home/") {
+if (location.pathname == "/") {
   // skip homepage
 } else if (recentlyVisited) {
   recentlyVisited = recentlyVisited.filter(

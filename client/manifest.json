@@ -7,7 +7,7 @@
   "scope": "/",
   "short_name": "zSnout",
   "name": "zSnout",
-  "start_url": "/home/",
+  "start_url": "/",
   "icons": [
     {
       "src": "/icons/mask-x48.png",
