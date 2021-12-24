@@ -1,4 +1,5 @@
 import "./log";
+import "./error";
 import "./fastify/redirect";
 import "./fastify/capture";
 import "./fastify/socket";
