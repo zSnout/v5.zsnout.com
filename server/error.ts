@@ -1,6 +1,6 @@
 import server from ".";
 
-process.on("uncaughtException", (err, origin) => {
+process.on("uncaughtException", (err) => {
   try {
     log.failure("error", err);
 
