@@ -22,7 +22,7 @@ export function setStorage<T extends keyof StorageItems>(
     new StorageEvent("storage", {
       key,
       oldValue: getStorage(key),
-      newValue: value,
+      newValue: value || null,
     })
   );
 
