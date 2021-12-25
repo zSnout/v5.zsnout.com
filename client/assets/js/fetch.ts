@@ -1,3 +1,4 @@
+import { getStorage } from "./util.js";
 import validate, { Schema, SchemaToType } from "./validate.js";
 
 /** The result of a fetch operation. */
@@ -41,7 +42,7 @@ export default async function fetch<T extends Schema | undefined>(
     let request: any = {
       method,
       headers: {
-        "x-auth": localStorage.auth ?? "",
+        "x-auth": getStorage("auth") || "",
       } as Record<string, string>,
     };
 
@@ -81,7 +82,7 @@ export default async function fetch<T extends Schema | undefined>(
 }
 
 declare global {
-  interface Storage {
+  interface StorageItems {
     /** The user's authetication token. */
     auth?: string;
   }
