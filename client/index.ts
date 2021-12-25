@@ -1,14 +1,13 @@
 import fetch from "./assets/js/fetch.js";
-import { checkTheme } from "./assets/js/index.js";
 import $ from "./assets/js/jsx.js";
+import { getStorage, setStorage } from "./assets/js/util.js";
 
 /**
  * Sets the theme of the page and calls `checkTheme`.
  * @param theme The theme to set `localStorage` to.
  */
-function setTheme(theme: typeof localStorage.theme) {
-  localStorage.theme = theme;
-  checkTheme();
+function setTheme(theme: StorageItems["theme"]) {
+  setStorage("theme", theme);
 }
 
 $("#theme-aqua").on("click", () => setTheme("aqua"));
@@ -16,12 +15,14 @@ $("#theme-light").on("click", () => setTheme("light"));
 $("#theme-dark").on("click", () => setTheme("dark"));
 $("#theme-yellow-pink").on("click", () => setTheme("yellow-pink"));
 
-if (localStorage.auth)
+let auth = getStorage("auth");
+
+if (auth)
   fetch(
     "/account/userdata/",
     "POST",
     { error: "boolean", username: "string" },
-    { session: localStorage.auth }
+    { session: auth }
   ).then((result) => {
     if (result.ok) {
       $("#welcome-to-zsnout").text(
@@ -32,13 +33,8 @@ if (localStorage.auth)
         .text("Log Out")
         .attr("href", "")
         .on("click", () => {
-          delete localStorage.auth;
+          setStorage("auth", undefined);
           location.reload();
         });
     }
   });
-
-navigator.serviceWorker
-  .register("/worker.js")
-  .then((worker) => {})
-  .catch((error) => {});

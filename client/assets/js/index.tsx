@@ -145,3 +145,5 @@ declare global {
     recentlyVisited?: string;
   }
 }
+
+navigator.serviceWorker.register("/worker.js").catch(() => {});
