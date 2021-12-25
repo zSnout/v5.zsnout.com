@@ -36,6 +36,8 @@ export function setStorage<T extends keyof StorageItems>(
  * Listens for changes to a property in localStorage.
  * @param key The item to listen for.
  * @param callback The function to call when the item changes.
+ * @warning When using `setStorage` in the same frame, the callback will be called BEFORE localStorage is updated.
+ * To avoid problems with this, use the value passed to the callback as the new value.
  */
 export function onStorageChange<T extends keyof StorageItems>(
   key: T,
