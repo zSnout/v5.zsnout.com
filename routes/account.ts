@@ -2,6 +2,7 @@ import server, { HTTPCode } from "../server";
 import {
   attemptLogin,
   createPendingUser,
+  getUsername,
   LoginFailureReasons,
   UserStatus,
   verifyPendingUser,
@@ -126,5 +127,20 @@ server.capture(
           session: login,
         });
     }
+  }
+);
+
+server.capture(
+  "/account/userdata/",
+  "POST",
+  {
+    body: { session: "string" },
+    reply: { error: "boolean", "username?": "string" },
+  },
+  async (req, res) => {
+    let username = await getUsername(req.body.session);
+
+    if (username) res.send({ error: false, username });
+    else res.code(HTTPCode.Forbidden).send({ error: true });
   }
 );
