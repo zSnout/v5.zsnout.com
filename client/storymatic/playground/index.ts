@@ -1,23 +1,23 @@
 import { edit } from "../../assets/js/ace.js";
 import $ from "../../assets/js/jsx.js";
-
-let skipChange = false;
+import {
+  decodeBase64,
+  encodeBase64,
+  getLocationHash,
+  setLocationHash,
+} from "../../assets/js/util.js";
 
 function onchange() {
   if (viewer.contentWindow)
-    viewer.contentWindow.location.hash = btoa(editor.getValue());
+    viewer.contentWindow.location.hash = encodeBase64(editor.getValue());
 
-  window.location.hash = btoa(editor.getValue());
-
-  if (skipChange) return;
+  setLocationHash(encodeBase64(editor.getValue()));
 }
 
-$("#editor").text(`"Hello world!"\ndef @myfunc $param\n  # pass`);
-try {
-  let hash = location.hash.slice(1);
-  let script = atob(hash);
-  $("#editor").text(script);
-} catch {}
+$("#editor").text(
+  decodeBase64(getLocationHash()) ||
+    '"Hello world!"\ndef @myfunc $param\n  # pass'
+);
 
 let editor = edit("editor");
 editor.session.setMode("ace/mode/storymatic");
@@ -28,5 +28,5 @@ onchange();
 editor.session.on("change", onchange);
 
 $("#icon-open").on("click", () => {
-  open("/storymatic/viewer/#" + btoa(editor.getValue()), "_blank");
+  open("/storymatic/viewer/#" + encodeBase64(editor.getValue()), "_blank");
 });
