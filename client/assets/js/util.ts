@@ -6,7 +6,7 @@
 export function getStorage<T extends keyof StorageItems>(
   key: T
 ): StorageItems[T] | null {
-  return localStorage.getItem(key) as T | null;
+  return localStorage.getItem(key) as StorageItems[T] | null;
 }
 
 /**
@@ -26,7 +26,10 @@ export function setStorage<T extends keyof StorageItems>(
     })
   );
 
-  if (eventWasNotCanceled) localStorage.setItem(key, value);
+  if (eventWasNotCanceled) {
+    if (value) localStorage.setItem(key, value);
+    else localStorage.removeItem(key);
+  }
 }
 
 /**
