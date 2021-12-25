@@ -1,19 +1,27 @@
 import $, { jsx } from "./jsx.js";
 import { createNotification } from "./notification.js";
-import { getStorage, setStorage } from "./util.js";
+import { getStorage, onStorageChange, setStorage } from "./util.js";
 
 /** Checks the current theme set in `localStorage` and updates the page accordingly. */
-export function checkTheme() {
-  $.root[0].classList.forEach((className) => {
-    if (className.startsWith("theme-")) $.root[0].classList.remove(className);
-  });
+function setTheme(theme: StorageItems["theme"] | null) {
+  $.root.removeClass(
+    ...[...$.root[0].classList].filter((className) =>
+      className.startsWith("theme-")
+    )
+  );
 
-  $.root.addClass(`theme-${getStorage("theme") || "aqua"}`);
+  $.root.addClass(`theme-${theme || "aqua"}`);
 }
 
+setTheme(getStorage("theme"));
+onStorageChange("theme", setTheme);
+
 /** Gets all pages in the "Recently Visited" list. */
-export function getRecentlyVisited(): { href: string; title: string }[] | null {
-  let recentlyVisited = getStorage("recentlyVisited");
+export function getRecentlyVisited(
+  recentlyVisited: StorageItems["recentlyVisited"] | null = getStorage(
+    "recentlyVisited"
+  )
+): { href: string; title: string }[] | null {
   if (!recentlyVisited) return null;
 
   try {
@@ -68,14 +76,9 @@ function resetRecentlyVisited() {
   else setStorage("recentlyVisited", "[]");
 }
 
-checkTheme();
-
 if (new URL(location.href).searchParams.has("embed")) $.root.addClass("embed");
 
-window.addEventListener("storage", (event) => {
-  if (event.key == "theme") checkTheme();
-  if (event.key == "recentlyVisited") checkRecentlyVisited();
-});
+onStorageChange("recentlyVisited", checkRecentlyVisited);
 
 let hasPrompted = false;
 let didInstall = getStorage("didInstall");
