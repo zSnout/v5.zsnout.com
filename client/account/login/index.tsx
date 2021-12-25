@@ -1,5 +1,6 @@
 import fetch from "../../assets/js/fetch.js";
 import $, { jsx } from "../../assets/js/jsx.js";
+import { setStorage } from "../../assets/js/util.js";
 
 let username = $("#username");
 let password = $("#password");
@@ -28,7 +29,7 @@ $("#form").on("submit", async (event) => {
   label.text(result.ok ? result.data.message : result.error);
 
   if (result.ok && !result.data.error && result.data.session) {
-    localStorage.auth = result.data.session;
+    setStorage("auth", result.data.session);
     location.href = "/";
   }
 });
