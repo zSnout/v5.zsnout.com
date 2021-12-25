@@ -18,7 +18,7 @@ if (!session) {
 } else {
   Promise.all([
     fetch(
-      "/account/verify/",
+      "/api/account-verify/",
       "POST",
       { error: "boolean", message: "string" },
       { session }

@@ -12,7 +12,7 @@ $("#form").on("submit", async (event) => {
   event.preventDefault();
 
   let result = await fetch(
-    "/account/create/",
+    "/api/account-create/",
     "POST",
     {
       error: "boolean",

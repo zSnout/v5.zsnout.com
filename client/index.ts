@@ -19,7 +19,7 @@ let auth = getStorage("auth");
 
 if (auth)
   fetch(
-    "/account/userdata/",
+    "/api/account-username/",
     "POST",
     { error: "boolean", username: "string" },
     { session: auth }

@@ -9,7 +9,7 @@ import {
 } from "../server/systems/account";
 
 server.capture(
-  "/account/create/",
+  "/api/account-create/",
   "POST",
   {
     body: {
@@ -71,7 +71,7 @@ server.capture(
 );
 
 server.capture(
-  "/account/verify/",
+  "/api/account-verify/",
   "POST",
   {
     body: { session: "string" },
@@ -96,7 +96,7 @@ server.capture(
 );
 
 server.capture(
-  "/account/login/",
+  "/api/account-login/",
   "POST",
   {
     body: { username: "string", password: "string" },
@@ -131,7 +131,7 @@ server.capture(
 );
 
 server.capture(
-  "/account/userdata/",
+  "/api/account-username/",
   "POST",
   {
     body: { session: "string" },

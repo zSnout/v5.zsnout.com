@@ -13,7 +13,7 @@ $("#form").on("submit", async (event) => {
 
   let [result] = await Promise.all([
     fetch(
-      "/account/login/",
+      "/api/account-login/",
       "POST",
       {
         error: "boolean",
