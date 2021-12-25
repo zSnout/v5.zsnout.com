@@ -39,11 +39,13 @@ export function setStorage<T extends keyof StorageItems>(
  */
 export function onStorageChange<T extends keyof StorageItems>(
   key: T,
-  callback: (val: T | null, cancel: () => void) => void
+  callback: (val: StorageItems[T] | null, cancel: () => void) => void
 ) {
   window.addEventListener("storage", (event) => {
     if (event.key === key)
-      callback(event.newValue as T | null, () => event.preventDefault());
+      callback(event.newValue as StorageItems[T] | null, () =>
+        event.preventDefault()
+      );
   });
 }
 
