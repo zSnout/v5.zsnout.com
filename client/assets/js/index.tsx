@@ -1,5 +1,6 @@
 import $, { jsx } from "./jsx.js";
 import { createNotification } from "./notification.js";
+import { getStorage, setStorage } from "./util.js";
 
 /** Checks the current theme set in `localStorage` and updates the page accordingly. */
 export function checkTheme() {
@@ -7,17 +8,18 @@ export function checkTheme() {
     if (className.startsWith("theme-")) $.root[0].classList.remove(className);
   });
 
-  $.root.addClass(`theme-${localStorage.theme}`);
+  $.root.addClass(`theme-${getStorage("theme") || "aqua"}`);
 }
 
 /** Gets all pages in the "Recently Visited" list. */
 export function getRecentlyVisited(): { href: string; title: string }[] | null {
-  if (!localStorage.recentlyVisited) return null;
+  let recentlyVisited = getStorage("recentlyVisited");
+  if (!recentlyVisited) return null;
 
   try {
     let lastVisited;
     try {
-      lastVisited = JSON.parse(localStorage.recentlyVisited);
+      lastVisited = JSON.parse(recentlyVisited);
     } catch {
       return null;
     }
@@ -54,13 +56,16 @@ export function checkRecentlyVisited() {
 /** Reset the "Recently Visited" list. */
 function resetRecentlyVisited() {
   if (location.pathname != "/")
-    localStorage.recentlyVisited = JSON.stringify([
-      {
-        href: location.pathname,
-        title: document.title,
-      },
-    ]);
-  else localStorage.recentlyVisited = "[]";
+    setStorage(
+      "recentlyVisited",
+      JSON.stringify([
+        {
+          href: location.pathname,
+          title: document.title,
+        },
+      ])
+    );
+  else setStorage("recentlyVisited", "[]");
 }
 
 checkTheme();
@@ -72,18 +77,12 @@ window.addEventListener("storage", (event) => {
   if (event.key == "recentlyVisited") checkRecentlyVisited();
 });
 
-declare global {
-  interface Storage {
-    /** The user's selected theme. When omitted, use the native theme. */
-    theme?: "light" | "aqua" | "dark" | "yellow-pink";
-  }
-}
-
 let hasPrompted = false;
+let didInstall = getStorage("didInstall");
 if (
-  !localStorage.didInstall ||
-  (localStorage.didInstall == "false" &&
-    +localStorage.lastInstallTime! < Date.now() - 1000 * 60 * 60 * 24 * 7)
+  !didInstall ||
+  (didInstall == "false" &&
+    +getStorage("lastInstallTime")! < Date.now() - 1000 * 60 * 60 * 24 * 7)
 ) {
   window.addEventListener("beforeinstallprompt", (event: any) => {
     if (hasPrompted) return;
@@ -98,15 +97,16 @@ if (
 
           let { outcome } = await event.userChoice;
 
-          if (outcome == "dismissed") localStorage.didInstall = "false";
-          else localStorage.didInstall = "true";
+          if (outcome == "dismissed") setStorage("didInstall", "false");
+          else setStorage("didInstall", "true");
 
-          localStorage.lastInstallTime = Date.now().toString();
+          setStorage("lastInstallTime", "" + Date.now());
         },
         async Cancel() {
           hide();
-          localStorage.didInstall = "false";
-          localStorage.lastInstallTime = Date.now().toString();
+
+          setStorage("didInstall", "false");
+          setStorage("lastInstallTime", "" + Date.now());
         },
       }
     );
@@ -123,7 +123,7 @@ if (location.pathname == "/") {
   );
   recentlyVisited.unshift({ href: location.pathname, title: document.title });
   recentlyVisited = recentlyVisited.slice(0, 11);
-  localStorage.recentlyVisited = JSON.stringify(recentlyVisited);
+  setStorage("recentlyVisited", JSON.stringify(recentlyVisited));
 } else {
   resetRecentlyVisited();
 }
@@ -131,7 +131,10 @@ if (location.pathname == "/") {
 checkRecentlyVisited();
 
 declare global {
-  interface Storage {
+  interface StorageItems {
+    /** The user's selected theme. When omitted, use the native theme. */
+    theme?: "light" | "aqua" | "dark" | "yellow-pink";
+
     /** Whether the user has installed the app. */
     didInstall?: "true" | "false";
 
