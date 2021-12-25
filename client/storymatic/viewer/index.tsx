@@ -1,5 +1,10 @@
 import $, { jsx } from "../../assets/js/jsx.js";
 import thread, { Thread } from "../../assets/js/thread.js";
+import {
+  decodeBase64,
+  getLocationHash,
+  onLocationHashChange,
+} from "../../assets/js/util.js";
 import { indent, storyToJS } from "../lib.js";
 
 type ScriptMessage =
@@ -222,11 +227,12 @@ let worker: Thread<WorkerMessage, ScriptMessage> | null = null;
 $("#fieldform").on("submit", (event) => {
   event.preventDefault();
 
-  if (field.val() && worker) {
+  if (!worker) return;
+  if (field.val()) {
     worker.send({ type: "field", value: field.val() });
     output.prepend(<p className="user">{field.val()}</p>);
     field.val("");
-  } else if (worker) {
+  } else {
     worker.send({ type: "submit" });
   }
 });
@@ -266,6 +272,9 @@ async function startProgram(script: string) {
     </p>
   );
 
+  // The worker code is sliced to remove the ending }
+  // We need to do this to stick extra code in the middle
+  // We re-add the } at the end of the paragraph
   worker = thread(
     `${smWorker.toString().slice(0, -1)}
     $clear();
@@ -317,17 +326,9 @@ async function startProgram(script: string) {
   }
 }
 
-/** Checks the window hash and tries to start a Storymatic program from it. */
-function checkHash() {
-  if (location.hash) {
-    try {
-      let hash = location.hash.slice(1);
-      let script = atob(hash);
+onLocationHashChange((hash) => {
+  let base64 = decodeBase64(hash);
+  if (base64) startProgram(base64);
+});
 
-      startProgram(script);
-    } catch {}
-  }
-}
-
-checkHash();
-window.addEventListener("hashchange", checkHash);
+startProgram(decodeBase64(getLocationHash()) || "");
