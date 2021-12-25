@@ -80,6 +80,28 @@ export function onLocationHashChange(
   });
 }
 
+/**
+ * Decodes a base64 string.
+ * @param base64 The base64 string to decode.
+ * @returns The decoded string.
+ */
+export function encodeBase64(plaintext: string): string {
+  return btoa(plaintext);
+}
+
+/**
+ * Decodes a base64 string.
+ * @param base64 The base64 string to decode.
+ * @returns The decoded string.
+ */
+export function decodeBase64(base64: string): string | null {
+  try {
+    return atob(base64) || null;
+  } catch {
+    return null;
+  }
+}
+
 declare global {
   /** A list of items that can be put into localStorage. */
   interface StorageItems {}
