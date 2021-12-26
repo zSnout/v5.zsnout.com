@@ -58,6 +58,8 @@ export type StringExpr =
 export type Expression =
   | Expression[]
   | { type: "command"; name: string; arg: Expression[][] }
+  | { type: "propertyaccess"; name: string }
+  | { type: "objectproperty"; name: string }
   | { type: "variable"; name: string }
   | { type: "string"; content: StringExpr[] }
   | { type: "number"; value: number }
@@ -82,7 +84,7 @@ export type Expression =
   | "&&"
   | "||"
   | ","
-  | "${"
+  | "{"
   | "}";
 
 /** An array containing a single line of content along with its indentation level. */
@@ -362,16 +364,16 @@ export function splitOnComma(val: Expression[]): Expression[][] {
 export function parseExpr(expr: string): Expression[];
 export function parseExpr(
   expr: string,
-  parseUntilQuoteOrBracket: true
+  parseUntilEmbeddedEnding: true
 ): [parsed: Expression[], rest: string];
 export function parseExpr(
   expr: string,
-  parseUntilQuoteOrBracket = false
+  parseUntilEmbeddedEnding = false
 ): Expression[] | [Expression[], string] {
   let tokens: Expression[] = [];
   let quote: false | StringExpr[] = false;
   let twochars = ["<=", ">=", "!=", "==", "&&", "||"];
-  let chars = ["+", "-", "*", "/", "%", ">", "<", "(", ")", "[", "]", ",", "!"];
+  let chars = ["+", "-", "*", "/", "%", ">", "<", "(", ")", "[", "]", ",", "!", "{", "}"]; // prettier-ignore
 
   while ((expr = quote ? expr : expr.trim())) {
     let match;
@@ -399,7 +401,7 @@ export function parseExpr(
       } else if ((match = expr.match(/^\$([\w_][\w\d_]*)([^\w\d_].*|$)$/))) {
         quote.push({ type: "variable", name: match[1] });
         expr = match[2];
-      } else if (expr[0] == "{") {
+      } else if (expr[0] == "|") {
         let [parsed, rest] = parseExpr(expr.slice(1), true);
         quote.push({ type: "embedded", expr: parsed });
         expr = rest;
@@ -407,6 +409,14 @@ export function parseExpr(
         quote.push(expr[0]);
         expr = expr.slice(1);
       }
+    } else if (
+      (match = expr.match(/^\.\s*\$?([\w_][\w\d_]*)([^\w\d_].*|$)$/))
+    ) {
+      tokens.push({ type: "propertyaccess", name: match[1] });
+      expr = match[2];
+    } else if ((match = expr.match(/^\$?([\w_][\w\d_]*)\s*:(.+)$/))) {
+      tokens.push({ type: "objectproperty", name: match[1] });
+      expr = match[2];
     } else if ((match = expr.match(/^\$([\w_][\w\d_]*)([^\w\d_].*|$)$/))) {
       tokens.push({ type: "variable", name: match[1] });
       expr = match[2];
@@ -465,7 +475,7 @@ export function parseExpr(
     } else if ((match = expr.match(/^null([^\w\d_].*|$)$/))) {
       tokens.push({ type: "null" });
       expr = match[2];
-    } else if (expr[0] == "}" && parseUntilQuoteOrBracket) {
+    } else if (expr[0] == "|" && parseUntilEmbeddedEnding) {
       return [tokens, expr.slice(1)];
     } else if (expr[0] == '"') {
       quote = [];
@@ -570,6 +580,8 @@ export function exprToJS(exprs: Expression[]): string {
     else if (expr.type == "boolean") code += ` ${expr.value} `;
     else if (expr.type == "null") code += ` null `;
     else if (expr.type == "variable") code += ` $${expr.name} `;
+    else if (expr.type == "propertyaccess") code += ` .${expr.name} `;
+    else if (expr.type == "objectproperty") code += ` ${expr.name}: `;
     else if (expr.type == "command")
       code += ` ( await $${expr.name}( [ ${expr.arg
         .map(exprToJS)
