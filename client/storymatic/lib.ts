@@ -9,15 +9,8 @@
 // center
 // tooltip
 // input
-// key
-// if
-// context
-// repeat
-// while
-// for
 // step
 // run
-// switch
 // randint
 // floor
 // ceil
@@ -33,14 +26,12 @@ export type Action =
       mode: "=" | "+=" | "-=" | "*=" | "/=" | "%=";
       value: Expression[];
     }
-  // defining a function
   | {
-      type: "function";
+      type: "define";
       name: string;
       args: string[];
       block: Action[];
     }
-  // calling a function
   | {
       type: "command";
       name: string;
@@ -57,12 +48,18 @@ export type Action =
   | { type: "let"; name: string; value: Expression[] }
   | { type: "return"; value: Expression[] };
 
+/** A string token. */
+export type StringExpr =
+  | string
+  | { type: "variable"; name: string }
+  | { type: "embedded"; expr: Expression[] };
+
 /** An expression token. */
 export type Expression =
   | Expression[]
   | { type: "command"; name: string; arg: Expression[][] }
   | { type: "variable"; name: string }
-  | { type: "string"; content: (string | { type: "variable"; name: string })[] }
+  | { type: "string"; content: StringExpr[] }
   | { type: "number"; value: number }
   | { type: "boolean"; value: boolean }
   | { type: "null" }
@@ -84,7 +81,9 @@ export type Expression =
   | ">="
   | "&&"
   | "||"
-  | ",";
+  | ","
+  | "${"
+  | "}";
 
 /** An array containing a single line of content along with its indentation level. */
 export type Indented = [level: number, content: string];
@@ -283,7 +282,9 @@ export function parseActionGroups(groups: Group): Action[] {
         type: "else",
         block,
       });
-    } else if ((match = e.match(/^let\s+\$([\w_][\w\d_]*)(?:\s*=\s*(.+))?/))) {
+    } else if (
+      (match = e.match(/^let\s+\$([\w_][\w\d_]*)(?:\s*(?:be|=)\s*(.+))?/))
+    ) {
       let val: Expression[] = [{ type: "null" }];
       if (match[2]) val = parseExpr(match[2]);
 
@@ -312,7 +313,7 @@ export function parseActionGroups(groups: Group): Action[] {
       } else continue;
 
       actions.push({
-        type: "function",
+        type: "define",
         name: match[1],
         args,
         block,
@@ -355,12 +356,20 @@ export function splitOnComma(val: Expression[]): Expression[][] {
 /**
  * Converts an expression into a list of tokens.
  * @param expr The expression to parse.
+ * @param endOnQuote If true, exits when a quotation mark or `}` is found.
  * @returns A list of tokens in that expression.
  */
-export function parseExpr(expr: string): Expression[] {
+export function parseExpr(expr: string): Expression[];
+export function parseExpr(
+  expr: string,
+  parseUntilQuoteOrBracket: true
+): [parsed: Expression[], rest: string];
+export function parseExpr(
+  expr: string,
+  parseUntilQuoteOrBracket = false
+): Expression[] | [Expression[], string] {
   let tokens: Expression[] = [];
-  let quote: false | (string | { type: "variable"; name: string })[] = false;
-  let quoteMark: '"' | "'" | null = null;
+  let quote: false | StringExpr[] = false;
   let twochars = ["<=", ">=", "!=", "==", "&&", "||"];
   let chars = ["+", "-", "*", "/", "%", ">", "<", "(", ")", "[", "]", ",", "!"];
 
@@ -368,7 +377,7 @@ export function parseExpr(expr: string): Expression[] {
     let match;
 
     if (quote) {
-      if (expr[0] == quoteMark) {
+      if (expr[0] == '"') {
         let reduced = quote.reduce<typeof quote>((quote, el) => {
           if (
             typeof el == "string" &&
@@ -390,6 +399,10 @@ export function parseExpr(expr: string): Expression[] {
       } else if ((match = expr.match(/^\$([\w_][\w\d_]*)([^\w\d_].*|$)$/))) {
         quote.push({ type: "variable", name: match[1] });
         expr = match[2];
+      } else if (expr[0] == "{") {
+        let [parsed, rest] = parseExpr(expr.slice(1), true);
+        quote.push({ type: "embedded", expr: parsed });
+        expr = rest;
       } else {
         quote.push(expr[0]);
         expr = expr.slice(1);
@@ -452,11 +465,12 @@ export function parseExpr(expr: string): Expression[] {
     } else if ((match = expr.match(/^null([^\w\d_].*|$)$/))) {
       tokens.push({ type: "null" });
       expr = match[2];
-    } else if (expr[0] == '"' || expr[0] == "'") {
+    } else if (expr[0] == "}" && parseUntilQuoteOrBracket) {
+      return [tokens, expr.slice(1)];
+    } else if (expr[0] == '"') {
       quote = [];
-      quoteMark = expr[0];
       expr = expr.slice(1);
-    } else return [];
+    } else expr = expr.slice(1);
   }
 
   let current: Expression[] = [];
@@ -520,8 +534,30 @@ export function parseStory(script: string): Action[] {
 }
 
 /**
+ * Converts a string expression to JavaScript code.
+ * @param exprs The expression to convert.
+ * @returns The expression as JavaScript code.
+ */
+export function strToJS(exprs: StringExpr[]): string {
+  let output = " `";
+
+  for (let expr of exprs) {
+    if (typeof expr == "string")
+      output += expr
+        .replace(/\\/g, "\\\\")
+        .replace(/`/g, "\\`")
+        .replace(/\$/g, "\\$")
+        .replace(/{/g, "\\{");
+    else if (expr.type == "variable") output += `\${ $${expr.name} }`;
+    else if (expr.type == "embedded") output += `\${ ${exprToJS(expr.expr)} }`;
+  }
+
+  return output + "` ";
+}
+
+/**
  * Converts an expression to JavaScript code.
- * @param expr The expression to convert.
+ * @param exprs The expression to convert.
  * @returns The expression as JavaScript code.
  */
 export function exprToJS(exprs: Expression[]): string {
@@ -538,18 +574,7 @@ export function exprToJS(exprs: Expression[]): string {
       code += ` ( await $${expr.name}( [ ${expr.arg
         .map(exprToJS)
         .join(" , ")} ] ) ) `;
-    else if (expr.type == "string")
-      code += ` \`${expr.content
-        .map((el) => {
-          if (typeof el == "string")
-            return el
-              .replace(/\\/g, "\\\\")
-              .replace(/`/g, "\\`")
-              .replace(/\$/g, "\\$")
-              .replace(/{/g, "\\{");
-          else if (el.type == "variable") return `$\{$${el.name}}`;
-        })
-        .join("")}\` `;
+    else if (expr.type == "string") code += strToJS(expr.content);
   }
 
   return code.replace(/\s+/g, " ").trim();
@@ -589,7 +614,7 @@ export function actionToJS(actions: Action[]): string {
         code += `let $${action.name} = ${exprToJS(action.value)};\n`;
         break;
 
-      case "function":
+      case "define":
         code += `async function $${action.name}( [ ${action.args
           .map((e) => `$${e}`)
           .join(" , ")} ] = [] ) {\n${indent(actionToJS(action.block))}\n}\n\n`;
