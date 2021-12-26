@@ -92,6 +92,10 @@
       color: #fb94ff;
     }
   }
+
+  .ace_property {
+    color: #9effff;
+  }
 }
 
 .theme-light,
@@ -178,6 +182,10 @@
       &.ace_storymatic {
         color: #e27f2d;
       }
+    }
+
+    .ace_property {
+      color: #00a1a1;
     }
   }
 }
