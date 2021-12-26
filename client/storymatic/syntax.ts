@@ -29,7 +29,7 @@ ace.define(
       let dq = [
         { token: "constant.language.escape", regex: /\\./ },
         { token: "string", regex: /"|$/, next: "start" },
-        { token: "text", regex: /{/, next: "start" },
+        { token: "paren", regex: /\|/, next: "start" },
         { token: "variable.storymatic", regex: /\$[\w_][\w\d_]*/ },
       ];
 
@@ -44,14 +44,22 @@ ace.define(
           },
           { token: "constant.language", regex: /true|false|null/ },
           { token: "keyword.operator", regex: /[+\-*\/%>=<!]|&&|\|\|/ },
-          { token: "paren", regex: /[()[\]]/ },
+          { token: "paren", regex: /[()[\]{}]/ },
           { token: "entity.name.function", regex: /@[\w_][\w\d_]*/ },
+          {
+            token: ["property", "text"],
+            regex: /(\$?[\w_][\w\d_]*\s*)(:)/,
+          },
+          {
+            token: ["text", "property"],
+            regex: /(\.\s*)(\$?[\w_][\w\d_]*\s*)/,
+          },
           { token: "variable.storymatic", regex: /\$[\w_][\w\d_]*/ },
           { token: "constant.numeric", regex: /\d+(?:\.\d+)?/ },
           { token: "constant.language", regex: /true|false|null/ },
           { token: "string", regex: /"/, next: "string-dq" },
-          { token: "text", regex: /}/, next: "string-dq" },
-          { token: "text", regex: /\s+/ },
+          { token: "text", regex: /\|/, next: "string-dq" },
+          { token: "text", regex: /[,]|\s+/ },
           { token: "invalid", regex: /./ },
         ],
         "string-dq": [
