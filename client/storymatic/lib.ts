@@ -544,6 +544,18 @@ export function parseStory(script: string): Action[] {
 }
 
 /**
+ * Adds two spaces before each line in the string.
+ * @param string The string to indent.
+ * @returns An indented string.
+ */
+export function indent(string: string): string {
+  return string
+    .split("\n")
+    .map((line) => "  " + line)
+    .join("\n");
+}
+
+/**
  * Converts a string expression to JavaScript code.
  * @param exprs The expression to convert.
  * @returns The expression as JavaScript code.
@@ -590,18 +602,6 @@ export function exprToJS(exprs: Expression[]): string {
   }
 
   return code.replace(/\s+/g, " ").trim();
-}
-
-/**
- * Adds two spaces before each line in the string.
- * @param string The string to indent.
- * @returns An indented string.
- */
-export function indent(string: string): string {
-  return string
-    .split("\n")
-    .map((line) => "  " + line)
-    .join("\n");
 }
 
 /**
