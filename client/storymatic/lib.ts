@@ -97,12 +97,54 @@ export type MultiIndent = [level: number, content: string[]];
 export type Group = (string | Group)[];
 
 /**
+ * Takes a script and removes newlines between parentheses, brackets, and braces.
+ * @param script The script to check.
+ * @returns The reduced script.
+ */
+export function reduceMultiLineParens(script: string): string {
+  let level = 0;
+  let isQuote = false;
+  let result = [];
+  let current = "";
+
+  for (let row of script.split("\n")) {
+    // Seperates lines like 2\n3 into 2 3 instead of 23
+    current += " ";
+
+    for (let char of row) {
+      if (char == "|" || char == '"') isQuote = !isQuote;
+
+      if (!isQuote) {
+        if (char == "(" || char == "[" || char == "{") level++;
+        if (char == ")" || char == "]" || char == "}") level--;
+      }
+
+      if (level < 0) {
+        level = 0;
+        char = "";
+      }
+
+      current += char;
+    }
+
+    if (level == 0) {
+      result.push(current);
+      current = "";
+    }
+  }
+
+  if (current) result.push(current);
+
+  return result.join("\n");
+}
+
+/**
  * Gets the indentation levels of different lines in a script.
  * @param script The script to parse.
  * @returns A list of strings with their indentation levels.
  */
 export function getIndentsOf(script: string): Indented[] {
-  return script
+  return reduceMultiLineParens(script)
     .split("\n")
     .filter((e) => e.trim())
     .map((e) => e.trimEnd())
