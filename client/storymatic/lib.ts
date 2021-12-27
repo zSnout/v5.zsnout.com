@@ -56,7 +56,9 @@ export type StringExpr =
 
 /** An expression token. */
 export type Expression =
-  | Expression[]
+  | { type: "paren"; items: Expression[] }
+  | { type: "bracket"; items: Expression[] }
+  | { type: "brace"; items: Expression[] }
   | { type: "command"; name: string; arg: Expression[][] }
   | { type: "propertyaccess"; name: string }
   | { type: "objectproperty"; name: string }
@@ -86,6 +88,9 @@ export type Expression =
   | ","
   | "{"
   | "}";
+
+/** A type of nested expression (parentheses, brackets, braces, etc.) */
+export type SubExpression = Extract<Expression, { items: any[] }>;
 
 /** An array containing a single line of content along with its indentation level. */
 export type Indented = [level: number, content: string];
@@ -257,7 +262,7 @@ export function parseActionGroups(groups: Group): Action[] {
       let expr = match[2] ? parseExpr(match[2]) : [];
       let first: Expression | undefined = expr[0];
 
-      if (Array.isArray(first)) {
+      if (typeof first == "object" && first.type == "paren") {
         let block: Action[] | null = null;
 
         if (expr.slice(1).length)
@@ -266,7 +271,7 @@ export function parseActionGroups(groups: Group): Action[] {
         actions.push({
           type: "command",
           name: match[1],
-          args: splitOnComma(first),
+          args: splitOnComma(first.items),
           block,
         });
 
@@ -530,55 +535,59 @@ export function parseExpr(
     } else expr = expr.slice(1);
   }
 
-  let current: Expression[] = [];
-  let groups: Expression[][] = [current];
+  let current: SubExpression = { type: "paren", items: [] };
+  let groups: SubExpression[] = [current];
+  let map = { "(": "paren", "[": "bracket", "{": "brace" } as const;
 
   for (let token of tokens) {
-    if (token == "(") {
-      current = [];
+    if (token == "(" || token == "[" || token == "{") {
+      current = { type: map[token], items: [] };
       groups.push(current);
-    } else if (token == ")") {
+    } else if (token == ")" || token == "]" || token == "}") {
       let last = groups.pop();
       if (!last) return [];
 
       current = groups[groups.length - 1];
-      if (!current) return [];
-      current.push(last);
-    } else current.push(token);
+      current.items.push(last);
+    } else current.items.push(token);
   }
 
   let val = groups[0];
   if (!val) return [];
-  if (!val.length) return [];
+  if (!val.items.length) return [];
 
+  /**
+   * Checks a portion of text for command calls.
+   * @param val The value to check.
+   */
   function checkAll(val: Expression[]) {
     for (let index = 0; index < val.length; index++) {
-      let e = val[index];
+      let expr = val[index];
 
-      if (typeof e != "object") continue;
-      if (Array.isArray(e)) {
-        checkAll(e);
+      if (typeof expr != "object") continue;
+      if ("items" in expr) {
+        checkAll(expr.items);
         continue;
       }
 
-      if (e.type == "command") {
-        let n = val[index + 1];
+      if (expr.type == "command") {
+        let next = val[index + 1];
 
-        if (Array.isArray(n)) {
-          checkAll(n);
-          e.arg = splitOnComma(n);
+        if (typeof next == "object" && next.type == "paren") {
+          checkAll(next.items);
+          expr.arg = splitOnComma(next.items);
           index++;
           val.splice(index, 1);
         } else {
-          e.arg = splitOnComma(val.splice(index + 1));
+          expr.arg = splitOnComma(val.splice(index + 1));
           break;
         }
       }
     }
   }
 
-  checkAll(val);
-  return val;
+  checkAll(val.items);
+  return val.items;
 }
 
 /**
@@ -633,8 +642,10 @@ export function exprToJS(exprs: Expression[]): string {
   let code = "";
 
   for (let expr of exprs) {
-    if (Array.isArray(expr)) code += ` ( ${exprToJS(expr)} ) `;
-    else if (typeof expr == "string") code += ` ${expr} `;
+    if (typeof expr == "string") code += ` ${expr} `;
+    else if (expr.type == "paren") code += ` ( ${exprToJS(expr.items)} ) `;
+    else if (expr.type == "bracket") code += ` [ ${exprToJS(expr.items)} ] `;
+    else if (expr.type == "brace") code += ` { ${exprToJS(expr.items)} } `;
     else if (expr.type == "number") code += ` ${expr.value} `;
     else if (expr.type == "boolean") code += ` ${expr.value} `;
     else if (expr.type == "null") code += ` null `;
