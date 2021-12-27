@@ -77,8 +77,8 @@ export type Expression =
   | "%"
   | "<"
   | ">"
-  | "=="
-  | "!="
+  | "==="
+  | "!=="
   | "<="
   | ">="
   | "&&"
@@ -284,13 +284,17 @@ export function parseActionGroups(groups: Group): Action[] {
         args: splitOnComma(expr),
         block,
       });
-    } else if ((match = e.match(/^(if|elif|unless|while|until)\s+(.+)$/))) {
+    } else if (
+      (match = e.match(/^(if|elif|else if|unless|while|until)\s+(.+)$/))
+    ) {
       let block: Action[] = [];
 
       if (typeof groups[i + 1] == "object") {
         block = parseActionGroups(groups[i + 1] as Group);
         i++;
       }
+
+      if (match[1] == "else if") match[1] = "elif";
 
       actions.push({
         type: match[1] as "if" | "elif" | "unless" | "while" | "until",
@@ -413,7 +417,7 @@ export function parseExpr(
 ): Expression[] | [Expression[], string] {
   let tokens: Expression[] = [];
   let quote: false | StringExpr[] = false;
-  let twochars = ["<=", ">=", "!=", "==", "&&", "||"];
+  let twochars = ["<=", ">=", "&&", "||"];
   let chars = ["+", "-", "*", "/", "%", ">", "<", "(", ")", "[", "]", ",", "!", "{", "}"]; // prettier-ignore
 
   while ((expr = quote ? expr : expr.trim())) {
@@ -471,8 +475,11 @@ export function parseExpr(
     } else if (chars.includes(expr[0])) {
       tokens.push(expr[0] as Expression);
       expr = expr.slice(1);
-    } else if (expr[0] == "=") {
-      tokens.push("==");
+    } else if (expr[0] == "=" || expr.slice(0, 2) == "==") {
+      tokens.push("===");
+      expr = expr.slice(1);
+    } else if (expr[0] == "!=") {
+      tokens.push("===");
       expr = expr.slice(1);
     } else if (
       (match = expr.match(/^(is not|isnt|is|not|and|or)([^\w\d_].*|$)$/))
@@ -482,11 +489,11 @@ export function parseExpr(
       switch (phrase) {
         case "is not":
         case "isnt":
-          tokens.push("!=");
+          tokens.push("!==");
           break;
 
         case "is":
-          tokens.push("==");
+          tokens.push("===");
           break;
 
         case "not":
