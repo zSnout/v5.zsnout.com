@@ -108,10 +108,9 @@ export function reduceMultiLineParens(script: string): string {
   let current = "";
 
   for (let row of script.split("\n")) {
-    // Seperates lines like 2\n3 into 2 3 instead of 23
-    current += " ";
-
     for (let char of row) {
+      if (char == "|") level += isQuote ? 1 : -1;
+      if (char == '"') level += isQuote ? -1 : 1;
       if (char == "|" || char == '"') isQuote = !isQuote;
 
       if (!isQuote) {
@@ -418,6 +417,7 @@ export function parseExpr(
   let chars = ["+", "-", "*", "/", "%", ">", "<", "(", ")", "[", "]", ",", "!", "{", "}"]; // prettier-ignore
 
   while ((expr = quote ? expr : expr.trim())) {
+    console.log("start", { expr, quote, tokens });
     let match;
 
     if (quote) {
@@ -507,14 +507,11 @@ export function parseExpr(
       let number = parseFloat(match[1]);
       if (!Number.isNaN(number)) tokens.push({ type: "number", value: number });
       expr = match[2];
-    } else if ((match = expr.match(/^(true|false|yes|no)([^\w\d_].*|$)$/))) {
-      let bool = match[1] == "true" || match[1] == "yes" ? true : false;
+    } else if ((match = expr.match(/^(true|false|yes|no|on|off)\b(.*)$/))) {
+      let bool = match[1] == "true" || match[1] == "yes" || match[1] == "on";
       tokens.push({ type: "boolean", value: bool });
       expr = match[2];
-    } else if ((match = expr.match(/^(null)([^\w\d_].*|$)$/))) {
-      tokens.push({ type: "null" });
-      expr = match[2];
-    } else if ((match = expr.match(/^null([^\w\d_].*|$)$/))) {
+    } else if ((match = expr.match(/^(null)\b(.*)$/))) {
       tokens.push({ type: "null" });
       expr = match[2];
     } else if (expr[0] == "|" && parseUntilEmbeddedEnding) {
@@ -523,6 +520,8 @@ export function parseExpr(
       quote = [];
       expr = expr.slice(1);
     } else expr = expr.slice(1);
+
+    console.log("end", { expr, quote, tokens });
   }
 
   let current: Expression[] = [];
