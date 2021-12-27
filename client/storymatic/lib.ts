@@ -421,7 +421,6 @@ export function parseExpr(
   let chars = ["+", "-", "*", "/", "%", ">", "<", "(", ")", "[", "]", ",", "!", "{", "}"]; // prettier-ignore
 
   while ((expr = quote ? expr : expr.trim())) {
-    console.log("start", { expr, quote, tokens });
     let match;
 
     if (quote) {
@@ -527,8 +526,6 @@ export function parseExpr(
       quote = [];
       expr = expr.slice(1);
     } else expr = expr.slice(1);
-
-    console.log("end", { expr, quote, tokens });
   }
 
   let current: Expression[] = [];
