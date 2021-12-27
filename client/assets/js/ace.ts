@@ -8,7 +8,10 @@ import { zQuery } from "./jsx.js";
 export function edit(el: zQuery | HTMLElement | string): AceAjax.Editor {
   if (el instanceof zQuery) el = el[0];
 
-  let editor = (ace.edit as any)(el as any, { useWorker: false });
+  let editor = (ace.edit as any)(el as any, {
+    useWorker: false,
+  }) as AceAjax.Editor;
+
   editor.setFontSize("1em");
   editor.setOption("fontFamily", "'Fira Code', monospace");
   editor.setShowPrintMargin(false);
@@ -16,6 +19,7 @@ export function edit(el: zQuery | HTMLElement | string): AceAjax.Editor {
   editor.session.setUseWrapMode(true);
   editor.session.setUseSoftTabs(true);
   editor.session.setTabSize(2);
+  editor.renderer.setShowGutter(false);
   editor.container.classList.remove("ace-tm");
   editor.container.classList.add("cobalt2");
 
