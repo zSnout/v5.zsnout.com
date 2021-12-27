@@ -22,7 +22,7 @@ export type Action =
   | { type: "print"; content: Expression[] }
   | {
       type: "variable";
-      name: string;
+      name: Expression[];
       mode: "=" | "+=" | "-=" | "*=" | "/=" | "%=";
       value: Expression[];
     }
@@ -248,7 +248,7 @@ export function parseActionGroups(groups: Group): Action[] {
     ) {
       actions.push({
         type: "variable",
-        name: match[1],
+        name: [{ type: "variable", name: match[1] }],
         mode: match[2] as any,
         value: parseExpr(match[3]),
       });
@@ -373,7 +373,9 @@ export function parseActionGroups(groups: Group): Action[] {
         type: match[1] as "return",
         value: val,
       });
-    } else actions.push({ type: "print", content: parseExpr(e) });
+    } else {
+      actions.push({ type: "print", content: parseExpr(e) });
+    }
   }
 
   return actions;
@@ -664,7 +666,9 @@ export function actionToJS(actions: Action[]): string {
         break;
 
       case "variable":
-        code += `$${action.name} ${action.mode} ${exprToJS(action.value)};\n`;
+        code += `${exprToJS(action.name)} ${action.mode} ${exprToJS(
+          action.value
+        )};\n`;
         break;
 
       case "let":
