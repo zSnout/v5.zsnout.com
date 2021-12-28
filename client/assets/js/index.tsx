@@ -77,6 +77,7 @@ function resetRecentlyVisited() {
 }
 
 if (new URL(location.href).searchParams.has("embed")) $.root.addClass("embed");
+if (new URL(location.href).searchParams.has("nobg")) $.root.addClass("nobg");
 
 onStorageChange("recentlyVisited", checkRecentlyVisited);
 
