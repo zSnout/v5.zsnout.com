@@ -4,13 +4,15 @@
 #output {
   display: block;
   border: none;
-  margin: none;
+  margin: 0;
   font-size: 1em;
 }
 
 #field {
   background: $element;
   padding: $margin;
+  height: 1em;
+
   width: calc(100% - (2 * $margin));
   border-radius: 0.5em;
   color: $text-color;
@@ -30,7 +32,7 @@
 
   p {
     margin: 0;
-    margin-top: $margin;
+    margin-bottom: $margin;
 
     &:last-child {
       border-bottom-left-radius: 0.5em;
