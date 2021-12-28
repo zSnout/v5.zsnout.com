@@ -26,7 +26,12 @@ type WorkerMessage =
 async function smWorker(thread: Thread<ScriptMessage, WorkerMessage>) {
   function _print(...data: any[]) {
     data
-      .filter((e) => e !== null && typeof e != "undefined")
+      .filter(
+        (e) =>
+          typeof e != "undefined" &&
+          typeof e != "object" &&
+          typeof e != "function"
+      )
       .map((data) => thread.send({ type: "text", content: data }));
   }
 
@@ -297,8 +302,8 @@ async function startProgram(script: string) {
 
     try {
       ${indent(storyToJS(script))}
-    } catch {
-      $kill(["An error occured while running this program!"]);
+    } catch (e) {
+      $kill(["An error occured while running this program! " + (e?.message || e)]);
     }
 
     $kill();
