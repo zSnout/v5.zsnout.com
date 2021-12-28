@@ -87,9 +87,7 @@ export type Expression =
   | "||"
   | ","
   | "{"
-  | "}"
-  | "?"
-  | ":";
+  | "}";
 
 /** A type of nested expression (parentheses, brackets, braces, etc.) */
 export type SubExpression = Extract<Expression, { items: any[] }>;
@@ -499,7 +497,7 @@ export function parseExpr(
   let tokens: Expression[] = [];
   let quote: false | StringExpr[] = false;
   let twochars = ["<=", ">=", "&&", "||"];
-  let chars = ["+", "-", "*", "/", "%", ">", "<", "(", ")", "[", "]", ",", "!", "{", "}", "?", ":"]; // prettier-ignore
+  let chars = ["+", "-", "*", "/", "%", ">", "<", "(", ")", "[", "]", ",", "!", "{", "}"]; // prettier-ignore
 
   while ((expr = quote ? expr : expr.trim())) {
     let match;
@@ -536,9 +534,7 @@ export function parseExpr(
         expr = expr.slice(1);
       }
     } else if ((match = expr.match(/^\.\s*\$?(\w+)\b(.*)$/))) {
-      if (match[1][0].match(/\d/))
-        tokens.push("[", { type: "string", content: [match[1]] }, "]");
-      else tokens.push({ type: "propertyaccess", name: match[1] });
+      tokens.push({ type: "propertyaccess", name: match[1] });
       expr = match[2];
     } else if ((match = expr.match(/^\$?(\w+)\s*:(.*)$/))) {
       tokens.push({ type: "objectproperty", name: match[1] });
@@ -727,9 +723,13 @@ export function exprToJS(exprs: Expression[]): string {
     else if (expr.type == "boolean") code += ` ${expr.value} `;
     else if (expr.type == "null") code += ` null `;
     else if (expr.type == "variable") code += ` $${expr.name} `;
-    else if (expr.type == "propertyaccess") code += ` .${expr.name} `;
-    else if (expr.type == "objectproperty") code += ` ${expr.name}: `;
-    else if (expr.type == "command")
+    else if (expr.type == "propertyaccess") {
+      if (expr.name.match(/^\d/)) code += ` [ "${expr.name}" ] `;
+      else code += ` .${expr.name} `;
+    } else if (expr.type == "objectproperty") {
+      if (expr.name.match(/^\d/)) code += ` "${expr.name}": `;
+      else code += ` ${expr.name}: `;
+    } else if (expr.type == "command")
       code += ` ( await $${expr.name}( [ ${expr.arg
         .map(exprToJS)
         .join(" , ")} ] ) ) `;
