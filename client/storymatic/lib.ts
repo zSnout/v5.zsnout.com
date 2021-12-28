@@ -786,7 +786,7 @@ export function actionToJS(actions: Action[]): string {
       case "repeat":
         code += `for ( let _loop of Array( + ( ${exprToJS(
           action.cond
-        )} ) ) {\n${indent(actionToJS(action.block))}\n}\n`;
+        )} ) ) ) {\n${indent(actionToJS(action.block))}\n}\n`;
         break;
 
       case "unless":
