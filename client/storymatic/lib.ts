@@ -128,6 +128,12 @@ export function reduceMultiLineParens(script: string): string {
         char = "";
       }
 
+      if (level == 0 && char == ";") {
+        result.push(current);
+        current = "";
+        char = "";
+      }
+
       current += char;
     }
 

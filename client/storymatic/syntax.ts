@@ -65,7 +65,7 @@ ace.define(
           },
           { token: "string", regex: /"/, next: "string-dq" },
           { token: "paren", regex: /\|/, next: "string-dq" },
-          { token: "text", regex: /,/ },
+          { token: "text", regex: /[,;]/ },
           { token: "text", regex: /[ \t]+/ },
           { defaultToken: "invalid" },
         ],
