@@ -237,7 +237,7 @@ $("#fieldform").on("submit", (event) => {
   }
 });
 
-field.focus();
+if (top == window) field.focus();
 
 function makeTag(data: string) {
   let tag = <p>{data}</p>;
