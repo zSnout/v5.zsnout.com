@@ -12,7 +12,7 @@ export function edit(el: zQuery | HTMLElement | string): AceAjax.Editor {
     useWorker: false,
   }) as AceAjax.Editor;
 
-  editor.setFontSize("1em");
+  editor.setFontSize("0.875em");
   editor.setOption("fontFamily", "'Fira Code', monospace");
   editor.setShowPrintMargin(false);
   editor.setOption("scrollPastEnd", true);
