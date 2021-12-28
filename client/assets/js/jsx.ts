@@ -24,11 +24,40 @@ export class zQuery extends Array<HTMLElement> {
   }
 
   /**
+   * Checks if the first element in this zQuery is scrolled down.
+   * @returns Whether the element is near the bottom of its scroll zone.
+   */
+  isNearBottom(margin: number = 8): boolean {
+    if (this[0]) {
+      return (
+        this[0].scrollTop + this[0].clientHeight + margin >=
+        this[0].scrollHeight
+      );
+    }
+
+    return false;
+  }
+
+  /**
+   * Scrolls to the bottom of each element in this zQuery.
+   * @returns The current zQuery to allow for chaining.
+   */
+  scrollToBottom(): this {
+    return this.each((el) => el.scrollTo(0, 1000000));
+  }
+
+  /**
    * Calls a function on each element in this zQuery.
    * @param callback The function to call on each element.
    * @returns The current zQuery to allow for chaining.
    */
-  each(callback: (element: HTMLElement) => void): this {
+  each(
+    callback: (
+      element: HTMLElement,
+      index: number,
+      array: HTMLElement[]
+    ) => void
+  ): this {
     this.forEach(callback);
 
     return this;
@@ -452,6 +481,9 @@ $.body = $(document.body);
 
 /** A zQuery containing the root `main` element. */
 $.main = $("#main");
+
+/** A zQuery containing the root `outer` element. */
+$.outer = $("#outer");
 
 /**
  * Creates a new JSX component and returns it as a zQuery.
