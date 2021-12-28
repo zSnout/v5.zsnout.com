@@ -87,7 +87,9 @@ export type Expression =
   | "||"
   | ","
   | "{"
-  | "}";
+  | "}"
+  | "?"
+  | ":";
 
 /** A type of nested expression (parentheses, brackets, braces, etc.) */
 export type SubExpression = Extract<Expression, { items: any[] }>;
@@ -497,7 +499,7 @@ export function parseExpr(
   let tokens: Expression[] = [];
   let quote: false | StringExpr[] = false;
   let twochars = ["<=", ">=", "&&", "||"];
-  let chars = ["+", "-", "*", "/", "%", ">", "<", "(", ")", "[", "]", ",", "!", "{", "}"]; // prettier-ignore
+  let chars = ["+", "-", "*", "/", "%", ">", "<", "(", ")", "[", "]", ",", "!", "{", "}", "?", ":"]; // prettier-ignore
 
   while ((expr = quote ? expr : expr.trim())) {
     let match;
@@ -522,7 +524,7 @@ export function parseExpr(
       } else if (expr[0] == "\\") {
         quote.push(expr[1]);
         expr = expr.slice(2);
-      } else if ((match = expr.match(/^\$([\w_][\w\d_]*)([^\w\d_].*|$)$/))) {
+      } else if ((match = expr.match(/^\$(\w+)\b(.*)$/))) {
         quote.push({ type: "variable", name: match[1] });
         expr = match[2];
       } else if (expr[0] == "|") {
@@ -533,35 +535,33 @@ export function parseExpr(
         quote.push(expr[0]);
         expr = expr.slice(1);
       }
-    } else if (
-      (match = expr.match(/^\.\s*\$?([\w_][\w\d_]*)([^\w\d_].*|$)$/))
-    ) {
-      tokens.push({ type: "propertyaccess", name: match[1] });
+    } else if ((match = expr.match(/^\.\s*\$?(\w+)\b(.*)$/))) {
+      if (match[1][0].match(/\d/))
+        tokens.push("[", { type: "string", content: [match[1]] }, "]");
+      else tokens.push({ type: "propertyaccess", name: match[1] });
       expr = match[2];
-    } else if ((match = expr.match(/^\$?([\w_][\w\d_]*)\s*:(.+)$/))) {
+    } else if ((match = expr.match(/^\$?(\w+)\s*:(.*)$/))) {
       tokens.push({ type: "objectproperty", name: match[1] });
       expr = match[2];
-    } else if ((match = expr.match(/^\$([\w_][\w\d_]*)([^\w\d_].*|$)$/))) {
+    } else if ((match = expr.match(/^\$(\w+)\b(.*)$/))) {
       tokens.push({ type: "variable", name: match[1] });
       expr = match[2];
-    } else if ((match = expr.match(/^@([\w_][\w\d_]*)([^\w\d_].*|$)$/))) {
+    } else if ((match = expr.match(/^@(\w+)\b(.*)$/))) {
       tokens.push({ type: "command", name: match[1], arg: [] });
       expr = match[2];
+    } else if (expr[0] == "=" || expr.slice(0, 2) == "==") {
+      tokens.push("===");
+      expr = expr.slice(1);
+    } else if (expr[0] == "!=") {
+      tokens.push("!==");
+      expr = expr.slice(1);
     } else if (twochars.includes(expr.slice(0, 2))) {
       tokens.push(expr.slice(0, 2) as Expression);
       expr = expr.slice(2);
     } else if (chars.includes(expr[0])) {
       tokens.push(expr[0] as Expression);
       expr = expr.slice(1);
-    } else if (expr[0] == "=" || expr.slice(0, 2) == "==") {
-      tokens.push("===");
-      expr = expr.slice(1);
-    } else if (expr[0] == "!=") {
-      tokens.push("===");
-      expr = expr.slice(1);
-    } else if (
-      (match = expr.match(/^(is not|isnt|is|not|and|or)([^\w\d_].*|$)$/))
-    ) {
+    } else if ((match = expr.match(/^(is not|isnt|is|not|and|or)\b(.*)$/))) {
       let phrase = match[1] as "is not" | "isnt" | "is" | "not" | "and" | "or";
 
       switch (phrase) {
@@ -588,7 +588,7 @@ export function parseExpr(
       }
 
       expr = match[2];
-    } else if ((match = expr.match(/^(\d+(?:\.\d+)?)([^\w\d_].*|$)$/))) {
+    } else if ((match = expr.match(/^(\d+(?:\.\d+)?)\b(.*)$/))) {
       let number = parseFloat(match[1]);
       if (!Number.isNaN(number)) tokens.push({ type: "number", value: number });
       expr = match[2];

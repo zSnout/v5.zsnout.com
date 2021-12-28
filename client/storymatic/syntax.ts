@@ -30,7 +30,7 @@ ace.define(
         { token: "constant.language.escape", regex: /\\./ },
         { token: "string", regex: /"/, next: "start" },
         { token: "paren", regex: /\|/, next: "start" },
-        { token: "variable.storymatic", regex: /\$[\w_][\w\d_]*/ },
+        { token: "variable.storymatic", regex: /\$\w+/ },
       ];
 
       this.$rules = {
@@ -48,25 +48,19 @@ ace.define(
           { token: "constant.language", regex: /true|false|null/ },
           { token: "keyword.operator", regex: /[+\-*\/%>=<!]|[&|]{2}/ },
           { token: "paren", regex: /[(){}[\]]/ },
-          { token: "entity.name.function", regex: /@[\w_][\w\d_]*\b/ },
-          {
-            token: ["property", "text"],
-            regex: /(\$?[\w_][\w\d_]*\s*)(:)/,
-          },
-          {
-            token: ["text", "property"],
-            regex: /(\.\s*)(\$?[\w_][\w\d_]*\s*)/,
-          },
-          { token: "variable.storymatic", regex: /\$[\w_][\w\d_]*/ },
-          { token: "constant.numeric", regex: /\d+(?:\.\d+)?/ },
+          { token: "entity.name.function", regex: /@\w+\b/ },
+          { token: ["property", "text"], regex: /(\$?\w+\s*)(:)/ },
+          { token: ["text", "property"], regex: /(\.\s*)(\$?\w+)/ },
+          { token: "variable.storymatic", regex: /\$\w+/ },
+          { token: "constant.numeric", regex: /\b\d+(?:\.\d+)?\b/ },
           {
             token: "constant.language",
             regex: /\b(?:null|true|false|yes|no|on|off|y|n)\b/,
           },
           { token: "string", regex: /"/, next: "string-dq" },
           { token: "paren", regex: /\|/, next: "string-dq" },
-          { token: "text", regex: /[,;]/ },
-          { token: "text", regex: /[ \t]+/ },
+          { token: "text", regex: /[,;:?]/ },
+          { token: "text", regex: /\s+/ },
           { defaultToken: "invalid" },
         ],
         "string-dq": [
