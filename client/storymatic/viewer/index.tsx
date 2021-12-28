@@ -1,4 +1,4 @@
-import $, { jsx } from "../../assets/js/jsx.js";
+import $, { jsx, zQuery } from "../../assets/js/jsx.js";
 import thread, { Thread } from "../../assets/js/thread.js";
 import {
   decodeBase64,
@@ -224,13 +224,24 @@ let field = $("#field");
 let output = $("#output");
 let worker: Thread<WorkerMessage, ScriptMessage> | null = null;
 
+/**
+ * Appends an element to output and scrolls to the bottom if near it.
+ * @param el The element to append.
+ */
+function appendAndScroll(el: zQuery) {
+  let isNearBottom = $.outer.isNearBottom();
+  output.append(el);
+
+  if (isNearBottom) $.outer.scrollToBottom();
+}
+
 $("#fieldform").on("submit", (event) => {
   event.preventDefault();
 
   if (!worker) return;
   if (field.val()) {
     worker.send({ type: "field", value: field.val() });
-    output.prepend(<p className="user">{field.val()}</p>);
+    appendAndScroll(<p className="user">{field.val()}</p>);
     field.val("");
   } else {
     worker.send({ type: "submit" });
@@ -239,13 +250,18 @@ $("#fieldform").on("submit", (event) => {
 
 if (top == window) field.focus();
 
+/**
+ * Converts some data to a JSX element.
+ * @param data The data to convert.
+ * @returns The data as a JSX element.
+ */
 function makeTag(data: string) {
   let tag = <p>{data}</p>;
   let isBold = false;
   let isItalic = false;
 
   tag.html(
-    tag.html().replace(/_|\*/g, (match) => {
+    tag.html().replace(/[_*]/g, (match) => {
       if (match == "_") isItalic = !isItalic;
       if (match == "*") isBold = !isBold;
 
@@ -265,7 +281,7 @@ function makeTag(data: string) {
 async function startProgram(script: string) {
   worker?.kill();
   output.empty();
-  output.prepend(
+  appendAndScroll(
     <p className="special">
       If you see this message, the program failed to run. Check that your syntax
       is correct.
@@ -292,7 +308,9 @@ async function startProgram(script: string) {
 
   for await (let data of worker.reciever) {
     if (data.type == "kill") {
-      if (data.error) output.prepend(<p className="special">{data.error}</p>);
+      if (data.error) {
+        appendAndScroll(<p className="special">{data.error}</p>);
+      }
 
       worker.kill();
       worker = null;
@@ -301,9 +319,9 @@ async function startProgram(script: string) {
     }
 
     if (data.type == "text") {
-      output.prepend(makeTag(data.content));
+      appendAndScroll(makeTag(data.content));
     } else if (data.type == "line") {
-      output.prepend(<hr />);
+      appendAndScroll(<hr />);
     } else if (data.type == "clear") {
       output.empty();
     } else if (data.type == "menu") {
@@ -321,7 +339,7 @@ async function startProgram(script: string) {
         ))
       );
 
-      output.prepend(menu);
+      appendAndScroll(menu);
     }
   }
 }
