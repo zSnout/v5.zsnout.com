@@ -39,7 +39,7 @@ export type Action =
       block: Action[] | null;
     }
   | {
-      type: "if" | "elif" | "unless" | "while" | "until";
+      type: "if" | "elif" | "unless" | "while" | "until" | "repeat";
       cond: Expression[];
       block: Action[];
     }
@@ -280,8 +280,23 @@ export function parseActionGroups(groups: Group): Action[] {
         args: splitOnComma(expr),
         block,
       });
+    } else if ((match = e.match(/^repeat$/))) {
+      let block: Action[] = [];
+
+      if (typeof groups[i + 1] == "object") {
+        block = parseActionGroups(groups[i + 1] as Group);
+        i++;
+      }
+
+      actions.push({
+        type: "while",
+        cond: [{ type: "boolean", value: true }],
+        block,
+      });
     } else if (
-      (match = e.match(/^(if|elif|else if|unless|while|until)\s+(.+)$/))
+      (match = e.match(
+        /^(if|elif|else if|unless|while|until|repeat)\b\s*(.+)$/
+      ))
     ) {
       let block: Action[] = [];
 
@@ -293,7 +308,13 @@ export function parseActionGroups(groups: Group): Action[] {
       if (match[1] == "else if") match[1] = "elif";
 
       actions.push({
-        type: match[1] as "if" | "elif" | "unless" | "while" | "until",
+        type: match[1] as
+          | "if"
+          | "elif"
+          | "unless"
+          | "while"
+          | "until"
+          | "repeat",
         cond: parseExpr(match[2]),
         block,
       });
@@ -326,7 +347,7 @@ export function parseActionGroups(groups: Group): Action[] {
         block,
       });
     } else if (
-      (match = e.match(/^let\s+\$([\w_][\w\d_]*)(?:\s*(?:be|=)\s*(.+))?/))
+      (match = e.match(/^let\s+\$([\w_][\w\d_]*)(?:(?:\s*=|\s+be\b)\s*(.+))?/))
     ) {
       let val: Expression[] = [{ type: "null" }];
       if (match[2]) val = parseExpr(match[2]);
@@ -757,16 +778,17 @@ export function actionToJS(actions: Action[]): string {
         )}\n}\n`;
         break;
 
-      case "unless":
-        code += `if ( ! ( ${exprToJS(action.cond)} ) ) {\n${indent(
-          actionToJS(action.block)
-        )}\n}\n`;
+      case "repeat":
+        code += `for ( let _loop of Array( + ( ${exprToJS(
+          action.cond
+        )} ) ) {\n${indent(actionToJS(action.block))}\n}\n`;
         break;
 
+      case "unless":
       case "until":
-        code += `while ( ! ( ${exprToJS(action.cond)} ) ) {\n${indent(
-          actionToJS(action.block)
-        )}\n}\n`;
+        code += `${action.type == "unless" ? "if" : "while"} ( ! ( ${exprToJS(
+          action.cond
+        )} ) ) {\n${indent(actionToJS(action.block))}\n}\n`;
         break;
 
       case "elif":

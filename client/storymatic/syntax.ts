@@ -43,7 +43,7 @@ ace.define(
           {
             token: "keyword",
             regex:
-              /\b(?:if|elif|else|unless|while|until|each|return|and|or|not|isnt|is|in|of|be)\b/,
+              /\b(?:if|elif|else|unless|while|until|repeat|each|return|and|or|not|isnt|is|in|of|be)\b/,
           },
           { token: "constant.language", regex: /true|false|null/ },
           { token: "keyword.operator", regex: /[+\-*\/%>=<!]|[&|]{2}/ },
