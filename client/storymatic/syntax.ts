@@ -61,7 +61,7 @@ ace.define(
           { token: "constant.numeric", regex: /\d+(?:\.\d+)?/ },
           {
             token: "constant.language",
-            regex: /\b(?:true|false|yes|no|on|off|null)\b/,
+            regex: /\b(?:null|true|false|yes|no|on|off|y|n)\b/,
           },
           { token: "string", regex: /"/, next: "string-dq" },
           { token: "paren", regex: /\|/, next: "string-dq" },

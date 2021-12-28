@@ -586,8 +586,13 @@ export function parseExpr(
       let number = parseFloat(match[1]);
       if (!Number.isNaN(number)) tokens.push({ type: "number", value: number });
       expr = match[2];
-    } else if ((match = expr.match(/^(true|false|yes|no|on|off)\b(.*)$/))) {
-      let bool = match[1] == "true" || match[1] == "yes" || match[1] == "on";
+    } else if ((match = expr.match(/^(true|false|yes|no|on|off|y|n)\b(.*)$/))) {
+      let bool =
+        match[1] == "true" ||
+        match[1] == "yes" ||
+        match[1] == "on" ||
+        match[1] == "y";
+
       tokens.push({ type: "boolean", value: bool });
       expr = match[2];
     } else if ((match = expr.match(/^(null)\b(.*)$/))) {
