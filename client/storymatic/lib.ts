@@ -248,15 +248,6 @@ export function parseActionGroups(groups: Group): Action[] {
     let match;
     if (e.startsWith("#")) {
       continue;
-    } else if (
-      (match = e.match(/^\$([\w_][\w\d_]*)\s*([+*%\/\-]=|=)\s*(.+)$/))
-    ) {
-      actions.push({
-        type: "variable",
-        name: [{ type: "variable", name: match[1] }],
-        mode: match[2] as any,
-        value: parseExpr(match[3]),
-      });
     } else if ((match = e.match(/^@([\w_][\w\d_]*)\s*(.*)$/))) {
       let block: Action[] | null = null;
       let expr = match[2] ? parseExpr(match[2]) : [];
@@ -379,7 +370,61 @@ export function parseActionGroups(groups: Group): Action[] {
         value: val,
       });
     } else {
-      actions.push({ type: "print", content: parseExpr(e) });
+      let expr = parseExpr(e);
+
+      if (
+        expr.length >= 3 &&
+        typeof expr[0] == "object" &&
+        expr[0].type == "variable"
+      ) {
+        /** The root variable being changed. */
+        let baseVar = expr[0];
+
+        /** The index of the equals sign. */
+        let equalsIndex = expr.indexOf("===");
+
+        // Use <= 0 so that the equals can't be the first token.
+        if (equalsIndex <= 0) {
+          actions.push({ type: "print", content: parseExpr(e) });
+          break;
+        }
+
+        let mode: Extract<Action, { type: "variable" }>["mode"] = "=";
+
+        // If === is after second token,
+        if (equalsIndex > 1) {
+          let preEquals = expr[equalsIndex - 1];
+
+          if (
+            preEquals == "+" ||
+            preEquals == "-" ||
+            preEquals == "*" ||
+            preEquals == "/" ||
+            preEquals == "%"
+          ) {
+            mode = `${preEquals}=`;
+          }
+        }
+
+        let sliceEnd = mode == "=" ? equalsIndex : equalsIndex - 1;
+
+        if (
+          !expr.slice(1, sliceEnd).every((el) => {
+            if (typeof el != "object") return false;
+            return el.type == "propertyaccess" || el.type == "bracket";
+          })
+        ) {
+          actions.push({ type: "print", content: parseExpr(e) });
+          break;
+        }
+
+        actions.push({
+          mode,
+          type: "variable",
+          name: expr.slice(0, sliceEnd),
+          value: expr.slice(equalsIndex + 1),
+        });
+      } else actions.push({ type: "print", content: parseExpr(e) });
     }
   }
 
