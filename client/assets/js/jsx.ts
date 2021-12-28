@@ -118,12 +118,21 @@ export class zQuery extends Array<HTMLElement> {
    * @param els The elements to append.
    * @returns The current zQuery to allow for chaining.
    */
-  prepend(...els: (HTMLElement | zQuery)[]): this {
-    if (this.length == 0) return this;
+  prepend(...els: (HTMLElement | zQuery | string)[]): this {
+    this[0]?.prepend(...els.flat());
 
-    for (let el of els) {
-      if (el instanceof HTMLElement) this[0].prepend(el);
-      else for (let item of el) this[0].prepend(item);
+    return this;
+  }
+
+  /**
+   * Inserts elements before the first item in this zQuery.
+   * @param els The elements to insert.
+   * @returns The current zQuert to allow for chaining.
+   */
+  insertBefore(...els: (HTMLElement | zQuery | string)[]): this {
+    for (let el of els.flat()) {
+      if (typeof el == "string") this[0]?.insertAdjacentText("beforebegin", el);
+      else this[0]?.insertAdjacentElement("beforebegin", el);
     }
 
     return this;
