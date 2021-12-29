@@ -104,6 +104,7 @@ export type Group = (string | Group)[];
 
 /**
  * Takes a script and removes newlines between parentheses, brackets, and braces.
+ * It also checks for semicolons and splits them into newlines.
  * @param script The script to check.
  * @returns The reduced script.
  */
