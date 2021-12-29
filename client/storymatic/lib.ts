@@ -46,7 +46,8 @@ export type Action =
   | { type: "else"; block: Action[] }
   | { type: "each"; name: string; value: Expression[]; block: Action[] }
   | { type: "let"; name: string; value: Expression[] }
-  | { type: "return"; value: Expression[] };
+  | { type: "return"; value: Expression[] }
+  | { type: "break" | "continue" };
 
 /** A string token. */
 export type StringExpr =
@@ -351,6 +352,10 @@ export function parseActionGroups(groups: Group): Action[] {
       actions.push({
         type: "else",
         block,
+      });
+    } else if ((match = e.match(/^(break|continue)$/))) {
+      actions.push({
+        type: match[1] as "break" | "continue",
       });
     } else if (
       (match = e.match(/^let\s+\$([\w_][\w\d_]*)(?:(?:\s*=|\s+be\b)\s*(.+))?/))
@@ -757,6 +762,11 @@ export function actionToJS(actions: Action[]): string {
         code += `${exprToJS(action.name)} ${action.mode} ${exprToJS(
           action.value
         )};\n`;
+        break;
+
+      case "continue":
+      case "break":
+        code += action.type + ";\n";
         break;
 
       case "let":
