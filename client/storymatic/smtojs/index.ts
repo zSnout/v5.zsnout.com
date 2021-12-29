@@ -12,6 +12,7 @@ let skipChange = false;
 function onchange() {
   jsviewer.session.setValue(storyToJS(editor.getValue()));
   if (skipChange) return;
+
   setLocationHash(encodeBase64(editor.getValue()));
 }
 

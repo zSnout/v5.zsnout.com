@@ -93,7 +93,11 @@ export function onLocationHashChange(
  * @returns The decoded string.
  */
 export function encodeBase64(plaintext: string): string {
-  return btoa(plaintext);
+  try {
+    return btoa(plaintext.replace(/[^\x00-\xff]+/g, ""));
+  } catch {
+    return "";
+  }
 }
 
 /**

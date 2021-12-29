@@ -8,10 +8,9 @@ import {
 } from "../../assets/js/util.js";
 
 function onchange() {
-  if (viewer.contentWindow)
-    viewer.contentWindow.location.hash = encodeBase64(editor.getValue());
-
-  setLocationHash(encodeBase64(editor.getValue()));
+  let b64 = encodeBase64(editor.getValue());
+  if (viewer.contentWindow) viewer.contentWindow.location.hash = b64;
+  setLocationHash(b64);
 }
 
 $("#editor").text(
