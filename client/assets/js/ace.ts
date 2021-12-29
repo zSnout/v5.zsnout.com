@@ -15,7 +15,6 @@ export function edit(el: zQuery | HTMLElement | string): AceAjax.Editor {
   editor.setFontSize("0.875em");
   editor.setOption("fontFamily", "'Fira Code', monospace");
   editor.setShowPrintMargin(false);
-  editor.setOption("scrollPastEnd", true);
   editor.session.setUseWrapMode(true);
   editor.session.setUseSoftTabs(true);
   editor.session.setTabSize(2);
