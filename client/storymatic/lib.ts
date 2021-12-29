@@ -112,9 +112,16 @@ export function reduceMultiLineParens(script: string): string {
   let isQuote = false;
   let result = [];
   let current = "";
+  let ignoreSpace = false;
 
   for (let row of script.split("\n")) {
     for (let char of row) {
+      if (ignoreSpace) {
+        if (char == " ") continue;
+
+        ignoreSpace = false;
+      }
+
       if (char == "|") level += isQuote ? 1 : -1;
       if (char == '"') level += isQuote ? -1 : 1;
       if (char == "|" || char == '"') isQuote = !isQuote;
@@ -130,9 +137,14 @@ export function reduceMultiLineParens(script: string): string {
       }
 
       if (level == 0 && char == ";") {
+        let spaces = current.match(/^\s*/)![0];
         result.push(current);
-        current = "";
+        current = spaces;
+
+        if (result[result.length - 1].match(/^\w+\b/)) current += " ";
+
         char = "";
+        ignoreSpace = true;
       }
 
       current += char;
