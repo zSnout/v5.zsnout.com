@@ -7,6 +7,8 @@ _Published by Zachary Sakowitz on December 8, 2021._
 
 The "0 = 1" paradox states that the numbers 0 and 1 are equivalent. We can easily prove this. Once done, we'll show you how you can use this to prove that any two numbers are equivalent!
 
+_DISCLAIMER: The math in this article is invalid, as we can't abuse parentheses in divergent series. It's just a fun experiment, but it doesn't count as a valid argument._
+
 \toc
 
 - [Proving That 0 = 1](#proving-that-0--1)

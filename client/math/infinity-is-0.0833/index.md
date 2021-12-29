@@ -7,6 +7,8 @@ _Published by Zachary Sakowitz on December 8, 2021._
 
 Did you know that the sum of all whole numbers is equal to -1/12? In this article we find out how it's possible and prove it ourselves!
 
+_DISCLAIMER: The math used in this article doesn't count as real reasoning; it's just a fun thing to think about. See [this video by Mathologer](https://www.youtube.com/watch?v=YuIIjLr6vUA) for more information._
+
 \toc
 
 - [The Series](#the-series)
