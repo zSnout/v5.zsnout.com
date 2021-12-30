@@ -26,14 +26,11 @@ function prepareWorker(): Thread {
   delete (globalThis as any).postMessage;
   delete (globalThis as any).close;
 
-  let onMessage = () =>
-    new Promise<any>(
-      (resolve) => (globalThis.onmessage = ({ data }) => resolve(data))
-    );
-
   async function* reciever(): AsyncGenerator<any, never> {
     while (true) {
-      let data = await onMessage();
+      let data = await new Promise<any>(
+        (resolve) => (globalThis.onmessage = ({ data }) => resolve(data))
+      );
       yield data;
     }
   }
@@ -69,14 +66,11 @@ export default function thread<R, S = R>(
   let url = URL.createObjectURL(blob);
   let worker = new Worker(url);
 
-  let onMessage = () =>
-    new Promise<any>(
-      (resolve) => (worker.onmessage = ({ data }) => resolve(data))
-    );
-
   async function* reciever(): AsyncGenerator<S, never> {
     while (true) {
-      yield await onMessage();
+      yield new Promise<any>(
+        (resolve) => (worker.onmessage = ({ data }) => resolve(data))
+      );
     }
   }
 
