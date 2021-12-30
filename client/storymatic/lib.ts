@@ -284,7 +284,7 @@ export function parseVariableExpr(expr: string): Variable | null {
   }
 
   if (variable.length == parsed.length)
-    return { name: variable, mode: "=", value: [{ type: "null" }] };
+    return { name: variable, mode: "=", value: [] };
 
   let mode: Variable["mode"] = "=";
 
@@ -302,9 +302,7 @@ export function parseVariableExpr(expr: string): Variable | null {
   // We need to use `mode != "="` to ensure that we check the next
   // sign if we used a + sign to get the mode.
   if (parsed[variable.length + +(mode != "=")] != "===") return null;
-
   let value = parsed.slice(variable.length + +(mode != "=") + 1);
-  value = value.length ? value : [{ type: "null" }];
 
   return { mode, value, name: variable };
 }
@@ -433,30 +431,13 @@ export function parseActionGroups(groups: Group): Action[] {
     } else if ((match = e.match(/^let\s*\b(.+)/))) {
       let parsed = parseVariableExpr(match[1]);
       if (!parsed) continue;
+      if (!parsed.name.length) continue;
+      if (!parsed.value.length) parsed.value = [{ type: "null" }];
 
-      let first = parsed.value[0];
-
-      if (
-        parsed.value.length == 1 &&
-        typeof first == "object" &&
-        first.type == "null"
-      ) {
-        let expr = parseExpr(match[1]);
-
-        for (let token of expr) {
-          if (typeof token == "object" && token.type == "variable")
-            actions.push({
-              type: "let",
-              name: [token],
-              value: [{ type: "null" }],
-            });
-        }
-      } else {
-        actions.push({
-          type: "let",
-          ...parsed,
-        });
-      }
+      actions.push({
+        type: "let",
+        ...parsed,
+      });
     } else if (
       (match = e.match(/^(?:func|function|def)\s+@([\w_][\w\d_]*)(?:\s+(.+))?/))
     ) {
@@ -485,7 +466,7 @@ export function parseActionGroups(groups: Group): Action[] {
       let parsed = parseVariableExpr(e);
       let expr = parseExpr(e);
 
-      if (parsed && parsed.name.length)
+      if (parsed && parsed.name.length && parsed.value.length)
         actions.push({ type: "variable", ...parsed });
       else actions.push({ type: "print", content: expr });
     }
