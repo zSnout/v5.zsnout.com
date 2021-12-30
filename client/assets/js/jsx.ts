@@ -223,10 +223,12 @@ export class zQuery extends Array<HTMLElement> {
    */
   off(
     event: keyof HTMLElementEventMap,
-    callback: () => void,
+    callback: Function,
     options: EventListenerOptions = {}
   ): this {
-    this.forEach((el) => el.removeEventListener(event, callback, options));
+    this.forEach((el) =>
+      el.removeEventListener(event, callback as any, options)
+    );
 
     return this;
   }
