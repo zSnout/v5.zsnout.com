@@ -1,16 +1,16 @@
-import $, { jsx } from "../../assets/js/jsx.js";
+import $ from "../../assets/js/jsx.js";
 import {
   decodeBase64,
   getLocationHash,
   onLocationHashChange,
 } from "../../assets/js/util.js";
-import { createViewer } from "../viewer.js";
+import { createViewer, SMViewer } from "../viewer.js";
 
 let field = $("#field");
 let output = $("#output");
 let form = $("#fieldform");
 let element = $.main;
-let viewer: ReturnType<typeof createViewer> | null = null;
+let viewer: SMViewer | null = null;
 
 if (top == window) field.focus();
 
@@ -19,7 +19,8 @@ if (top == window) field.focus();
  * @param script The script to run.
  */
 async function startProgram(script: string) {
-  if (viewer) viewer.worker.kill();
+  if (viewer) viewer.thread.kill();
+  viewer = createViewer(script, { field, output, form, element });
 }
 
 onLocationHashChange((hash) => {
