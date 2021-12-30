@@ -485,7 +485,8 @@ export function parseActionGroups(groups: Group): Action[] {
       let parsed = parseVariableExpr(e);
       let expr = parseExpr(e);
 
-      if (parsed) actions.push({ type: "variable", ...parsed });
+      if (parsed && parsed.name.length)
+        actions.push({ type: "variable", ...parsed });
       else actions.push({ type: "print", content: expr });
     }
   }
