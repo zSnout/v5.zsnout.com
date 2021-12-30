@@ -20,23 +20,18 @@
 /** Represents an action in a script. */
 export type Action =
   | { type: "print"; content: Expression[] }
-  | {
-      type: "variable";
-      name: Expression[];
-      mode: "=" | "+=" | "-=" | "*=" | "/=" | "%=";
-      value: Expression[];
-    }
-  | {
-      type: "define";
-      name: string;
-      args: string[];
-      block: Action[];
-    }
+  | { type: "define"; name: string; args: Expression[]; block: Action[] }
   | {
       type: "command";
       name: string;
       args: Expression[][];
       block: Action[] | null;
+    }
+  | {
+      type: "variable";
+      name: VarExpr[];
+      mode: "=" | "+=" | "-=" | "*=" | "/=" | "%=";
+      value: Expression[];
     }
   | {
       type: "if" | "elif" | "unless" | "while" | "until" | "repeat";
@@ -45,9 +40,22 @@ export type Action =
     }
   | { type: "else"; block: Action[] }
   | { type: "each"; name: string; value: Expression[]; block: Action[] }
-  | { type: "let"; name: string; value: Expression[] }
+  | { type: "let"; name: VarExpr[]; value: Expression[] }
   | { type: "return"; value: Expression[] }
   | { type: "break" | "continue" };
+
+/** A variable token. */
+export type VarExpr = Extract<
+  Expression,
+  { type: "variable" | "bracket" | "propertyaccess" }
+>;
+
+/** Data representing a variable. */
+export type Variable = {
+  name: VarExpr[];
+  mode: "=" | "+=" | "-=" | "*=" | "/=" | "%=";
+  value: Expression[];
+};
 
 /** A string token. */
 export type StringExpr =
@@ -142,7 +150,7 @@ export function reduceMultiLineParens(script: string): string {
         result.push(current);
         current = spaces;
 
-        if (result[result.length - 1].match(/^\w+\b/)) current += " ";
+        if (result[result.length - 1].match(/^\s*[A-Za-z]/)) current += " ";
 
         char = "";
         ignoreSpace = true;
@@ -247,6 +255,58 @@ export function getGroupsOf(script: string): Group {
   }
 
   return group[0] || [];
+}
+
+/**
+ * Attempts to parse an expression as a variable update.
+ * @param expr The expression to parse.
+ * @returns Information about the parsed expression.
+ */
+export function parseVariableExpr(expr: string): Variable | null {
+  let parsed = parseExpr(expr);
+  let variable: VarExpr[] = [];
+  let isFirst = true;
+
+  for (let token of parsed) {
+    if (typeof token != "object") break;
+
+    if (
+      (token.type == "variable" && isFirst) ||
+      token.type == "bracket" ||
+      token.type == "propertyaccess"
+    )
+      variable.push(token);
+    else {
+      break;
+    }
+
+    isFirst = false;
+  }
+
+  if (variable.length == parsed.length)
+    return { name: variable, mode: "=", value: [{ type: "null" }] };
+
+  let mode: Variable["mode"] = "=";
+
+  let premode = parsed[variable.length];
+  if (
+    premode == "+" ||
+    premode == "-" ||
+    premode == "*" ||
+    premode == "/" ||
+    premode == "%"
+  )
+    mode = `${premode}=`;
+
+  // Checks if the item after the variable is an equals sign.
+  // We need to use `mode != "="` to ensure that we check the next
+  // sign if we used a + sign to get the mode.
+  if (parsed[variable.length + +(mode != "=")] != "===") return null;
+
+  let value = parsed.slice(variable.length + +(mode != "=") + 1);
+  value = value.length ? value : [{ type: "null" }];
+
+  return { mode, value, name: variable };
 }
 
 /**
@@ -370,29 +430,36 @@ export function parseActionGroups(groups: Group): Action[] {
       actions.push({
         type: match[1] as "break" | "continue",
       });
-    } else if (
-      (match = e.match(/^let\s+\$([\w_][\w\d_]*)(?:(?:\s*=|\s+be\b)\s*(.+))?/))
-    ) {
-      let val: Expression[] = [{ type: "null" }];
-      if (match[2]) val = parseExpr(match[2]);
+    } else if ((match = e.match(/^let\s*\b(.+)/))) {
+      let parsed = parseVariableExpr(match[1]);
+      if (!parsed) continue;
 
-      actions.push({
-        type: "let",
-        name: match[1],
-        value: val,
-      });
+      let first = parsed.value[0];
+
+      if (
+        parsed.value.length == 1 &&
+        typeof first == "object" &&
+        first.type == "null"
+      ) {
+        let expr = parseExpr(match[1]);
+
+        for (let token of expr) {
+          if (typeof token == "object" && token.type == "variable")
+            actions.push({
+              type: "let",
+              name: [token],
+              value: [{ type: "null" }],
+            });
+        }
+      } else {
+        actions.push({
+          type: "let",
+          ...parsed,
+        });
+      }
     } else if (
       (match = e.match(/^(?:func|function|def)\s+@([\w_][\w\d_]*)(?:\s+(.+))?/))
     ) {
-      let args: string[] = [];
-
-      if (match[2])
-        args = match[2]
-          .split(/\s+/)
-          .map((e) => e.match(/^\$([\w_][\w\d_]*)$/))
-          .map((e) => e?.[1])
-          .filter((e): e is string => !!e);
-
       let block: Action[];
       let group = groups[i + 1];
       if (typeof group == "object") {
@@ -403,7 +470,7 @@ export function parseActionGroups(groups: Group): Action[] {
       actions.push({
         type: "define",
         name: match[1],
-        args,
+        args: parseExpr(match[2] || ""),
         block,
       });
     } else if ((match = e.match(/^(return)(?:\s+(.+))?/))) {
@@ -415,61 +482,11 @@ export function parseActionGroups(groups: Group): Action[] {
         value: val,
       });
     } else {
+      let parsed = parseVariableExpr(e);
       let expr = parseExpr(e);
 
-      if (
-        expr.length >= 3 &&
-        typeof expr[0] == "object" &&
-        expr[0].type == "variable"
-      ) {
-        /** The root variable being changed. */
-        let baseVar = expr[0];
-
-        /** The index of the equals sign. */
-        let equalsIndex = expr.indexOf("===");
-
-        // Use <= 0 so that the equals can't be the first token.
-        if (equalsIndex <= 0) {
-          actions.push({ type: "print", content: parseExpr(e) });
-          break;
-        }
-
-        let mode: Extract<Action, { type: "variable" }>["mode"] = "=";
-
-        // If === is after second token,
-        if (equalsIndex > 1) {
-          let preEquals = expr[equalsIndex - 1];
-
-          if (
-            preEquals == "+" ||
-            preEquals == "-" ||
-            preEquals == "*" ||
-            preEquals == "/" ||
-            preEquals == "%"
-          ) {
-            mode = `${preEquals}=`;
-          }
-        }
-
-        let sliceEnd = mode == "=" ? equalsIndex : equalsIndex - 1;
-
-        if (
-          !expr.slice(1, sliceEnd).every((el) => {
-            if (typeof el != "object") return false;
-            return el.type == "propertyaccess" || el.type == "bracket";
-          })
-        ) {
-          actions.push({ type: "print", content: parseExpr(e) });
-          break;
-        }
-
-        actions.push({
-          mode,
-          type: "variable",
-          name: expr.slice(0, sliceEnd),
-          value: expr.slice(equalsIndex + 1),
-        });
-      } else actions.push({ type: "print", content: parseExpr(e) });
+      if (parsed) actions.push({ type: "variable", ...parsed });
+      else actions.push({ type: "print", content: expr });
     }
   }
 
@@ -741,13 +758,9 @@ export function exprToJS(exprs: Expression[]): string {
     else if (expr.type == "boolean") code += ` ${expr.value} `;
     else if (expr.type == "null") code += ` null `;
     else if (expr.type == "variable") code += ` $${expr.name} `;
-    else if (expr.type == "propertyaccess") {
-      if (expr.name.match(/^\d/)) code += ` [ "${expr.name}" ] `;
-      else code += ` .${expr.name} `;
-    } else if (expr.type == "objectproperty") {
-      if (expr.name.match(/^\d/)) code += ` "${expr.name}": `;
-      else code += ` ${expr.name}: `;
-    } else if (expr.type == "command")
+    else if (expr.type == "propertyaccess") code += ` .$${expr.name} `;
+    else if (expr.type == "objectproperty") code += ` $${expr.name}: `;
+    else if (expr.type == "command")
       code += ` ( await $${expr.name}( [ ${expr.arg
         .map(exprToJS)
         .join(" , ")} ] ) ) `;
@@ -783,13 +796,13 @@ export function actionToJS(actions: Action[]): string {
         break;
 
       case "let":
-        code += `let $${action.name} = ${exprToJS(action.value)};\n`;
+        code += `let ${exprToJS(action.name)} = ${exprToJS(action.value)};\n`;
         break;
 
       case "define":
-        code += `async function $${action.name}( [ ${action.args
-          .map((e) => `$${e}`)
-          .join(" , ")} ] = [] ) {\n${indent(actionToJS(action.block))}\n}\n\n`;
+        code += `async function $${action.name}( [ ${exprToJS(
+          action.args
+        )} ] = [] ) {\n${indent(actionToJS(action.block))}\n}\n\n`;
         break;
 
       case "command":
