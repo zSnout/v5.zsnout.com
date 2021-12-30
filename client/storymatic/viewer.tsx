@@ -227,7 +227,14 @@ async function smWorker(thread: Thread<ScriptMessage, WorkerMessage>) {
  * @param code The Storymatic code.
  * @returns An object with info about the viewer.
  */
-export function createViewer(code: string) {
+export function createViewer(
+  code: string,
+  {
+    field = <input autocomplete="off" className="sm-field" />,
+    form = <form className="sm-form" />,
+    output = <div className="sm-output" />,
+  }: { field?: zQuery; form?: zQuery; output?: zQuery } = {}
+) {
   // The worker code is sliced to remove the ending }
   // We need to do this to stick extra code in the middle
   // We re-add the } at the end of the paragraph
@@ -244,12 +251,7 @@ export function createViewer(code: string) {
     $kill();
   }`);
 
-  let form = <form className="sm-form" />;
-  let field = <input autocomplete="off" className="sm-field" />;
-  let output = <div className="sm-output" />;
-  let element = <div className="sm-viewer" />;
   form.append(field);
-  element.append(field, output);
 
   appendAndScroll(
     <p className="special">
@@ -306,7 +308,7 @@ export function createViewer(code: string) {
     }
   })();
 
-  return { form, field, output, element, worker };
+  return { form, field, output, worker };
 }
 
 /**
