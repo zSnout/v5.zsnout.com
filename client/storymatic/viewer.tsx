@@ -270,8 +270,9 @@ export function createViewer(
     $kill();
   }`);
 
-  form.append(field);
+  field.val("");
   output.empty();
+  form.append(field);
   element.append(output, form);
 
   appendAndScroll(
