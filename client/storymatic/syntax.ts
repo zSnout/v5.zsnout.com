@@ -36,7 +36,7 @@ ace.define(
       this.$rules = {
         start: [
           { token: "invisible", regex: /[^\x00-\xff]+/ },
-          { token: "comment.line", regex: /^\s+#.*$/ },
+          { token: "comment.line", regex: /^\s*#.*$/ },
           {
             token: "storage.type.function",
             regex: /\b(?:function|func|def|let)\b/,
