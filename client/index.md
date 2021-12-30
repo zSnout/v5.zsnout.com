@@ -19,7 +19,6 @@ js: ./index.js
 \buttonlist
 [Sign Up](/account/create/)
 [Log In](/account/login/)
-[Cache Manager](/installation/)
 [Bingo Board](/bingo/)
 [TicTacToe Generator](/tictactoe/generator/)
 [Storymatic Playground](/storymatic/playground/)
