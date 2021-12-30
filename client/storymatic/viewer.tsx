@@ -233,8 +233,11 @@ export interface SMViewer {
   /** The area where messages are outputted. */
   output: zQuery;
 
-  /** The element containing `form` and `output` */
+  /** The element containing `form` and `output`. */
   element: zQuery;
+
+  /** The element that is autoscrolled. */
+  scrollable: zQuery;
 
   /** The thread for the Storymatic worker. */
   thread: Thread<WorkerMessage, ScriptMessage>;
@@ -252,6 +255,7 @@ export function createViewer(
     form = <form className="sm-form" />,
     output = <div className="sm-output" />,
     element = <div className="sm-viewer" />,
+    scrollable = element,
   }: Partial<Omit<SMViewer, "thread">> = {}
 ): SMViewer {
   // The worker code is sliced to remove the ending }
@@ -280,7 +284,8 @@ export function createViewer(
       If you see this message, the program failed to run. Check that your syntax
       is correct.
     </p>,
-    output
+    output,
+    scrollable
   );
 
   form.on("submit", (event) => {
@@ -288,7 +293,12 @@ export function createViewer(
 
     if (field.val()) {
       worker.send({ type: "field", value: field.val() });
-      appendAndScroll(<p className="user">{field.val()}</p>, output);
+      appendAndScroll(
+        <p className="user">{field.val()}</p>,
+        output,
+        scrollable
+      );
+
       field.val("");
     } else worker.send({ type: "submit" });
   });
@@ -296,18 +306,21 @@ export function createViewer(
   (async () => {
     for await (let data of worker.reciever) {
       if (data.type == "kill") {
-        if (data.error) {
-          appendAndScroll(<p className="special">{data.error}</p>, output);
-        }
+        if (data.error)
+          appendAndScroll(
+            <p className="special">{data.error}</p>,
+            output,
+            scrollable
+          );
 
         worker.kill();
         break;
       }
 
       if (data.type == "text") {
-        appendAndScroll(makeTag(data.content), output);
+        appendAndScroll(makeTag(data.content), output, scrollable);
       } else if (data.type == "line") {
-        appendAndScroll(<hr />, output);
+        appendAndScroll(<hr />, output, scrollable);
       } else if (data.type == "clear") {
         output.empty();
       } else if (data.type == "menu") {
@@ -325,24 +338,25 @@ export function createViewer(
           ))
         );
 
-        appendAndScroll(menu, output);
+        appendAndScroll(menu, output, scrollable);
       }
     }
   })();
 
-  return { form, field, output, element, thread: worker };
+  return { form, field, output, element, scrollable, thread: worker };
 }
 
 /**
  * Appends an element to output and scrolls to the bottom if near it.
  * @param el The element to append.
  * @param to The element to append to.
+ * @param parent The element that will be scrolled. Defaults to `to`.
  */
-function appendAndScroll(el: zQuery, to: zQuery) {
-  let isNearBottom = to.isNearBottom();
+function appendAndScroll(el: zQuery, to: zQuery, parent: zQuery = to) {
+  let isNearBottom = parent.isNearBottom();
   to.append(el);
 
-  if (isNearBottom) to.scrollToBottom();
+  if (isNearBottom) parent.scrollToBottom();
 }
 
 /**

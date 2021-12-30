@@ -20,7 +20,13 @@ if (top == window) field.focus();
  */
 async function startProgram(script: string) {
   if (viewer) viewer.thread.kill();
-  viewer = createViewer(script, { field, output, form, element });
+  viewer = createViewer(script, {
+    field,
+    output,
+    form,
+    element,
+    scrollable: $.outer,
+  });
 }
 
 onLocationHashChange((hash) => {
