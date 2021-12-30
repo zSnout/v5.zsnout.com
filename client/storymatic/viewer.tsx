@@ -222,6 +222,24 @@ async function smWorker(thread: Thread<ScriptMessage, WorkerMessage>) {
   }
 }
 
+/** The return type of `createViewer`. */
+export interface SMViewer {
+  /** The field for user input. */
+  field: zQuery;
+
+  /** The form containing `field`. */
+  form: zQuery;
+
+  /** The area where messages are outputted. */
+  output: zQuery;
+
+  /** The element containing `form` and `output` */
+  element: zQuery;
+
+  /** The thread for the Storymatic worker. */
+  thread: Thread<WorkerMessage, ScriptMessage>;
+}
+
 /**
  * Creates a viewer for a Storymatic program.
  * @param code The Storymatic code.
@@ -233,8 +251,9 @@ export function createViewer(
     field = <input autocomplete="off" className="sm-field" />,
     form = <form className="sm-form" />,
     output = <div className="sm-output" />,
-  }: { field?: zQuery; form?: zQuery; output?: zQuery } = {}
-) {
+    element = <div className="sm-viewer" />,
+  }: Partial<Omit<SMViewer, "thread">> = {}
+): SMViewer {
   // The worker code is sliced to remove the ending }
   // We need to do this to stick extra code in the middle
   // We re-add the } at the end of the paragraph
@@ -252,6 +271,8 @@ export function createViewer(
   }`);
 
   form.append(field);
+  output.empty();
+  element.append(output, form);
 
   appendAndScroll(
     <p className="special">
@@ -308,7 +329,7 @@ export function createViewer(
     }
   })();
 
-  return { form, field, output, worker };
+  return { form, field, output, element, thread: worker };
 }
 
 /**
