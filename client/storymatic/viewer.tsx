@@ -241,6 +241,9 @@ export interface SMViewer {
 
   /** The thread for the Storymatic worker. */
   thread: Thread<WorkerMessage, ScriptMessage>;
+
+  /** Kills the worker and any listeners immediately. */
+  kill(): void;
 }
 
 /**
@@ -256,7 +259,7 @@ export function createViewer(
     output = <div className="sm-output" />,
     element = <div className="sm-viewer" />,
     scrollable = element,
-  }: Partial<Omit<SMViewer, "thread">> = {}
+  }: Partial<Omit<SMViewer, "thread" | "kill">> = {}
 ): SMViewer {
   // The worker code is sliced to remove the ending }
   // We need to do this to stick extra code in the middle
@@ -288,7 +291,7 @@ export function createViewer(
     scrollable
   );
 
-  form.on("submit", (event) => {
+  function onsubmit(event: SubmitEvent) {
     event.preventDefault();
 
     if (field.val()) {
@@ -302,7 +305,9 @@ export function createViewer(
 
       field.val("");
     } else worker.send({ type: "submit" });
-  });
+  }
+
+  form.on("submit", onsubmit);
 
   (async () => {
     for await (let data of worker.reciever) {
@@ -342,7 +347,18 @@ export function createViewer(
     }
   })();
 
-  return { form, field, output, element, scrollable, thread: worker };
+  return {
+    form,
+    field,
+    output,
+    element,
+    scrollable,
+    thread: worker,
+    kill() {
+      worker.kill();
+      form.off("submit", onsubmit);
+    },
+  };
 }
 
 /**
