@@ -293,6 +293,7 @@ export function createViewer(
 
     if (field.val()) {
       worker.send({ type: "field", value: field.val() });
+
       appendAndScroll(
         <p className="user">{field.val()}</p>,
         output,
