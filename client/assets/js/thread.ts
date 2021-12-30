@@ -1,16 +1,19 @@
 /** A thread used to exchange messages with a worker. */
-export interface Thread<R = any, S = R> {
+export interface Thread<Recievable = any, Sendable = Recievable> {
   /**
    * Sends some data to the worker.
    * @param data The data to send.
    */
-  send(data: S): void;
+  send(data: Sendable): void;
 
   /** Kills the worker immediately. */
   kill(): void;
 
+  /** Returns a boolean indicating whether the worker is active. Will always return `true` in a worker. */
+  isAlive(): boolean;
+
   /** A receiver that contains all data from the thread. */
-  reciever: AsyncGenerator<R, never>;
+  reciever: AsyncGenerator<Recievable, never>;
 }
 
 /**
@@ -39,6 +42,7 @@ function prepareWorker(): Thread {
     kill,
     send,
     reciever: reciever(),
+    isAlive: () => true,
   };
 }
 
@@ -76,9 +80,12 @@ export default function thread<R, S = R>(
     }
   }
 
+  let isAlive = true;
+
   return {
     send: (data: R) => worker.postMessage(data),
-    kill: () => worker.terminate(),
+    kill: () => ((isAlive = false), worker.terminate()),
     reciever: reciever(),
+    isAlive: () => isAlive,
   };
 }
