@@ -592,6 +592,7 @@ declare global {
       ariaValueNow?: string;
       ariaValueText?: string;
       autocapitalize?: string;
+      autocomplete?: string;
       className?: string;
       contentEditable?: string;
       dir?: string;
