@@ -316,9 +316,7 @@ export function createViewer(
 
         worker.kill();
         break;
-      }
-
-      if (data.type == "text") {
+      } else if (data.type == "text") {
         appendAndScroll(makeTag(data.content), output, scrollable);
       } else if (data.type == "line") {
         appendAndScroll(<hr />, output, scrollable);
