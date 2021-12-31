@@ -1,20 +1,24 @@
 import $, { jsx, zQuery } from "../assets/js/jsx.js";
 import thread, { Thread } from "../assets/js/thread.js";
+import { getStorage, setStorage } from "../assets/js/util.js";
 import { storyToJS } from "./lib.js";
 
 /** The type of a script message. */
 type ScriptMessage =
   | { type: "field"; value: string }
   | { type: "menu"; index: number }
+  | { type: "data"; data: any }
   | { type: "submit" };
 
 /** The type of a worker message. */
 type WorkerMessage =
-  | { type: "text"; content: string }
+  | { type: "savedata"; id: string; key: string; value: any }
+  | { type: "loaddata"; id: string; key: string }
   | { type: "menu"; items: string[]; query?: string }
-  | { type: "line" }
+  | { type: "text"; content: string }
+  | { type: "kill"; error?: string }
   | { type: "clear" }
-  | { type: "kill"; error?: string };
+  | { type: "line" };
 
 /**
  * The main Storymatic worker.
@@ -30,10 +34,6 @@ async function smWorker(thread: Thread<ScriptMessage, WorkerMessage>) {
           typeof e != "function"
       )
       .map((data) => thread.send({ type: "text", content: data }));
-  }
-
-  async function $json([data]: [any?] = []) {
-    return JSON.parse(data);
   }
 
   async function $input([data]: [any?] = []) {
@@ -160,16 +160,43 @@ async function smWorker(thread: Thread<ScriptMessage, WorkerMessage>) {
 
   async function $pause() {
     while (true) {
-      let {
-        value: { type },
-      } = await thread.reciever.next();
-
-      if (type == "field" || type == "submit") break;
+      let { value } = await thread.reciever.next();
+      if (value.type == "field" || value.type == "submit") break;
     }
   }
 
   async function $clear() {
     thread.send({ type: "clear" });
+  }
+
+  let projectID: string | null = null;
+  async function $projectid([id]: [any?] = []) {
+    if (!id) return;
+    let str = String(id);
+
+    if (str.length < 10) return false;
+
+    projectID = str;
+    return true;
+  }
+
+  async function $save([key, value]: [any?, any?] = []) {
+    if (!key) return false;
+    if (!projectID) return false;
+
+    thread.send({ type: "savedata", id: projectID, key, value });
+  }
+
+  async function $load([key]: [any?] = []) {
+    if (!key) return false;
+    if (!projectID) return false;
+
+    thread.send({ type: "loaddata", id: projectID, key });
+
+    while (true) {
+      let { value } = await thread.reciever.next();
+      if (value.type == "data") return value.data;
+    }
   }
 
   // This section prevents UglifyJS from removing the functions defined above.
@@ -178,9 +205,6 @@ async function smWorker(thread: Thread<ScriptMessage, WorkerMessage>) {
     _print();
     _print();
 
-    $json();
-    $json();
-
     $input();
     $input();
 
@@ -219,6 +243,15 @@ async function smWorker(thread: Thread<ScriptMessage, WorkerMessage>) {
 
     $yesno();
     $yesno();
+
+    $projectid();
+    $projectid();
+
+    $save();
+    $save();
+
+    $load();
+    $load();
   }
 }
 
@@ -327,6 +360,18 @@ export function createViewer(
         appendAndScroll(<hr />, output, scrollable);
       } else if (data.type == "clear") {
         output.empty();
+      } else if (data.type == "savedata") {
+        if (data.id.length < 10) return;
+        setStorage(`sm-${data.id}-${data.key}`, JSON.stringify(data.value));
+      } else if (data.type == "loaddata") {
+        if (data.id.length < 10) return;
+
+        let json = null;
+        try {
+          json = JSON.parse(getStorage(`sm-${data.id}-${data.key}`) || "null");
+        } catch {}
+
+        worker.send({ type: "data", data: json });
       } else if (data.type == "menu") {
         function send(index: number) {
           worker?.send?.({ type: "menu", index });
@@ -396,4 +441,10 @@ function makeTag(data: string) {
   );
 
   return tag;
+}
+
+declare global {
+  interface StorageItems {
+    [key: `sm-${string}-${string}`]: string;
+  }
 }
