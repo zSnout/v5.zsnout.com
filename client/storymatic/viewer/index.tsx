@@ -19,7 +19,7 @@ if (top == window) field.focus();
  * @param script The script to run.
  */
 async function startProgram(script: string) {
-  if (viewer) viewer.thread.kill();
+  viewer?.kill();
   viewer = createViewer(script, {
     field,
     output,
