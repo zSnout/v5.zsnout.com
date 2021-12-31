@@ -9,7 +9,7 @@
     <link rel="apple-touch-icon" href="/icons/macos-icon.png" />
     <%- assets.join("\n    ").trim() %>
   </head>
-  <body>
+  <body id="outer">
     <nav id="nav" class="noselect">
       <a href="/" title="Home">
         <svg viewBox="2 2 20 20" width="18px" height="18px">
@@ -22,17 +22,15 @@
       <%- indent(buttons.join("\n"), 6) %>
     </nav>
 
-    <outer id="outer">
-      <main id="main">
-        <%- indent(body, 6).trim() %>
-      </main>
+    <main id="main">
+      <%- indent(body, 6).trim() %>
+    </main>
 
-      <outer id="outer-footer">
-        <footer id="footer">
-          <h1>Recently Visited</h1>
-          <div id="last-visited"></div>
-        </footer>
-      </outer>
+    <outer id="outer-footer">
+      <footer id="footer">
+        <h1>Recently Visited</h1>
+        <div id="last-visited"></div>
+      </footer>
     </outer>
   </body>
 </html>

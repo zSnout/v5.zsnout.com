@@ -1,21 +1,8 @@
 @use "../.." as *;
 @use "sass:math";
 
-html {
-  font-family: sans-serif;
-  background: $background;
-  color: $text-color;
-  overflow: hidden;
-
-  &.nobg {
-    background: none;
-  }
-
-  --outer-margin: #{6 * $margin};
-
-  @include small {
-    --outer-margin: #{2 * $margin};
-  }
+body {
+  margin: 0;
 }
 
 .select {
@@ -40,6 +27,7 @@ html {
   overflow: visible;
   max-width: 980px;
   margin: 0 auto;
+  background: top center $background;
 
   a {
     cursor: pointer;
@@ -70,22 +58,42 @@ html {
 }
 
 #outer {
+  font-family: sans-serif;
+  background: top center $background;
+  color: $text-color;
+  overflow: hidden;
   z-index: 1;
-  position: fixed;
-  top: calc($margin-top + $navbar-height + $margin);
-  left: 0;
-  bottom: 0;
-  right: 0;
-  padding: $outer-margin $margin-right $margin-bottom $margin-left;
+  padding: calc($margin-top + ($outer-margin + $navbar-height + $margin))
+    $margin-right $margin-bottom $margin-left;
   overflow: auto visible;
+  background-attachment: fixed;
+
+  &.nobg {
+    background: none;
+  }
+
+  --outer-margin: #{6 * $margin};
+  @include small {
+    --outer-margin: #{2 * $margin};
+  }
 }
 
 #main {
   width: 100%;
-  min-height: 100%;
+  min-height: calc(
+    100vh - calc($margin-top + ($outer-margin + $navbar-height + $margin)) -
+      $margin-bottom
+  );
   max-width: 980px;
   margin: 0 auto;
   position: relative;
+
+  input,
+  button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
 }
 
 #outer-footer {
@@ -160,12 +168,14 @@ html {
   }
 
   #outer {
-    top: 0;
     padding: 0;
+    width: 100%;
+    height: 100vh;
   }
 
   #main {
     max-width: initial;
+    height: 100%;
   }
 }
 
@@ -185,6 +195,7 @@ html {
   max-width: calc(100% - 4 * $margin);
   border-radius: $margin;
   position: fixed;
+  left: calc($inset-left + $margin);
   bottom: calc($inset-bottom + $margin);
   background: $element;
   box-shadow: $seperator 0 0 0.375em 0.0625em;
@@ -232,13 +243,4 @@ html {
 ::selection {
   background: $selection-bg;
   color: $selection-color;
-}
-
-main {
-  input,
-  button {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-  }
 }
