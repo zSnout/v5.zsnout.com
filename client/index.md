@@ -26,6 +26,7 @@ js: ./index.js
 [Bookmarklet Creator](/bookmarklet/)
 [Conway's Game of Life](/gameoflife/)
 [English Is Weird...](/englishisweird/)
+[Chessboard](/chess/)
 
 #### Blog Articles
 
