@@ -125,3 +125,6 @@ $("#icon-restart").on("click", () => {
   game.reset();
   board.position(game.fen());
 });
+
+// Prevents weird things on mobile
+$("#board").on("touchmove", (event) => event.preventDefault());
