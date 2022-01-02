@@ -86,6 +86,7 @@ function onSnapEnd() {
   board.position(game.fen());
   setLocationHash(encodeBase64(game.fen()));
 
+  setPageTitle();
   if (game.game_over()) $("#board").addClass("game-over");
   if (game.in_check()) $("#board").addClass(`${game.turn()}-check`);
 }
@@ -98,6 +99,22 @@ function resize() {
   el.css("width", `${size}px`);
   el.css("height", `${size}px`);
   board.resize();
+}
+
+/** Sets the page title based on game status. */
+function setPageTitle() {
+  let turn: "White" | "Black" = game.turn() == "w" ? "White" : "Black";
+  let other: "White" | "Black" = turn == "White" ? "Black" : "White";
+
+  if (game.in_checkmate()) document.title = `Chess - ${other} Wins!`;
+  else if (game.in_check()) document.title = `Chess - ${turn} in Check`;
+  else if (game.in_stalemate()) document.title = `Chess - Stalemate`;
+  else if (game.in_threefold_repetition())
+    document.title = `Chess - Draw by Repitition`;
+  else if (game.insufficient_material())
+    document.title = `Chess - Draw by Insufficient Material`;
+  else if (game.in_draw()) document.title = `Chess - Draw by 50-Move Rule`;
+  else document.title = `Chess - ${turn} to Move`;
 }
 
 let game: ChessInstance = exports.Chess(
@@ -118,6 +135,7 @@ let board = Chessboard("board", {
 resize();
 window.addEventListener("resize", resize);
 
+setPageTitle();
 if (game.game_over()) $("#board").addClass("game-over");
 if (game.in_check()) $("#board").addClass(`${game.turn()}-check`);
 
@@ -125,6 +143,7 @@ $("#icon-restart").on("click", () => {
   game.reset();
   board.position(game.fen());
   $("#board").removeClass("game-over", "w-check", "b-check");
+  setPageTitle();
 });
 
 // Prevents weird things on mobile
