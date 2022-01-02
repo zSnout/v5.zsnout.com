@@ -19,6 +19,7 @@ js: ./index.js
 \buttonlist
 [Sign Up](/account/create/)
 [Log In](/account/login/)
+[Notepad](/notepad/)
 [Bingo Board](/bingo/)
 [TicTacToe Generator](/tictactoe/generator/)
 [Storymatic Playground](/storymatic/playground/)

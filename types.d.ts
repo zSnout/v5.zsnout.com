@@ -16,3 +16,4 @@ declare namespace AceAjax {
 }
 
 declare var Chessboard: typeof import("chessboardjs").ChessBoard;
+declare var Quill: typeof import("quill").Quill;
