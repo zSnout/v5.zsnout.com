@@ -23,6 +23,10 @@ function makeRandomMove() {
   game.move(moves[index]);
   board.position(game.fen(), false);
 
+  $("#board").removeClass("game-over", "w-check", "b-check");
+  if (game.game_over()) $("#board").addClass("game-over");
+  if (game.in_check()) $("#board").addClass(`${game.turn()}-check`);
+
   setTimeout(makeRandomMove, 100);
 }
 
