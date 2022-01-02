@@ -27,6 +27,7 @@ js: ./index.js
 [Conway's Game of Life](/gameoflife/)
 [English Is Weird...](/englishisweird/)
 [Chessboard](/chess/)
+[Random Chess Engine](/chess/random/)
 
 #### Blog Articles
 

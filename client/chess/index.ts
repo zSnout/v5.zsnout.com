@@ -124,6 +124,7 @@ if (game.in_check()) $("#board").addClass(`${game.turn()}-check`);
 $("#icon-restart").on("click", () => {
   game.reset();
   board.position(game.fen());
+  $("#board").removeClass("game-over", "w-check", "b-check");
 });
 
 // Prevents weird things on mobile
