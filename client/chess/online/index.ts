@@ -5,7 +5,7 @@ import "https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js";
 import $ from "../../assets/js/jsx.js";
 
 /** The socket connected to the chess server. */
-let socket = io("/api/chess/");
+let socket = io();
 
 /** Removes move indicators from the board. */
 function removeMoveIndicators() {
@@ -75,12 +75,14 @@ function onMouseoutSquare() {
 
 /** Called when a piece has finished snapping to the board. */
 function onSnapEnd() {
-  $("#board").removeClass("b-check", "w-check");
   board.position(game.fen());
-
   setPageTitle();
+
+  $("#board").removeClass("game-over", "b-check", "w-check");
   if (game.game_over()) $("#board").addClass("game-over");
   if (game.in_check()) $("#board").addClass(`${game.turn()}-check`);
+
+  socket.emit("chess:data", myCode, game.fen());
 }
 
 /** Resizes the visible board. */
@@ -144,5 +146,33 @@ $("#icon-restart").on("click", () => {
   setPageTitle();
 });
 
+$("#icon-pin").on("click", () => {
+  let pin = +prompt("Please enter your PIN:", myCode.toString())!;
+  if (Number.isNaN(pin)) return;
+  myCode = pin;
+
+  game.reset();
+  board.position(game.fen());
+  $("#board").removeClass("game-over", "w-check", "b-check");
+  setPageTitle();
+});
+
+socket.on("chess:data", (code, fen) => {
+  if (code != myCode) return;
+
+  game.load(fen);
+  board.position(game.fen());
+  $("#board").removeClass("game-over", "w-check", "b-check");
+  if (game.game_over()) $("#board").addClass("game-over");
+  if (game.in_check()) $("#board").addClass(`${game.turn()}-check`);
+  setPageTitle();
+});
+
 // Prevents weird things on mobile
 $("#board").on("touchmove", (event) => event.preventDefault());
+
+declare global {
+  interface IOEvents {
+    "chess:data"(code: number, fen: string): void;
+  }
+}
