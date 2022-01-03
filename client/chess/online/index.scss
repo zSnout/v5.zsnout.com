@@ -1,0 +1,45 @@
+#main {
+  display: flex;
+}
+
+#board {
+  margin: auto;
+  width: 500px;
+  height: 500px;
+}
+
+.move-indicator {
+  &.black-3c85d {
+    background: #696969;
+  }
+
+  &.white-1e1d7 {
+    background: #a9a9a9;
+  }
+}
+
+.game-over {
+  .black-3c85d {
+    background: #696969;
+  }
+
+  .white-1e1d7 {
+    background: #a9a9a9;
+  }
+}
+
+.w-check .black-3c85d [data-piece="wK"] {
+  background: #ff4848;
+}
+
+.w-check .white-1e1d7 [data-piece="wK"] {
+  background: #ff9090;
+}
+
+.b-check .black-3c85d [data-piece="bK"] {
+  background: #ff4848;
+}
+
+.b-check .white-1e1d7 [data-piece="bK"] {
+  background: #ff9090;
+}
