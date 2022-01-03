@@ -1,7 +1,13 @@
 {
-  "extends": "../tsconfig.json",
-  "exclude": [""],
   "compilerOptions": {
+    "strict": true,
+    "target": "esnext",
+    "newLine": "lf",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "noFallthroughCasesInSwitch": true,
+    "removeComments": true,
+    "sourceMap": true,
     "module": "esnext",
     "jsx": "react",
     "jsxFactory": "jsx",
