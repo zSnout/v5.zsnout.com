@@ -1,4 +1,4 @@
-import server from "../server";
+import server from "..";
 
 server.setNotFoundHandler((req, res) => {
   if (!req.url.endsWith("/") && !req.url.includes("."))

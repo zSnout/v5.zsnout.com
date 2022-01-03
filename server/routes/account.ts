@@ -1,4 +1,4 @@
-import server, { HTTPCode } from "../server";
+import server, { HTTPCode } from "..";
 import {
   attemptLogin,
   createPendingUser,
@@ -6,7 +6,7 @@ import {
   LoginFailureReasons,
   UserStatus,
   verifyPendingUser,
-} from "../server/systems/account";
+} from "../systems/account";
 
 server.capture(
   "/api/account-create/",

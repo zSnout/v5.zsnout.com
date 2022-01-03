@@ -1,5 +1,3 @@
-/// <reference types="../../types" />
-
 ace.define(
   "ace/mode/storymatic",
   ["require", "exports"],

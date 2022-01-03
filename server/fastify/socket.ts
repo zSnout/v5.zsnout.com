@@ -12,11 +12,3 @@ declare module "fastify" {
     io: Server<IOEvents, IOEvents, IOServerEvents>;
   }
 }
-
-declare global {
-  /** A list of all client-side Socket.IO events. */
-  interface IOEvents {}
-
-  /** A list of all server-side Socket.IO events. */
-  interface IOServerEvents {}
-}

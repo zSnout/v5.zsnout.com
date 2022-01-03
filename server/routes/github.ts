@@ -1,4 +1,4 @@
-import server from "../server";
+import server from "..";
 
 let repo = "https://github.com/zsnout/zsnout.com";
 

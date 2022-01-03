@@ -9,6 +9,5 @@
     "noFallthroughCasesInSwitch": true,
     "removeComments": true,
     "sourceMap": true
-  },
-  "exclude": ["client"]
+  }
 }

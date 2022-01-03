@@ -1,4 +1,4 @@
-import server from "../server";
+import server from "..";
 
 server.io.on("connection", (socket) => {
   socket.on("chess:data", (code, fen) =>

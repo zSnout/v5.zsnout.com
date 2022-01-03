@@ -11,6 +11,7 @@
     "module": "esnext",
     "jsx": "react",
     "jsxFactory": "jsx",
+    "rootDir": "./",
     "outDir": "../.client"
   }
 }

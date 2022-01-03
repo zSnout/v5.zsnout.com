@@ -1,8 +1,8 @@
 {
-  "main": "index.js",
+  "main": "server/main.js",
   "scripts": {
-    "build": "tsc -b . && tsc -b client && sass --style compressed client && node server/cli -b",
-    "watch": "sh -c 'tsc -w -p . & tsc -w -p client & sass -w --style compressed client & node server/cli -w'",
+    "build": "tsc -b server && tsc -b client && sass --style compressed client && node server/cli -b",
+    "watch": "sh -c 'tsc -w -p server & tsc -w -p client & sass -w --style compressed client & node server/cli -w'",
     "repl": "node -i -e 'require(\"./server/main\"); global.server = require(\"./server\").default'",
     "start": "node ./server/main",
     "prettify": "prettier -w ."
