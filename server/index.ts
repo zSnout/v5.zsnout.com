@@ -1,3 +1,5 @@
+import "./log";
+
 import Fastify from "fastify";
 
 console.clear();
