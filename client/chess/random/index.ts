@@ -1,8 +1,6 @@
-import type { ChessInstance } from "chess.js";
-import "./preload.js";
-import "https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js";
-import { getLocationHash } from "../../assets/js/util.js";
 import $ from "../../assets/js/jsx.js";
+import { getLocationHash } from "../../assets/js/util.js";
+import Chess from "../chessjs.js";
 
 /** Resizes the visible board. */
 function resize() {
@@ -47,7 +45,7 @@ function setPageTitle() {
   else document.title = `Chess - ${turn} to Move`;
 }
 
-let game: ChessInstance = exports.Chess(getLocationHash() || undefined);
+let game = new Chess(getLocationHash() || undefined);
 
 let board = Chessboard("board", {
   pieceTheme: "https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png",

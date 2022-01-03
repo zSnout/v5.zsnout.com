@@ -1,7 +1,6 @@
 import type { ChessInstance, Square } from "chess.js";
 import type { Piece } from "chessboardjs";
-import "./preload.js";
-import "https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js";
+import Chess from "../chessjs.js";
 import $ from "../../assets/js/jsx.js";
 
 /** The socket connected to the chess server. */
@@ -115,7 +114,7 @@ function setPageTitle() {
   else document.title = `Chess - ${myCode} - ${turn} to Move`;
 }
 
-let game: ChessInstance = exports.Chess();
+let game = new Chess();
 
 let board = Chessboard("board", {
   draggable: true,

@@ -1,9 +1,8 @@
-import type { ChessInstance, Square } from "chess.js";
+import type { Square } from "chess.js";
 import type { Piece } from "chessboardjs";
-import "./preload.js";
-import "https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js";
 import $ from "../assets/js/jsx.js";
 import { getLocationHash, setLocationHash } from "../assets/js/util.js";
+import Chess from "./chessjs.js";
 
 /** Removes move indicators from the board. */
 function removeMoveIndicators() {
@@ -108,7 +107,7 @@ function setPageTitle() {
   else document.title = `Chess - ${turn} to Move`;
 }
 
-let game: ChessInstance = exports.Chess(getLocationHash() || undefined);
+let game = new Chess(getLocationHash() || undefined);
 
 let board = Chessboard("board", {
   draggable: true,
