@@ -56,7 +56,7 @@ export function onStorageChange<T extends keyof StorageItems>(
  * @returns The current hash (without a prefixed #) of the URL.
  */
 export function getLocationHash() {
-  return window.location.hash.slice(1);
+  return decodeURI(location.hash.slice(1));
 }
 
 /**
@@ -64,15 +64,17 @@ export function getLocationHash() {
  * @param hash The hash to set.
  */
 export function setLocationHash(hash: string) {
-  let oldHref = window.location.href;
+  let newURL = new URL(location.href);
+  newURL.hash = encodeURI(hash);
+
   let eventWasNotCanceled = window.dispatchEvent(
     new HashChangeEvent("hashchange", {
-      oldURL: oldHref,
-      newURL: window.location.href,
+      oldURL: location.href,
+      newURL: newURL.toString(),
     })
   );
 
-  if (eventWasNotCanceled) window.location.hash = hash;
+  if (eventWasNotCanceled) location.hash = encodeURI(hash);
 }
 
 /**
@@ -83,7 +85,9 @@ export function onLocationHashChange(
   callback: (hash: string, cancel: () => void) => void
 ) {
   window.addEventListener("hashchange", (event) => {
-    callback(new URL(event.newURL).hash.slice(1), () => event.preventDefault());
+    callback(decodeURI(new URL(event.newURL).hash.slice(1)), () =>
+      event.preventDefault()
+    );
   });
 }
 
