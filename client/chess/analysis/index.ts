@@ -94,20 +94,24 @@ function resize() {
 
 /** Sets the page title based on game status. */
 function setPageTitle() {
-  let turn: "White" | "Black" = game.turn() == "w" ? "White" : "Black";
-  let other: "White" | "Black" = turn == "White" ? "Black" : "White";
-  let analysis = analyze(game) * (turn == "White" ? 1 : -1);
-  let prefix = `Chess (${analysis}) - `;
+  document.title = "Chess - Analyzing Board";
 
-  if (game.in_checkmate()) document.title = `${prefix}${other} Wins!`;
-  else if (game.in_check()) document.title = `${prefix}${turn} in Check`;
-  else if (game.in_stalemate()) document.title = `${prefix}Stalemate`;
-  else if (game.in_threefold_repetition())
-    document.title = `${prefix}Draw by Repitition`;
-  else if (game.insufficient_material())
-    document.title = `${prefix}Draw by Insufficient Material`;
-  else if (game.in_draw()) document.title = `${prefix}Draw by 50-Move Rule`;
-  else document.title = `${prefix}${turn} to Move`;
+  setTimeout(() => {
+    let turn: "White" | "Black" = game.turn() == "w" ? "White" : "Black";
+    let other: "White" | "Black" = turn == "White" ? "Black" : "White";
+    let analysis = analyze(game) * (turn == "White" ? 1 : -1);
+    let prefix = `Chess (${analysis}) - `;
+
+    if (game.in_checkmate()) document.title = `${prefix}${other} Wins!`;
+    else if (game.in_check()) document.title = `${prefix}${turn} in Check`;
+    else if (game.in_stalemate()) document.title = `${prefix}Stalemate`;
+    else if (game.in_threefold_repetition())
+      document.title = `${prefix}Draw by Repitition`;
+    else if (game.insufficient_material())
+      document.title = `${prefix}Draw by Insufficient Material`;
+    else if (game.in_draw()) document.title = `${prefix}Draw by 50-Move Rule`;
+    else document.title = `${prefix}${turn} to Move`;
+  });
 }
 
 let game = new Chess(getLocationHash() || undefined);
