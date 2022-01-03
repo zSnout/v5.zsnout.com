@@ -7,7 +7,7 @@ type NonKingPiece = { type: Exclude<PieceType, "k">; color: "b" | "w" };
 let pieceValues: { [K in Exclude<PieceType, "k">]: number } = {
   p: 100,
   n: 300,
-  b: 315,
+  b: 300,
   r: 500,
   q: 900,
 };
@@ -17,7 +17,7 @@ let pieceValues: { [K in Exclude<PieceType, "k">]: number } = {
  * @param game The game to analyze.
  * @returns A number representing the analysis.
  */
-export function analyze(game: ChessInstance): number {
+export function analyzeNow(game: ChessInstance): number {
   // A win is worth Infinity, a loss is worth -Infinity
   if (game.in_checkmate()) return Infinity;
   if (game.game_over()) return -Infinity;
@@ -35,4 +35,40 @@ export function analyze(game: ChessInstance): number {
     .reduce((a, b) => a + b, 0);
 
   return materialAdvantage / 100;
+}
+
+/**
+ * Analyzes the current position.
+ * @param game The game to analyze.
+ * @param depth The depth to analyze to.
+ * @returns A number representing the analysis.
+ */
+export function analyzeDepth(
+  game: ChessInstance,
+  depth: number,
+  alpha: number,
+  beta: number
+): number {
+  if (depth == 0) return analyzeNow(game);
+
+  let moves = game.moves();
+  if (!moves.length) {
+    if (game.in_check()) return -Infinity;
+    return 0;
+  }
+
+  for (let move of moves) {
+    game.move(move);
+    let evaluation = -analyzeDepth(game, depth - 1, -beta, -alpha);
+    game.undo();
+
+    if (evaluation >= beta) return beta;
+    alpha = Math.max(alpha, evaluation);
+  }
+
+  return alpha;
+}
+
+export function analyze(game: ChessInstance) {
+  return analyzeDepth(game, 2, -Infinity, Infinity);
 }
