@@ -25,11 +25,7 @@ function addMoveIndicator(square: Square) {
  * @returns A boolean indicating whether the piece is allowed to be dragged.
  */
 function onDragStart(source: Square, piece: Piece) {
-  if (
-    game.game_over() ||
-    (game.turn() == "w" && piece.search(/^b/) !== -1) ||
-    (game.turn() == "b" && piece.search(/^w/) !== -1)
-  ) {
+  if (game.game_over() || game.turn() != piece[0]) {
     return false;
   }
 }
