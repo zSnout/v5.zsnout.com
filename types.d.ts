@@ -1,3 +1,5 @@
+/// <reference path="./server/fastify/socket.ts" />
+
 declare module "markdown-it-meta";
 
 // We don't use @types/mathjax because it doesn't support the server-side version of MathJax.
