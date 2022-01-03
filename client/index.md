@@ -30,6 +30,7 @@ js: ./index.js
 [Chessboard](/chess/)
 [Chess With Friends](/chess/online/)
 [Random Chess Engine](/chess/random/)
+[Chess AI vs AI](/chess/engine/)
 
 #### Blog Articles
 
