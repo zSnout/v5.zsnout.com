@@ -20,5 +20,5 @@ declare namespace AceAjax {
 declare var Chessboard: typeof import("chessboardjs").ChessBoard;
 declare var Quill: typeof import("quill").Quill;
 declare var io: (
-  ...args: Parameters<typeof import("socket.io-client").io>
+  ...args: Partial<Parameters<typeof import("socket.io-client").io>>
 ) => import("socket.io-client").Socket<IOEvents, IOEvents>;
