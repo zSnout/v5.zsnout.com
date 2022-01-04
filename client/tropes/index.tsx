@@ -79,3 +79,7 @@ $("#icon-recolor").on("click", () => {
 });
 
 export {};
+
+$.main.on("click", ({ target }) => {
+  if (target == $.main[0]) editor.focus();
+});
