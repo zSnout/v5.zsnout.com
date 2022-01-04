@@ -1,4 +1,5 @@
 import $ from "../assets/js/jsx.js";
+import { getLocationHash, setLocationHash } from "../assets/js/util.js";
 
 let canvas = $("#canvas")[0] as HTMLCanvasElement;
 let context = canvas.getContext("2d")!;
@@ -11,6 +12,21 @@ let xStart = -1.5;
 let xEnd = 0.5;
 let yStart = -1;
 let yEnd = 1;
+
+try {
+  let json = JSON.parse(getLocationHash());
+
+  if (typeof json == "object" && json != null) {
+    xStart = json.xStart || xStart;
+    xEnd = json.xEnd || xEnd;
+    yStart = json.yStart || yStart;
+    yEnd = json.yEnd || yEnd;
+    maxIterations = json.maxIterations || maxIterations;
+    canvasSize = json.canvasSize || canvasSize;
+    canvas.width = canvasSize;
+    canvas.height = canvasSize;
+  }
+} catch {}
 
 /**
  * Returns the number of iterations until the point `z` is unbounded.
@@ -48,7 +64,7 @@ async function drawMandlebrot() {
 
       let iter = iterUntilUnbounded(cx, cy);
       let frac = 1 - iter / maxIterations;
-      if (frac) context.fillStyle = `hsl(${360 * frac}, 100%, 50%)`;
+      if (frac) context.fillStyle = `hsl(${360 * ((frac * 2) % 1)}, 100%, 50%)`;
       else context.fillStyle = "black";
       context.fillRect(i, j, 1, 1);
     }
@@ -72,6 +88,14 @@ function zoomIn(cx: number, cy: number) {
   yEnd = cy + yDelta;
 }
 
+/** Sets the page hash to match the current settings. */
+function setPageHash() {
+  setLocationHash(
+    JSON.stringify({ xStart, xEnd, yStart, yEnd, maxIterations, canvasSize })
+  );
+}
+
+setPageHash();
 drawMandlebrot();
 
 $("#canvas").on("click", ({ target, clientX, clientY }) => {
@@ -82,6 +106,7 @@ $("#canvas").on("click", ({ target, clientX, clientY }) => {
   let cy = yStart + ((yEnd - yStart) * y) / height;
 
   zoomIn(cx, cy);
+  setPageHash();
   drawMandlebrot();
 });
 
@@ -89,6 +114,7 @@ $("#icon-blur").on("click", () => {
   if (maxIterations <= 50) maxIterations = 25;
   else maxIterations -= 50;
 
+  setPageHash();
   drawMandlebrot();
 });
 
@@ -96,6 +122,7 @@ $("#icon-focus").on("click", () => {
   if (maxIterations < 50) maxIterations = 50;
   else maxIterations += 50;
 
+  setPageHash();
   drawMandlebrot();
 });
 
@@ -103,8 +130,9 @@ $("#icon-resolution").on("click", () => {
   if (canvasSize == 340) canvasSize = 680;
   else if (canvasSize == 680) canvasSize = 1360;
   else canvasSize = 340;
-
   canvas.width = canvasSize;
   canvas.height = canvasSize;
+
+  setPageHash();
   drawMandlebrot();
 });
