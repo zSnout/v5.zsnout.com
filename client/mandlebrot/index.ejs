@@ -1,3 +1,7 @@
-<% title("Mandlebrot Set"), desc("View the amazing mandlebrot set in all of its glory!"), css("./index.css"), js("./index.js") %>
+<%
+  title("Mandlebrot Set"), desc("View the amazing mandlebrot set in all of its glory!"), css("./index.css"), js("./index.js");
+  nav("Increase Iteration Count", "@focus", "focus"), nav("Decrease Iteration Count", "@blur", "blur");
+  nav("Change Resolution", "@resolution", "hd");
+%>
 
-<canvas id="canvas" width="680" height="680"></canvas>
+<canvas id="canvas" width="1360" height="1360"></canvas>

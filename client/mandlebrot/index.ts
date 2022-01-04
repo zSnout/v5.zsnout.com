@@ -1,7 +1,11 @@
 import $ from "../assets/js/jsx.js";
 
-let context = ($("#canvas")[0] as HTMLCanvasElement).getContext("2d")!;
+let canvas = $("#canvas")[0] as HTMLCanvasElement;
+let context = canvas.getContext("2d")!;
+let canvasSize: 340 | 680 | 1360 = 680;
 let maxIterations = 150;
+canvas.width = canvasSize;
+canvas.height = canvasSize;
 
 let xStart = -1.5;
 let xEnd = 0.5;
@@ -30,7 +34,7 @@ function iterUntilUnbounded(cx: number, cy: number) {
 
 /** Redraws the Mandlebrot set. */
 async function drawMandlebrot() {
-  let cxs = Array.from({ length: 680 }, (e, i) => i).sort(
+  let cxs = Array.from({ length: canvasSize }, (e, i) => i).sort(
     () => Math.random() - 0.5
   );
 
@@ -38,13 +42,14 @@ async function drawMandlebrot() {
 
   for (let i of cxs) {
     c++;
-    for (let j = 0; j < 680; j++) {
-      let cx = xStart + ((xEnd - xStart) * i) / 680;
-      let cy = yStart + ((yEnd - yStart) * j) / 680;
+    for (let j = 0; j < canvasSize; j++) {
+      let cx = xStart + ((xEnd - xStart) * i) / canvasSize;
+      let cy = yStart + ((yEnd - yStart) * j) / canvasSize;
 
       let iter = iterUntilUnbounded(cx, cy);
       let frac = 1 - iter / maxIterations;
-      context.fillStyle = `rgb(${255 * frac}, ${255 * frac}, ${255 * frac})`;
+      if (frac) context.fillStyle = `hsl(${360 * frac}, 100%, 50%)`;
+      else context.fillStyle = "black";
       context.fillRect(i, j, 1, 1);
     }
 
@@ -77,5 +82,29 @@ $("#canvas").on("click", ({ target, clientX, clientY }) => {
   let cy = yStart + ((yEnd - yStart) * y) / height;
 
   zoomIn(cx, cy);
+  drawMandlebrot();
+});
+
+$("#icon-blur").on("click", () => {
+  if (maxIterations <= 50) maxIterations = 25;
+  else maxIterations -= 50;
+
+  drawMandlebrot();
+});
+
+$("#icon-focus").on("click", () => {
+  if (maxIterations < 50) maxIterations = 50;
+  else maxIterations += 50;
+
+  drawMandlebrot();
+});
+
+$("#icon-resolution").on("click", () => {
+  if (canvasSize == 340) canvasSize = 680;
+  else if (canvasSize == 680) canvasSize = 1360;
+  else canvasSize = 340;
+
+  canvas.width = canvasSize;
+  canvas.height = canvasSize;
   drawMandlebrot();
 });
