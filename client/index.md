@@ -31,6 +31,7 @@ js: ./index.js
 [Chess With Friends](/chess/online/)
 [Trope Highlighter](/tropes/)
 [Mandelbrot Set](/mandelbrot/)
+[Newton's Fractal](/newton/)
 [Random Chess Engine](/chess/random/)
 [Chess With Analysis](/chess/analysis/)
 [Chess AI vs AI](/chess/engine/)
