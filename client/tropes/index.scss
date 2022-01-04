@@ -25,7 +25,7 @@ $tropes: (
   Rivia: #0000ff40,
   Zarka: #d3ff0040,
   Pashta: #00ffff40,
-  Yetiv: none,
+  Yetiv: #ffff0040,
   Tevir: #00008040,
   Pazer:
     linear-gradient(
@@ -85,5 +85,9 @@ $tropes: (
     .#{$trope} {
       background: $color;
     }
+  }
+
+  .silent {
+    opacity: 0.75;
   }
 }
