@@ -44,9 +44,7 @@ async function onFetch(event: WindowEventMap["fetch"]) {
         );
 
       event.waitUntil(fetched as any);
-
-      if (cached) resolve(cached);
-      else resolve(fetched);
+      resolve(cached || fetched);
     })
   );
 }
