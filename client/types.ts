@@ -19,3 +19,8 @@ declare interface IOEvents {}
 
 /** A list of all server-side Socket.IO events. */
 declare interface IOServerEvents {}
+
+// Add more accurate Object.entries typings
+declare interface ObjectConstructor {
+  entries<K extends string, V>(obj: { [X in K]: V }): [K, V][];
+}
