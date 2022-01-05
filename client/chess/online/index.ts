@@ -1,4 +1,4 @@
-import type { ChessInstance, Square } from "chess.js";
+import type { Square } from "chess.js";
 import type { Piece } from "chessboardjs";
 import Chess from "../chessjs.js";
 import $ from "../../assets/js/jsx.js";
