@@ -11,7 +11,9 @@
 }
 
 .board-b72b1 {
-  border-color: $seperator;
+  border-color: $seperator !important;
+  border-radius: 0.5em;
+  overflow: hidden;
 }
 
 .move-indicator {
