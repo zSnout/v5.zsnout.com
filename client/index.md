@@ -37,6 +37,7 @@ js: ./index.js
 [TicTacToe Generator](/tictactoe/generator/)
 [Chessboard](/chess/)
 [Chess With Friends](/chess/online/)
+[Chess vs AI](/chess/vsai/)
 [Chess With Analysis](/chess/analysis/)
 [Chess AI vs AI](/chess/engine/)
 [Bad Chess AIs](/chess/random/)
