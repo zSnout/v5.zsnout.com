@@ -2,14 +2,23 @@
 // I am also aware that "Newton's Fractal" is not the real name for this phenomenon.
 // To simplify things, we only plot one fractal.
 
-import { add, Complex, dist2, div, mult, sub } from "../assets/js/complex.js";
+import {
+  add,
+  angle,
+  Complex,
+  cube,
+  div,
+  mult,
+  sqr,
+  sub,
+} from "../assets/js/complex.js";
 import $ from "../assets/js/jsx.js";
 import { getLocationHash, setLocationHash } from "../assets/js/util.js";
 
 let canvas = $("#canvas")[0] as HTMLCanvasElement;
 let context = canvas.getContext("2d")!;
 let canvasSize: 340 | 680 | 1360 = 680;
-let maxIterations = 150;
+let maxIterations = 20;
 canvas.width = canvasSize;
 canvas.height = canvasSize;
 
@@ -35,10 +44,7 @@ try {
 
 function finalIteration(z: Complex): Complex {
   for (let i = 0; i < maxIterations; i++) {
-    z = sub(
-      z,
-      div(add([-1, 0], mult(z, mult(z, z))), mult([3, 0], mult(z, z)))
-    );
+    z = sub(z, div(add([-1, 0], cube(z)), mult([3, 0], sqr(z))));
   }
 
   return z;
@@ -46,14 +52,7 @@ function finalIteration(z: Complex): Complex {
 
 function colorOfRootNearest(z: Complex) {
   let final = finalIteration(z);
-
-  let distToRootA = dist2(final, [-1, 0]);
-  let distToRootB = dist2(final, [0.5, Math.sqrt(3) / 2]);
-  let distToRootC = dist2(final, [0.5, -Math.sqrt(3) / 2]);
-
-  if (distToRootA < distToRootB && distToRootA < distToRootC) return "red";
-  else if (distToRootB < distToRootC) return "blue";
-  else return "lime";
+  return `hsl(${(360 * angle(final)) / Math.PI}, 100%, 50%)`;
 }
 
 /** Redraws a fractal using Newton's Method. */
@@ -117,16 +116,16 @@ $("#canvas").on("click", ({ target, clientX, clientY }) => {
 });
 
 $("#icon-blur").on("click", () => {
-  if (maxIterations <= 50) maxIterations = 25;
-  else maxIterations -= 50;
+  if (maxIterations <= 10) maxIterations = 5;
+  else maxIterations -= 10;
 
   setPageHash();
   drawNewtonsFractal();
 });
 
 $("#icon-focus").on("click", () => {
-  if (maxIterations < 50) maxIterations = 50;
-  else maxIterations += 50;
+  if (maxIterations < 10) maxIterations = 10;
+  else maxIterations += 10;
 
   setPageHash();
   drawNewtonsFractal();
