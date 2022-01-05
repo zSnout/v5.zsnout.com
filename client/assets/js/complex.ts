@@ -79,3 +79,30 @@ export function dist2(z1: Complex, z2: Complex): number {
 export function dist(z1: Complex, z2: Complex): number {
   return Math.sqrt(dist2(z1, z2));
 }
+
+/**
+ * Finds the square of a complex number.
+ * @param z The complex number.
+ * @returns The square of the complex number.
+ */
+export function sqr([x, y]: Complex): Complex {
+  return [x * x - y * y, 2 * x * y];
+}
+
+/**
+ * Finds the cube of a complex number.
+ * @param z The complex number.
+ * @returns The cube of the complex number.
+ */
+export function cube([x, y]: Complex): Complex {
+  return [x * x * x - 3 * x * y * y, 3 * x * x * y - y * y * y];
+}
+
+/**
+ * Finds the angle of this complex number relative to the origin.
+ * @param z The complex number.
+ * @returns The angle of the complex number in radians.
+ */
+export function angle([x, y]: Complex): number {
+  return Math.atan2(y, x) + Math.PI * +(x < 0);
+}
