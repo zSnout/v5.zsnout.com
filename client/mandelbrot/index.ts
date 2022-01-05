@@ -133,7 +133,9 @@ $("#canvas").on("click", ({ target, clientX, clientY, shiftKey }) => {
 });
 
 $("#icon-blur").on("click", () => {
-  if (maxIterations <= 50) maxIterations = 25;
+  if (maxIterations <= 5) maxIterations = 5;
+  else if (maxIterations <= 25) maxIterations -= 5;
+  else if (maxIterations <= 50) maxIterations = 25;
   else maxIterations -= 50;
 
   setPageHash();
@@ -141,7 +143,9 @@ $("#icon-blur").on("click", () => {
 });
 
 $("#icon-focus").on("click", () => {
-  if (maxIterations < 50) maxIterations = 50;
+  if (maxIterations < 5) maxIterations = 5;
+  else if (maxIterations < 25) maxIterations += 5;
+  else if (maxIterations < 50) maxIterations = 50;
   else maxIterations += 50;
 
   setPageHash();
