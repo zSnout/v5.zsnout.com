@@ -134,6 +134,16 @@ export function shuffle<T>(array: T[]): T[] {
   return array;
 }
 
+/**
+ * Picks a random integer in a specified range.
+ * @param min The minimum value.
+ * @param max The maximum value.
+ * @returns A random integer between `min` and `max`.
+ */
+export function randint(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 declare global {
   /** A list of items that can be put into localStorage. */
   interface StorageItems {}
