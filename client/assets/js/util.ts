@@ -140,7 +140,7 @@ export function shuffle<T>(array: T[]): T[] {
  * @param max The maximum value.
  * @returns A random integer between `min` and `max`.
  */
-export function randint(min: number, max: number): number {
+export function randint(min = 0, max = 1) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
