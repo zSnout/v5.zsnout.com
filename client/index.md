@@ -37,6 +37,7 @@ js: ./index.js
 [Mandelbrot Set](/mandelbrot/)
 [Newton's Fractal](/newton/)
 [The Effects of Noise](/noise/)
+[Reversed Noise](/reversenoise/)
 
 #### Games
 
