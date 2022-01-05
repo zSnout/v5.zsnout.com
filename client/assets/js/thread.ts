@@ -63,15 +63,15 @@ export default function thread<R, S = R>(
   func: ((thread: Thread<R, S>) => void) | Worker | string
 ): Thread<S, R> {
   let worker: Worker;
-  if (func instanceof Worker) {
-    worker = func;
-  } else {
+  if (typeof func == "function" || typeof func == "string") {
     let blob = makeWorkerBlob(func);
     let url = URL.createObjectURL(blob);
-    let worker = new Worker(url);
+    worker = new Worker(url);
+  } else {
+    worker = func;
   }
 
-  async function* reciever(): AsyncGenerator<S, never> {
+  async function* reciever(): AsyncGenerator<S, never, never> {
     while (true) {
       yield new Promise<any>(
         (resolve) => (worker.onmessage = ({ data }) => resolve(data))
