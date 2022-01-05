@@ -9,8 +9,6 @@ js: ./index.js
 \toc
 
 - [General Pages](#general-pages)
-- [Diagrams and Graphs](#diagrams-and-graphs)
-- [Games](#games)
 - [Blog Articles](#blog-articles)
 - [Math Articles](#math-articles)
 - [Website Themes](#website-themes)
@@ -29,19 +27,12 @@ js: ./index.js
 [Trope Highlighter](/tropes/)
 [Practice 2×2 to 144÷12](/practice/multdiv/)
 [Practice 2² to 20²](/practice/squares/)
-
-#### Diagrams and Graphs
-
-\buttonlist
 [Conway's Game of Life](/gameoflife/)
 [Mandelbrot Set](/mandelbrot/)
 [Newton's Fractal](/newton/)
 [The Effects of Noise](/noise/)
 [Reversed Noise](/reversenoise/)
-
-#### Games
-
-\buttonlist
+[Blob Simulator](/blobs/)
 [Bingo Board](/bingo/)
 [TicTacToe Generator](/tictactoe/generator/)
 [Chessboard](/chess/)
