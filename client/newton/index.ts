@@ -17,7 +17,7 @@ import { getLocationHash, setLocationHash } from "../assets/js/util.js";
 
 let canvas = $("#canvas")[0] as HTMLCanvasElement;
 let context = canvas.getContext("2d")!;
-let canvasSize: 340 | 680 | 1360 = 680;
+let canvasSize: 340 | 680 | 1360 | 2720 = 680;
 let maxIterations = 20;
 canvas.width = canvasSize;
 canvas.height = canvasSize;
@@ -156,6 +156,7 @@ $("#icon-focus").on("click", () => {
 $("#icon-resolution").on("click", () => {
   if (canvasSize == 340) canvasSize = 680;
   else if (canvasSize == 680) canvasSize = 1360;
+  else if (canvasSize == 1360) canvasSize = 2720;
   else canvasSize = 340;
   canvas.width = canvasSize;
   canvas.height = canvasSize;
