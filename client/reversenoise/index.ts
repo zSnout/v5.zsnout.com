@@ -8,7 +8,7 @@ import {
 let canvas = $("#canvas")[0] as HTMLCanvasElement;
 let context = canvas.getContext("2d")!;
 let canvasSize: 340 | 680 | 1360 | 2720 = 1360;
-let noiseChance = 0.5;
+let noiseChance = 0.75;
 canvas.width = canvasSize;
 canvas.height = canvasSize;
 
