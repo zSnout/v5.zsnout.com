@@ -138,8 +138,10 @@ export function shuffle<T>(array: T[]): T[] {
  * Picks a random integer in a specified range.
  * @param min The minimum value.
  * @param max The maximum value.
- * @returns A random integer between `min` and `max`.
+ * @returns A random integer in the inclusive range [`min`, `max`].
  */
+export function randint(): 0 | 1;
+export function randint(min: number, max: number): number;
 export function randint(min = 0, max = 1) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
