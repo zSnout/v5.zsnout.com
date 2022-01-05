@@ -1,0 +1,22 @@
+@use ".." as *;
+
+main {
+  display: flex;
+}
+
+#form {
+  margin: auto;
+  font-size: 3em;
+  text-align: center;
+}
+
+#field {
+  border: 1px solid $seperator;
+  border-radius: 0.25em;
+  background: $element;
+  padding: 0.125em;
+  font-size: inherit;
+  color: inherit;
+  text-align: center;
+  width: 4em;
+}
