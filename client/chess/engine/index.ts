@@ -14,11 +14,10 @@ function resize() {
 }
 
 /** Makes the best move according to the engine. */
-function makeBestMove() {
+async function makeBestMove() {
   if (game.game_over()) return;
 
-  let move = bestMove(game);
-  if (!move) return;
+  let move = await bestMove(game);
   game.move(move);
   board.position(game.fen(), false);
 
