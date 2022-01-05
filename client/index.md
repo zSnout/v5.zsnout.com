@@ -9,6 +9,8 @@ js: ./index.js
 \toc
 
 - [General Pages](#general-pages)
+- [Diagrams and Graphs](#diagrams-and-graphs)
+- [Games](#games)
 - [Blog Articles](#blog-articles)
 - [Math Articles](#math-articles)
 - [Website Themes](#website-themes)
@@ -20,19 +22,29 @@ js: ./index.js
 [Sign Up](/account/create/)
 [Log In](/account/login/)
 [Notepad](/notepad/)
-[Bingo Board](/bingo/)
-[TicTacToe Generator](/tictactoe/generator/)
 [Storymatic Playground](/storymatic/playground/)
 [Storymatic To JavaScript](/storymatic/smtojs/)
 [Bookmarklet Creator](/bookmarklet/)
-[Conway's Game of Life](/gameoflife/)
 [English Is Weird...](/englishisweird/)
-[Chessboard](/chess/)
-[Chess With Friends](/chess/online/)
 [Trope Highlighter](/tropes/)
+[Practice 2×2 to 144÷12](/practice/multdiv/)
+[Practice 2² to 20²](/practice/squares/)
+
+#### Diagrams and Graphs
+
+\buttonlist
+[Conway's Game of Life](/gameoflife/)
 [Mandelbrot Set](/mandelbrot/)
 [Newton's Fractal](/newton/)
 [The Effects of Noise](/noise/)
+
+#### Games
+
+\buttonlist
+[Bingo Board](/bingo/)
+[TicTacToe Generator](/tictactoe/generator/)
+[Chessboard](/chess/)
+[Chess With Friends](/chess/online/)
 [Random Chess Engine](/chess/random/)
 [Chess With Analysis](/chess/analysis/)
 [Chess AI vs AI](/chess/engine/)
