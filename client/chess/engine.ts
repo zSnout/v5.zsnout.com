@@ -49,9 +49,14 @@ export async function stockfish(
       if (!match || !bestmove) return null;
 
       let move: ShortMove = {
-        from: match[1] as Square,
-        to: match[2] as Square,
-        promotion: (match[3] || undefined) as "q" | "n" | "b" | "r" | undefined,
+        from: bestmove[1] as Square,
+        to: bestmove[2] as Square,
+        promotion: (bestmove[3] || undefined) as
+          | "q"
+          | "n"
+          | "b"
+          | "r"
+          | undefined,
       };
 
       let score = +match[2];
