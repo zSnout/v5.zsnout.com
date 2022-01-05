@@ -69,4 +69,4 @@ $("#icon-restart").on("click", () => {
 // Prevents weird things on mobile
 $("#board").on("touchmove", (event) => event.preventDefault());
 
-setTimeout(makeRandomMove);
+makeRandomMove();
