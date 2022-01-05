@@ -49,7 +49,7 @@ function iterUntilUnbounded(cx: number, cy: number) {
 }
 
 /** Redraws the Mandlebrot set. */
-async function drawMandlebrot() {
+async function drawMandelbrot() {
   let cxs = Array.from({ length: canvasSize }, (e, i) => i).sort(
     () => Math.random() - 0.5
   );
@@ -88,6 +88,21 @@ function zoomIn(cx: number, cy: number) {
   yEnd = cy + yDelta;
 }
 
+/**
+ * Zooms in on a point in the Mandlebrot set with 2x zoom.
+ * @param cx The real part of the point to zoom in on.
+ * @param cy The imaginary part of the point to zoom in on.
+ */
+function zoomOut(cx: number, cy: number) {
+  let xDelta = xEnd - xStart;
+  let yDelta = yEnd - yStart;
+
+  xStart = cx - xDelta;
+  xEnd = cx + xDelta;
+  yStart = cy - yDelta;
+  yEnd = cy + yDelta;
+}
+
 /** Sets the page hash to match the current settings. */
 function setPageHash() {
   setLocationHash(
@@ -96,18 +111,19 @@ function setPageHash() {
 }
 
 setPageHash();
-drawMandlebrot();
+drawMandelbrot();
 
-$("#canvas").on("click", ({ target, clientX, clientY }) => {
+$("#canvas").on("click", ({ target, clientX, clientY, shiftKey }) => {
   let { left, top, height, width } = target.getBoundingClientRect();
   let x = clientX - left;
   let y = clientY - top;
   let cx = xStart + ((xEnd - xStart) * x) / width;
   let cy = yStart + ((yEnd - yStart) * y) / height;
 
-  zoomIn(cx, cy);
+  if (shiftKey) zoomOut(cx, cy);
+  else zoomIn(cx, cy);
   setPageHash();
-  drawMandlebrot();
+  drawMandelbrot();
 });
 
 $("#icon-blur").on("click", () => {
@@ -115,7 +131,7 @@ $("#icon-blur").on("click", () => {
   else maxIterations -= 50;
 
   setPageHash();
-  drawMandlebrot();
+  drawMandelbrot();
 });
 
 $("#icon-focus").on("click", () => {
@@ -123,7 +139,7 @@ $("#icon-focus").on("click", () => {
   else maxIterations += 50;
 
   setPageHash();
-  drawMandlebrot();
+  drawMandelbrot();
 });
 
 $("#icon-resolution").on("click", () => {
@@ -134,5 +150,17 @@ $("#icon-resolution").on("click", () => {
   canvas.height = canvasSize;
 
   setPageHash();
-  drawMandlebrot();
+  drawMandelbrot();
+});
+
+$("#icon-zoomin").on("click", () => {
+  zoomIn((xStart + xEnd) / 2, (yStart + yEnd) / 2);
+  setPageHash();
+  drawMandelbrot();
+});
+
+$("#icon-zoomout").on("click", () => {
+  zoomOut((xStart + xEnd) / 2, (yStart + yEnd) / 2);
+  setPageHash();
+  drawMandelbrot();
 });

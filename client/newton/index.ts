@@ -93,6 +93,21 @@ function zoomIn(cx: number, cy: number) {
   yEnd = cy + yDelta;
 }
 
+/**
+ * Zooms in on a point in the Mandlebrot set with 2x zoom.
+ * @param cx The real part of the point to zoom in on.
+ * @param cy The imaginary part of the point to zoom in on.
+ */
+function zoomOut(cx: number, cy: number) {
+  let xDelta = xEnd - xStart;
+  let yDelta = yEnd - yStart;
+
+  xStart = cx - xDelta;
+  xEnd = cx + xDelta;
+  yStart = cy - yDelta;
+  yEnd = cy + yDelta;
+}
+
 /** Sets the page hash to match the current settings. */
 function setPageHash() {
   setLocationHash(
@@ -103,14 +118,15 @@ function setPageHash() {
 setPageHash();
 drawNewtonsFractal();
 
-$("#canvas").on("click", ({ target, clientX, clientY }) => {
+$("#canvas").on("click", ({ target, clientX, clientY, shiftKey }) => {
   let { left, top, height, width } = target.getBoundingClientRect();
   let x = clientX - left;
   let y = clientY - top;
   let cx = xStart + ((xEnd - xStart) * x) / width;
   let cy = yStart + ((yEnd - yStart) * y) / height;
 
-  zoomIn(cx, cy);
+  if (shiftKey) zoomOut(cx, cy);
+  else zoomIn(cx, cy);
   setPageHash();
   drawNewtonsFractal();
 });
@@ -138,6 +154,18 @@ $("#icon-resolution").on("click", () => {
   canvas.width = canvasSize;
   canvas.height = canvasSize;
 
+  setPageHash();
+  drawNewtonsFractal();
+});
+
+$("#icon-zoomin").on("click", () => {
+  zoomIn((xStart + xEnd) / 2, (yStart + yEnd) / 2);
+  setPageHash();
+  drawNewtonsFractal();
+});
+
+$("#icon-zoomout").on("click", () => {
+  zoomOut((xStart + xEnd) / 2, (yStart + yEnd) / 2);
   setPageHash();
   drawNewtonsFractal();
 });
