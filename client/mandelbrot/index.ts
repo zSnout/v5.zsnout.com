@@ -1,5 +1,9 @@
 import $ from "../assets/js/jsx.js";
-import { getLocationHash, setLocationHash } from "../assets/js/util.js";
+import {
+  getLocationHash,
+  setLocationHash,
+  shuffle,
+} from "../assets/js/util.js";
 
 let canvas = $("#canvas")[0] as HTMLCanvasElement;
 let context = canvas.getContext("2d")!;
@@ -53,9 +57,7 @@ let drawID = 0;
 /** Redraws the Mandlebrot set. */
 async function drawMandelbrot() {
   let myID = (drawID = Math.random());
-  let cxs = Array.from({ length: canvasSize }, (e, i) => i).sort(
-    () => Math.random() - 0.5
-  );
+  let cxs = shuffle(Array.from({ length: canvasSize }, (_, i) => i));
 
   let c = 0;
 

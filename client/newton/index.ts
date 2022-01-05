@@ -13,7 +13,11 @@ import {
   sub,
 } from "../assets/js/complex.js";
 import $ from "../assets/js/jsx.js";
-import { getLocationHash, setLocationHash } from "../assets/js/util.js";
+import {
+  getLocationHash,
+  setLocationHash,
+  shuffle,
+} from "../assets/js/util.js";
 
 let canvas = $("#canvas")[0] as HTMLCanvasElement;
 let context = canvas.getContext("2d")!;
@@ -60,9 +64,7 @@ let drawID = 0;
 /** Redraws a fractal using Newton's Method. */
 async function drawNewtonsFractal() {
   let myID = (drawID = Math.random());
-  let cxs = Array.from({ length: canvasSize }, (e, i) => i).sort(
-    () => Math.random() - 0.5
-  );
+  let cxs = shuffle(Array.from({ length: canvasSize }, (_, i) => i));
 
   let c = 0;
 
