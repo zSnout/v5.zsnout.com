@@ -2,6 +2,9 @@ import $ from "../../assets/js/jsx.js";
 import { getLocationHash } from "../../assets/js/util.js";
 import Chess from "../chessjs.js";
 
+/** Whether the game should be played as fast as possible. */
+let isInstant = +!new URL(location.href).searchParams.has("instant");
+
 /** Resizes the visible board. */
 function resize() {
   let el = $("#board");
@@ -26,7 +29,7 @@ function makeRandomMove() {
   if (game.game_over()) $("#board").addClass("game-over");
   if (game.in_check()) $("#board").addClass(`${game.turn()}-check`);
 
-  setTimeout(makeRandomMove, 100);
+  setTimeout(makeRandomMove, isInstant * 100);
 }
 
 /** Sets the page title based on game status. */
