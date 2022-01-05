@@ -33,13 +33,16 @@ export async function analyze(game: ChessInstance) {
 
   stockfish.send("ucinewgame");
   stockfish.send(`position fen ${game.fen()}`);
-  stockfish.send(`go depth 15`);
+  stockfish.send(`go movetime 1000`);
 
+  let lastmsg = (await stockfish.reciever.next()).value;
   while (true) {
     let msg = (await stockfish.reciever.next()).value;
 
-    let match = msg.match(/info depth 15.+ score (cp|mate) (-?[0-9]+)/);
-    if (match) {
+    if (msg.startsWith("bestmove")) {
+      let match = lastmsg.match(/score (cp|mate) (-?\d+)/);
+      if (!match) return 0;
+
       let score = +match[2];
       if (game.turn() == "b") score = -score;
 
@@ -48,6 +51,8 @@ export async function analyze(game: ChessInstance) {
       else if (score < 0) return `-M${-score}` as const;
       else return "GAMEOVER" as const;
     }
+
+    lastmsg = msg;
   }
 }
 
@@ -61,7 +66,7 @@ export async function bestMove(game: ChessInstance): Promise<ShortMove> {
 
   stockfish.send("ucinewgame");
   stockfish.send(`position fen ${game.fen()}`);
-  stockfish.send(`go depth 15`);
+  stockfish.send(`go movetime 1000`);
 
   while (true) {
     let msg = (await stockfish.reciever.next()).value;
