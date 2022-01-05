@@ -32,6 +32,7 @@ js: ./index.js
 [Trope Highlighter](/tropes/)
 [Mandelbrot Set](/mandelbrot/)
 [Newton's Fractal](/newton/)
+[The Effects of Noise](/noise/)
 [Random Chess Engine](/chess/random/)
 [Chess With Analysis](/chess/analysis/)
 [Chess AI vs AI](/chess/engine/)
