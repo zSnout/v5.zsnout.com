@@ -18,7 +18,7 @@ async function makeBestMove() {
   if (game.game_over()) return;
 
   let move = await bestMove(game);
-  // if (!move) return;
+  if (!move) return;
   game.move(move);
   board.position(game.fen(), false);
 
