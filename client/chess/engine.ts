@@ -24,11 +24,15 @@ let stockfishPromise = (async () => {
 })();
 
 /**
- * Analyzes the current position and scores it.
+ * Analyzes the current position, scores it, and finds the best move.
  * @param game The game to analyze.
- * @returns A number representing the analysis of the current position.
+ * @returns The data found from the analysis.
  */
-export async function analyze(game: ChessInstance) {
+export async function stockfish(
+  game: ChessInstance
+): Promise<
+  [score: number | `M${number}` | `-M${number}`, bestMove: ShortMove] | null
+> {
   let stockfish = await stockfishPromise;
 
   stockfish.send("ucinewgame");
@@ -41,15 +45,22 @@ export async function analyze(game: ChessInstance) {
 
     if (msg.startsWith("bestmove")) {
       let match = lastmsg.match(/score (cp|mate) (-?\d+)/);
-      if (!match) return 0;
+      let bestmove = msg.match(/bestmove ([a-h][1-8])([a-h][1-8])([qnbr]?)/);
+      if (!match || !bestmove) return null;
+
+      let move: ShortMove = {
+        from: match[1] as Square,
+        to: match[2] as Square,
+        promotion: (match[3] || undefined) as "q" | "n" | "b" | "r" | undefined,
+      };
 
       let score = +match[2];
       if (game.turn() == "b") score = -score;
 
-      if (match[1] == "cp") return score / 100;
-      else if (score > 0) return `M${score}` as const;
-      else if (score < 0) return `-M${-score}` as const;
-      else return "GAMEOVER" as const;
+      if (match[1] == "cp") return [score / 100, move];
+      else if (score > 0) return [`M${score}`, move];
+      else if (score < 0) return [`-M${-score}`, move];
+      else return null;
     }
 
     lastmsg = msg;
@@ -61,25 +72,17 @@ export async function analyze(game: ChessInstance) {
  * @param game The game to analyze.
  * @returns The best move for the current position.
  */
-export async function bestMove(game: ChessInstance): Promise<ShortMove> {
-  let stockfish = await stockfishPromise;
+export async function analyze(game: ChessInstance) {
+  return ((await stockfish(game)) || [0])[0];
+}
 
-  stockfish.send("ucinewgame");
-  stockfish.send(`position fen ${game.fen()}`);
-  stockfish.send(`go movetime 1000`);
-
-  while (true) {
-    let msg = (await stockfish.reciever.next()).value;
-
-    let match = msg.match(/bestmove ([a-h][1-8])([a-h][1-8])([qnbr]?)/);
-    if (match) {
-      return {
-        from: match[1] as Square,
-        to: match[2] as Square,
-        promotion: (match[3] || undefined) as "q" | "n" | "b" | "r" | undefined,
-      };
-    }
-  }
+/**
+ * Finds the best move in a given position.
+ * @param game The game to analyze.
+ * @returns The best move for the current position.
+ */
+export async function bestMove(game: ChessInstance): Promise<ShortMove | null> {
+  return (await stockfish(game))![1];
 }
 
 stockfishPromise.then(async (sf) => {
