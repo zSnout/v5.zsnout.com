@@ -16,7 +16,7 @@ try {
   let json = JSON.parse(getLocationHash());
 
   if (typeof json == "object" && json != null) {
-    noiseChance = json.noiseChance || noiseChance;
+    noiseChance = json.noiseChance ?? noiseChance;
     canvasSize = json.canvasSize || canvasSize;
     canvas.width = canvasSize;
     canvas.height = canvasSize;
