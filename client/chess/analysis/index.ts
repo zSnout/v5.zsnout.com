@@ -96,10 +96,10 @@ function resize() {
 function setPageTitle() {
   document.title = "Chess - Analyzing Board";
 
-  setTimeout(() => {
+  setTimeout(async () => {
     let turn: "White" | "Black" = game.turn() == "w" ? "White" : "Black";
     let other: "White" | "Black" = turn == "White" ? "Black" : "White";
-    let analysis = analyze(game) * (turn == "White" ? 1 : -1);
+    let analysis = await analyze(game);
     let prefix = `Chess (${analysis}) - `;
 
     if (game.in_checkmate()) document.title = `${prefix}${other} Wins!`;
