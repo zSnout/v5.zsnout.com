@@ -55,8 +55,11 @@ function colorOfRootNearest(z: Complex) {
   return `hsl(${(360 * angle(final)) / Math.PI}, 100%, 50%)`;
 }
 
+let drawID = 0;
+
 /** Redraws a fractal using Newton's Method. */
 async function drawNewtonsFractal() {
+  let myID = (drawID = Math.random());
   let cxs = Array.from({ length: canvasSize }, (e, i) => i).sort(
     () => Math.random() - 0.5
   );
@@ -74,7 +77,10 @@ async function drawNewtonsFractal() {
       context.fillRect(i, j, 1, 1);
     }
 
-    if (c % 10 == 0) await new Promise((resolve) => setTimeout(resolve, 0));
+    if (c % 10 == 0) {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      if (drawID != myID) return;
+    }
   }
 }
 

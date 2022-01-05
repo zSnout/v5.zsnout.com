@@ -48,8 +48,11 @@ function iterUntilUnbounded(cx: number, cy: number) {
   return iter;
 }
 
+let drawID = 0;
+
 /** Redraws the Mandlebrot set. */
 async function drawMandelbrot() {
+  let myID = (drawID = Math.random());
   let cxs = Array.from({ length: canvasSize }, (e, i) => i).sort(
     () => Math.random() - 0.5
   );
@@ -69,7 +72,10 @@ async function drawMandelbrot() {
       context.fillRect(i, j, 1, 1);
     }
 
-    if (c % 10 == 0) await new Promise((resolve) => setTimeout(resolve, 0));
+    if (c % 10 == 0) {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      if (drawID != myID) return;
+    }
   }
 }
 
