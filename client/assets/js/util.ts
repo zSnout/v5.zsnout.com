@@ -117,6 +117,23 @@ export function decodeBase64(base64: string): string | null {
   }
 }
 
+/**
+ * Shuffles an array.
+ * @param array The array to shuffle.
+ * @returns The shuffled array.
+ */
+export function shuffle<T>(array: T[]): T[] {
+  let m = array.length;
+  let t, i;
+
+  while (m) {
+    i = Math.floor(Math.random() * m--);
+    [array[m], array[i]] = [array[i], array[m]];
+  }
+
+  return array;
+}
+
 declare global {
   /** A list of items that can be put into localStorage. */
   interface StorageItems {}
