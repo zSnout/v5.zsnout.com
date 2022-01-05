@@ -55,16 +55,21 @@ function makeWorkerBlob(func: ((thread: Thread) => void) | string): Blob {
 }
 
 /**
- * Starts a new worker thread using a function.
+ * Starts a new worker thread using a function or existing Worker.
  * @param func The function to run inside the worker.
  * @returns A Thread that can be used to exchange messages with the worker.
  */
 export default function thread<R, S = R>(
-  func: ((thread: Thread<R, S>) => void) | string
+  func: ((thread: Thread<R, S>) => void) | Worker | string
 ): Thread<S, R> {
-  let blob = makeWorkerBlob(func);
-  let url = URL.createObjectURL(blob);
-  let worker = new Worker(url);
+  let worker: Worker;
+  if (func instanceof Worker) {
+    worker = func;
+  } else {
+    let blob = makeWorkerBlob(func);
+    let url = URL.createObjectURL(blob);
+    let worker = new Worker(url);
+  }
 
   async function* reciever(): AsyncGenerator<S, never> {
     while (true) {
