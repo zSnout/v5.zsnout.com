@@ -1,6 +1,5 @@
-import { ChessInstance } from "chess.js";
+import type { ChessInstance, ShortMove, Square } from "chess.js";
 import thread, { Thread } from "../assets/js/thread.js";
-import { shuffle } from "../assets/js/util.js";
 
 /** A promise resolving to the Stockfish instance. */
 let stockfishPromise = (async () => {
@@ -45,7 +44,9 @@ export async function analyze(game: ChessInstance) {
       if (game.turn() == "b") score = -score;
 
       if (match[1] == "cp") return score / 100;
-      else return `M${score}` as const;
+      else if (score > 0) return `M${score}` as const;
+      else if (score < 0) return `-M${-score}` as const;
+      else return "GAMEOVER" as const;
     }
   }
 }
@@ -55,8 +56,25 @@ export async function analyze(game: ChessInstance) {
  * @param game The game to analyze.
  * @returns The best move for the current position.
  */
-export function bestMove(game: ChessInstance) {
-  return shuffle(game.moves())[0];
+export async function bestMove(game: ChessInstance): Promise<ShortMove> {
+  let stockfish = await stockfishPromise;
+
+  stockfish.send("ucinewgame");
+  stockfish.send(`position fen ${game.fen()}`);
+  stockfish.send(`go depth 15`);
+
+  while (true) {
+    let msg = (await stockfish.reciever.next()).value;
+
+    let match = msg.match(/bestmove ([a-h][1-8])([a-h][1-8])([qnbr]?)/);
+    if (match) {
+      return {
+        from: match[1] as Square,
+        to: match[2] as Square,
+        promotion: (match[3] || undefined) as "q" | "n" | "b" | "r" | undefined,
+      };
+    }
+  }
 }
 
 stockfishPromise.then(async (sf) => {
