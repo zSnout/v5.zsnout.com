@@ -10,7 +10,7 @@ export let book = fetch("/chess/book.txt")
  * @param game The game to search for.
  * @returns Either the next move in the game, or `null` if no game was found.
  */
-export default async function nextMove(game: ChessInstance) {
+export default async function nextGMMove(game: ChessInstance) {
   let allGames = await book;
   let pgn = game.pgn().replace(/\d+\. /g, "");
   let games = allGames.filter((e) => e.startsWith(pgn));
