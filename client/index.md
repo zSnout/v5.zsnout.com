@@ -38,6 +38,7 @@ js: ./index.js
 [Chessboard](/chess/)
 [Chess With Friends](/chess/online/)
 [Chess vs AI](/chess/vsai/)
+[Illegal Chess vs AI](/chess/illegal/)
 [Chess With Analysis](/chess/analysis/)
 [Chess AI vs AI](/chess/engine/)
 [Bad Chess AIs](/chess/random/)
