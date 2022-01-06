@@ -38,7 +38,7 @@ export async function stockfish(
 
   stockfish.send("ucinewgame");
   stockfish.send(`position fen ${game.fen()}`);
-  stockfish.send(`go movetime 1000`);
+  stockfish.send(`go movetime 2000`);
 
   let lastmsg = (await stockfish.reciever.next()).value;
   while (true) {
