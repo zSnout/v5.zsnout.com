@@ -1,4 +1,5 @@
 import type { ChessInstance, ShortMove, Square } from "chess.js";
+import nextGMMove from "./book.js";
 import thread, { Thread } from "../assets/js/thread.js";
 
 /** A promise resolving to the Stockfish instance. */
@@ -86,8 +87,10 @@ export async function analyze(game: ChessInstance) {
  * @param game The game to analyze.
  * @returns The best move for the current position.
  */
-export async function bestMove(game: ChessInstance): Promise<ShortMove | null> {
-  return (await stockfish(game))![1];
+export async function bestMove(
+  game: ChessInstance
+): Promise<ShortMove | string | null> {
+  return (await nextGMMove(game)) || (await stockfish(game))![1];
 }
 
 stockfishPromise.then(async (sf) => {
