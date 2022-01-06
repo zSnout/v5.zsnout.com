@@ -1,6 +1,11 @@
 @use "../.." as *;
 @use "sass:math";
 
+:root,
+body {
+  overscroll-behavior-y: none;
+}
+
 body {
   margin: 0;
 }
