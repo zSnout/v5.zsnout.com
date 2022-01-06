@@ -135,18 +135,43 @@ export function shuffle<T>(array: T[]): T[] {
 }
 
 /**
+ * Randomly chooses either 0 or 1.
+ * @returns 0 or 1.
+ */
+export function randint(): 0 | 1;
+
+/**
  * Picks a random integer in a specified range.
  * @param min The minimum value.
  * @param max The maximum value.
- * @returns A random integer in the inclusive range [`min`, `max`].
+ * @returns An integer in the inclusive range [`min`, `max`].
  */
-export function randint(): 0 | 1;
 export function randint(min: number, max: number): number;
+
 export function randint(min = 0, max = 1) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+/**
+ * Resolves after a specified amount of time.
+ * @param ms The time to wait for in milliseconds.
+ */
+export function wait(ms: number): Promise<void>;
+
+/**
+ * Resolves with a specific values after a specified amount of time.
+ * @param ms The time to wait for in milliseconds.
+ * @param value The value to resolve with.
+ */
+export function wait<T>(ms: number, value: T): Promise<T>;
+
+export function wait<T>(ms: number, value?: T): Promise<T> {
+  return new Promise<T>((resolve) => setTimeout(resolve, ms, value));
 }
 
 declare global {
   /** A list of items that can be put into localStorage. */
   interface StorageItems {}
 }
+
+wait(200);
