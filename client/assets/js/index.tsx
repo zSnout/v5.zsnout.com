@@ -152,6 +152,8 @@ declare global {
 
 navigator.serviceWorker.register("/worker.js").catch(() => {});
 
+document.title = `${document.title} - zSnout`;
+
 let { get: getTitle, set: setTitle } = Object.getOwnPropertyDescriptor(
   Object.getPrototypeOf(Object.getPrototypeOf(document)),
   "title"
@@ -160,9 +162,11 @@ let { get: getTitle, set: setTitle } = Object.getOwnPropertyDescriptor(
 Object.defineProperty(document, "title", {
   enumerable: true,
   configurable: true,
-  get: getTitle!.bind(document),
+  get() {
+    return getTitle!.call(document).slice(0, -9);
+  },
   set(title: string) {
     $("#nav name").text(title);
-    setTitle!.call(document, title);
+    setTitle!.call(document, `${title} - zSnout`);
   },
 });
