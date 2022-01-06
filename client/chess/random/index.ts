@@ -22,7 +22,7 @@ function makeRandomMove() {
 
   let index = Math.floor(Math.random() * moves.length);
   game.move(moves[index]);
-  board.position(game.fen(), false);
+  board.position(game.fen(), true);
 
   setPageTitle();
   $("#board").removeClass("game-over", "w-check", "b-check");

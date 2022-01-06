@@ -92,7 +92,7 @@ async function makeAIMove() {
   if (!move) return;
 
   game.move(move);
-  board.position(game.fen(), false);
+  board.position(game.fen(), true);
 
   setPageTitle();
   $("#board").removeClass("game-over", "w-check", "b-check");
