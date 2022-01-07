@@ -2,9 +2,8 @@ import {
   Collection,
   Filter,
   MongoClient,
-  OptionalId,
+  OptionalUnlessRequiredId,
   UpdateFilter,
-  WithId,
 } from "mongodb";
 import server from "..";
 
@@ -53,7 +52,7 @@ class DBCollection<T extends {}> {
    * @param documents The documents to insert.
    * @returns A promise resolving once the documents have been inserted.
    */
-  async insert(...documents: OptionalId<T>[]): Promise<void> {
+  async insert(...documents: OptionalUnlessRequiredId<T>[]): Promise<void> {
     await connect;
     await this.collection.insertMany(documents);
   }
