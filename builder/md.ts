@@ -4,7 +4,7 @@ import MarkdownIt = require("markdown-it");
 import meta = require("markdown-it-meta");
 import MIAnchor from "markdown-it-anchor";
 import { init } from "mathjax";
-import { join, basename, dirname } from "path";
+import { join, dirname } from "path";
 import { renderText } from "./ejs";
 import { existsSync } from "fs";
 
