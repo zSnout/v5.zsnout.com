@@ -1,4 +1,4 @@
-import "../log";
+import "./log";
 import { join } from "path";
 import { buildDir as buildEJS, watchDir as watchEJS } from "./ejs";
 import { buildDir as buildMD, watchDir as watchMD } from "./md";

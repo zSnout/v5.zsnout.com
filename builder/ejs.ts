@@ -1,8 +1,8 @@
-import { Options, renderFile as ejsRenderFile, render as ejsRender } from "ejs";
-import glob = require("fast-glob");
+import { Options, render as ejsRender, renderFile as ejsRenderFile } from "ejs";
 import { existsSync } from "fs";
-import { writeFile, watch as fsWatch, readFile, mkdir } from "fs/promises";
+import { mkdir, readFile, watch as fsWatch, writeFile } from "fs/promises";
 import { dirname, join } from "path";
+import glob = require("fast-glob");
 
 /** An object representing assets that will be added to an HTML page using `render`. */
 interface Assets {
