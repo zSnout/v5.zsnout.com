@@ -54,31 +54,49 @@ function iterUntilUnbounded(cx: number, cy: number) {
 
 let drawID = 0;
 
-/** Redraws the Mandlebrot set. */
-async function drawMandelbrot() {
+/**
+ * Redraws the Mandlebrot set.
+ * @param size The size of the fractal to draw.
+ * @returns A promise resolving to a boolean indicating whether the fractal was drawn without being canceled.
+ */
+async function drawOneMandelbrot(size: number = canvasSize) {
   let myID = (drawID = Math.random());
-  let cxs = shuffle(Array.from({ length: canvasSize }, (_, i) => i));
-
+  let cxs = shuffle(Array.from({ length: size }, (_, i) => i));
   let c = 0;
+  let ratio = canvasSize / size;
 
   for (let i of cxs) {
     c++;
-    for (let j = 0; j < canvasSize; j++) {
-      let cx = xStart + ((xEnd - xStart) * i) / canvasSize;
-      let cy = yStart + ((yEnd - yStart) * j) / canvasSize;
+    for (let j = 0; j < size; j++) {
+      let cx = xStart + ((xEnd - xStart) * i) / size;
+      let cy = yStart + ((yEnd - yStart) * j) / size;
 
       let iter = iterUntilUnbounded(cx, cy);
       let frac = 1 - iter / maxIterations;
       if (frac) context.fillStyle = `hsl(${360 * ((frac * 2) % 1)}, 100%, 50%)`;
       else context.fillStyle = "black";
-      context.fillRect(i, j, 1, 1);
+      context.fillRect(i * ratio, j * ratio, ratio, ratio);
     }
 
     if (c % 10 == 0) {
       await new Promise((resolve) => setTimeout(resolve, 0));
-      if (drawID != myID) return;
+      if (drawID != myID) return false;
     }
   }
+
+  return true;
+}
+
+/**
+ * Draws the Mandlebrot set.
+ * @returns A promise that resolves to a boolean indicating whether all fractals were successfully drawn.
+ */
+async function drawMandelbrot() {
+  let success = await drawOneMandelbrot(340);
+  if (success && canvasSize > 340) success = await drawOneMandelbrot(680);
+  if (success && canvasSize > 680) success = await drawOneMandelbrot(1360);
+  if (success && canvasSize > 1360) success = await drawOneMandelbrot(2720);
+  return success;
 }
 
 /**
