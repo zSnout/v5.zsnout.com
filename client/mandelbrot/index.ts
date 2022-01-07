@@ -136,6 +136,12 @@ function setPageHash() {
   );
 }
 
+/** Sets the page title according to the resolution. */
+function setPageTitle() {
+  document.title = `Mandelbrot Set (${canvasSize / 680}x Resolution)`;
+}
+
+setPageTitle();
 setPageHash();
 drawMandelbrot();
 
@@ -180,6 +186,7 @@ $("#icon-resolution").on("click", () => {
   canvas.width = canvasSize;
   canvas.height = canvasSize;
 
+  setPageTitle();
   setPageHash();
   drawMandelbrot();
 });
