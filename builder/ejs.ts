@@ -123,7 +123,7 @@ function minifyHTML(content: string) {
 export async function render({ body, title, icons, ...assets }: RenderOptions) {
   return minifyHTML(
     await ejsRenderFile(
-      join(__dirname, "../../layout.ejs"),
+      join(__dirname, "./layout.ejs"),
       {
         body,
         title,
