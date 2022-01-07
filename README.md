@@ -15,9 +15,9 @@ This is the source code for the third iteration of https://zsnout.com/. For more
 
 ## Versioning System
 
-zSnout uses a versioning system based on [Minecraft Java Edition](https://minecraft.net/).
+zSnout uses a versioning system based on [Minecraft Java Edition](https://minecraft.net/). Each release is tagged as `YYwWWn` where `YY` is the last two digits of the current year, `WW` is the week number as directed by [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html), and `n` is the release number within the week. For example, a release on December 23, 2021 would be tagged as `21w51a`. If a release already existed on that week, it would be `21w51b`, `21w51c`, etc.
 
-For snapshots, we use `YYwWWn` where `YY` is the year, `WW` is the week number, and `n` is the letter of this version, incrementing from `a`. For prereleases, we use `MAJOR.MINOR-preN` where `MAJOR` is the major version, `MINOR` is the minor version, and `N` is the prerelease number, incrementing from `1`. For complete releases, we use `MAJOR.MINOR` where `MAJOR` is the major version and `MINOR` is the minor version. We use the [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) standard for computing week numbers.
+The reason we don't use a standard versioning system is that a website doesn't really have a "release" concept, but we want to be able to tag particular versions of the project with a defined system.
 
 ## Getting the Source Code
 
