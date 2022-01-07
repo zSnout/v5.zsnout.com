@@ -14,6 +14,8 @@ process.on("uncaughtException", (err) => {
       });
   } catch (e) {
     log.failure("error", "Failed to send fatal error email");
+  } finally {
+    process.exit(1);
   }
 });
 
