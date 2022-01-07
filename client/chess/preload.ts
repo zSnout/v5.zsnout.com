@@ -1,1 +1,1 @@
-window.exports = {};
+(window as any).exports = {};
