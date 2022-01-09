@@ -202,3 +202,5 @@ $("#icon-zoomout").on("click", () => {
   setPageHash();
   drawMandelbrot();
 });
+
+$("#canvas").autoResize();

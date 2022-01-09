@@ -178,3 +178,5 @@ $("#icon-zoomout").on("click", () => {
   setPageHash();
   drawNewtonsFractal();
 });
+
+$("#canvas").autoResize();

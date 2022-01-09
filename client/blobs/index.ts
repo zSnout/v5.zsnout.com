@@ -81,3 +81,5 @@ $("#icon-resolution").on("click", () => {
 });
 
 drawImage();
+
+$("#canvas").autoResize();

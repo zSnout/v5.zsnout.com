@@ -205,3 +205,5 @@ $("#icon-zoomout").on("click", () => {
   setPageHash();
   drawBurningShip();
 });
+
+$("#canvas").autoResize();

@@ -85,3 +85,5 @@ $("#icon-resolution").on("click", () => {
   setPageHash();
   drawImage();
 });
+
+$("#canvas").autoResize();
