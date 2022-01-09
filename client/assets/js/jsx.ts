@@ -455,25 +455,29 @@ export class zQuery extends Array<HTMLElement> {
 
   /**
    * Resizes each element in this zQuery to fit into its parent using a square zoom.
+   * @param autoEmpty Whether to automatically empty the parent element to produce better size estimates.
    * @returns The current zQuery to allow for chaining.
    */
-  resizeToParent(): this {
+  resizeToParent(autoEmpty = true): this {
     return this.each((el) => {
       let parent = el.parentElement;
       if (!parent) return;
+      if (autoEmpty) parent.innerHTML = "";
       let size = Math.min(parent.offsetWidth, parent.offsetHeight);
       el.style.width = `${size}px`;
       el.style.height = `${size}px`;
+      if (autoEmpty) parent.appendChild(el);
     });
   }
 
   /**
    * Sets up a listener that calls `.resizeToParent()` when the window is resized.
+   * @param autoEmpty Whether to automatically empty the parent element to produce better size estimates.
    * @returns The current zQuery to allow for chaining.
    */
-  autoResize(): this {
-    this.resizeToParent();
-    window.addEventListener("resize", () => this.resizeToParent());
+  autoResize(autoEmpty = true): this {
+    this.resizeToParent(autoEmpty);
+    window.addEventListener("resize", () => this.resizeToParent(autoEmpty));
     return this;
   }
 }
