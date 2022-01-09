@@ -29,6 +29,7 @@ js: ./index.js
 [Practice 2² to 20²](/practice/squares/)
 [Conway's Game of Life](/gameoflife/)
 [Mandelbrot Set](/mandelbrot/)
+[The Burning Ship](/burningship/)
 [Newton's Fractal](/newton/)
 [The Effects of Noise](/noise/)
 [Reversed Noise](/reversenoise/)
