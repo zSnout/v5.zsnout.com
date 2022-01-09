@@ -1,0 +1,9 @@
+<%
+  title("Random Fractal"), desc("Create your own fractal using a set of randomized parameters!");
+  css("./index.css"), js("./index.js");
+  nav("Increase Iteration Count", "@focus", "focus"), nav("Decrease Iteration Count", "@blur", "blur");
+  nav("Change Resolution", "@resolution", "hd"), nav("Update Seed", "@reseed", "shuffle");
+  nav("Zoom In", "@zoomin", "zoomin"), nav("Zoom Out", "@zoomout", "zoomout");
+%>
+
+<canvas id="canvas" width="1360" height="1360"></canvas>
