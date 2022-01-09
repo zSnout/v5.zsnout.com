@@ -55,7 +55,7 @@ function iterUntilUnbounded(cx: number, cy: number) {
 let drawID = 0;
 
 /**
- * Redraws the Mandlebrot set.
+ * Redraws the Mandelbrot set.
  * @param size The size of the fractal to draw.
  * @returns A promise resolving to a boolean indicating whether the fractal was drawn without being canceled.
  */
@@ -88,7 +88,7 @@ async function drawOneMandelbrot(size: number = canvasSize) {
 }
 
 /**
- * Draws the Mandlebrot set.
+ * Draws the Mandelbrot set.
  * @returns A promise that resolves to a boolean indicating whether all fractals were successfully drawn.
  */
 async function drawMandelbrot() {
@@ -100,7 +100,7 @@ async function drawMandelbrot() {
 }
 
 /**
- * Zooms in on a point in the Mandlebrot set with 2x zoom.
+ * Zooms in on a point in the Mandelbrot set with 2x zoom.
  * @param cx The real part of the point to zoom in on.
  * @param cy The imaginary part of the point to zoom in on.
  */
@@ -115,7 +115,7 @@ function zoomIn(cx: number, cy: number) {
 }
 
 /**
- * Zooms in on a point in the Mandlebrot set with 2x zoom.
+ * Zooms in on a point in the Mandelbrot set with 2x zoom.
  * @param cx The real part of the point to zoom in on.
  * @param cy The imaginary part of the point to zoom in on.
  */
