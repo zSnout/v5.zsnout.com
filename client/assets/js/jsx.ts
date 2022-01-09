@@ -472,6 +472,7 @@ export class zQuery extends Array<HTMLElement> {
    * @returns The current zQuery to allow for chaining.
    */
   autoResize(): this {
+    this.resizeToParent();
     window.addEventListener("resize", () => this.resizeToParent());
     return this;
   }
