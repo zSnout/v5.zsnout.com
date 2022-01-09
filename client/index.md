@@ -9,6 +9,8 @@ js: ./index.js
 \toc
 
 - [General Pages](#general-pages)
+- [Fractals & Diagrams](#fractals--diagrams)
+- [Games](#games)
 - [Blog Articles](#blog-articles)
 - [Math Articles](#math-articles)
 - [Website Themes](#website-themes)
@@ -27,13 +29,22 @@ js: ./index.js
 [Trope Highlighter](/tropes/)
 [Practice 2×2 to 144÷12](/practice/multdiv/)
 [Practice 2² to 20²](/practice/squares/)
+
+#### Fractals & Diagrams
+
+\buttonlist
 [Conway's Game of Life](/gameoflife/)
 [Mandelbrot Set](/mandelbrot/)
 [The Burning Ship](/burningship/)
 [Newton's Fractal](/newton/)
+[Feather Fractal](/feather/)
 [The Effects of Noise](/noise/)
 [Reversed Noise](/reversenoise/)
 [Blob Simulator](/blobs/)
+
+#### Games
+
+\buttonlist
 [Bingo Board](/bingo/)
 [TicTacToe Generator](/tictactoe/generator/)
 [Chessboard](/chess/)
@@ -70,6 +81,7 @@ js: ./index.js
 #### External Resources
 
 \buttonlist
-[All Website Code](/gh/repo)
-[zSnout on GitHub](/gh/zsnout)
-[Contributors to zSnout](/gh/contributors)
+[All Website Code](https://github.com/zsnout/zsnout.com)
+[zSnout on GitHub](https://github.com/zsnout)
+[Contributors to zSnout](https://github.com/zSnout/zsnout.com/graphs/contributors)
+[YouTube Channel](https://youtube.com/channel/UCZ1po0sntEdbIsG8yLOqSAQ)

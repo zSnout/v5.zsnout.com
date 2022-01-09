@@ -1,0 +1,9 @@
+<%
+  title("Feather Fractal"), desc("Explore the Feather Fractal, a distant cousin of the Mandelbrot Set, right from your browser!");
+  css("./index.css"), js("./index.js");
+  nav("Increase Iteration Count", "@focus", "focus"), nav("Decrease Iteration Count", "@blur", "blur");
+  nav("Change Resolution", "@resolution", "hd");
+  nav("Zoom In", "@zoomin", "zoomin"), nav("Zoom Out", "@zoomout", "zoomout");
+%>
+
+<canvas id="canvas" width="1360" height="1360"></canvas>
