@@ -9,6 +9,8 @@ export interface OptionList {
   yStart?: number;
   yEnd?: number;
   maxIterations?: number;
+  seed?: number;
+  useSeed?: boolean;
   canvasSize?: 340 | 680 | 1360 | 2720;
 }
 
@@ -16,6 +18,7 @@ export interface OptionList {
 export interface GeneratorInformation {
   x: number;
   y: number;
+  seed: number;
   maxIterations: number;
 }
 
@@ -45,6 +48,7 @@ export default function createFractal(
   canvas.width = canvasSize;
   canvas.height = canvasSize;
 
+  let seed = json.seed ?? options.seed ?? Math.random();
   let maxIterations = json.maxIterations ?? options.maxIterations ?? 100;
   let xStart = json.xStart ?? options.xStart ?? -1;
   let xEnd = json.xEnd ?? options.xEnd ?? 1;
@@ -69,7 +73,7 @@ export default function createFractal(
       for (let j = 0; j < size; j++) {
         let x = xStart + ((xEnd - xStart) * i) / size;
         let y = yStart + ((yEnd - yStart) * j) / size;
-        context.fillStyle = generator({ x, y, maxIterations });
+        context.fillStyle = generator({ x, y, seed, maxIterations });
         context.fillRect(i * pixelSize, j * pixelSize, pixelSize, pixelSize);
       }
 
@@ -123,9 +127,17 @@ export default function createFractal(
 
   /** Sets the page hash to match the current settings. */
   function setPageHash() {
-    setLocationHash(
-      JSON.stringify({ xStart, xEnd, yStart, yEnd, maxIterations, canvasSize })
-    );
+    let obj: OptionList = {
+      xStart,
+      xEnd,
+      yStart,
+      yEnd,
+      maxIterations,
+      canvasSize,
+    };
+    if (options.useSeed) obj.seed = seed;
+
+    setLocationHash(JSON.stringify(obj));
   }
 
   /** Sets the page title according to the resolution. */
@@ -191,6 +203,12 @@ export default function createFractal(
 
   $("#icon-zoomout").on("click", () => {
     zoomOut((xStart + xEnd) / 2, (yStart + yEnd) / 2);
+    setPageHash();
+    redrawFractal();
+  });
+
+  $("#icon-reseed").on("click", () => {
+    seed = Math.random();
     setPageHash();
     redrawFractal();
   });
