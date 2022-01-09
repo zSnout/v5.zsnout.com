@@ -29,7 +29,7 @@ export type FractalGenerator = (data: GeneratorInformation) => string;
  */
 export default function createFractal(
   generator: FractalGenerator,
-  { title, ...options }: OptionList = {}
+  { title = "Unnamed Fractal", ...options }: OptionList = {}
 ) {
   let json: OptionList = {};
   try {
