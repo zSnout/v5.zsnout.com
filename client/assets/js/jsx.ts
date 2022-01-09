@@ -452,6 +452,29 @@ export class zQuery extends Array<HTMLElement> {
     let result = this.map((el) => [...el.querySelectorAll(selector)]).flat();
     return new zQuery(...(result as HTMLElement[]));
   }
+
+  /**
+   * Resizes each element in this zQuery to fit into its parent using a square zoom.
+   * @returns The current zQuery to allow for chaining.
+   */
+  resizeToParent(): this {
+    return this.each((el) => {
+      let parent = el.parentElement;
+      if (!parent) return;
+      let size = Math.min(parent.offsetWidth, parent.offsetHeight);
+      el.style.width = `${size}px`;
+      el.style.height = `${size}px`;
+    });
+  }
+
+  /**
+   * Sets up a listener that calls `.resizeToParent()` when the window is resized.
+   * @returns The current zQuery to allow for chaining.
+   */
+  autoResize(): this {
+    window.addEventListener("resize", () => this.resizeToParent());
+    return this;
+  }
 }
 
 /**
