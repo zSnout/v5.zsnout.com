@@ -1,4 +1,4 @@
-import { Complex } from "./complex.js";
+import { abs2, Complex } from "./complex.js";
 import $ from "./jsx.js";
 import { getLocationHash, setLocationHash, shuffle, wait } from "./util.js";
 
@@ -216,4 +216,31 @@ export default function createFractal(
   });
 
   $("#canvas").autoResize();
+}
+
+/** The type of a coordinate transformer. */
+export type Transformer = (z: Complex, c: Complex) => Complex;
+
+/**
+ * Creates a fractal generator using Mandelbrot Set-style logic.
+ * @param transformer The coordinate transformer.
+ * @param options A list of options to use.
+ */
+export function createMandelbrotLike(
+  transformer: Transformer,
+  options: OptionList = {}
+) {
+  createFractal((c, { maxIterations }) => {
+    let z: Complex = [0, 0];
+    let iter = 0;
+
+    do {
+      z = transformer(z, c);
+      iter += 1;
+    } while (abs2(z) <= 4 && iter < maxIterations);
+
+    let frac = 1 - iter / maxIterations;
+    if (frac) return `hsl(${360 * ((frac * 2) % 1)}, 100%, 50%)`;
+    else return "black";
+  }, options);
 }
