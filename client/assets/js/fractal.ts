@@ -231,6 +231,7 @@ export default function createFractal<Equation>(
   $("#icon-neweq").on("click", () => {
     eq = prompt("Enter an equation", eq) || eq;
     parsedEq = options.eqParser?.(eq) ?? parsedEq;
+    setPageTitle();
     setPageHash();
     redrawFractal();
   });
