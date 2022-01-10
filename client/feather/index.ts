@@ -2,7 +2,7 @@ import { add, cube, div } from "../assets/js/complex.js";
 import createFractal from "../assets/js/fractal.js";
 
 createFractal(
-  ({ x, y, maxIterations }) => {
+  ([x, y], { maxIterations }) => {
     let zx = 0;
     let zy = 0;
     let iter = 0;

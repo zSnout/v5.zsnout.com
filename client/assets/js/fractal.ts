@@ -1,3 +1,4 @@
+import { Complex } from "./complex.js";
 import $ from "./jsx.js";
 import { getLocationHash, setLocationHash, shuffle, wait } from "./util.js";
 
@@ -16,14 +17,15 @@ export interface OptionList {
 
 /** Data passed to a {@linkcode FractalGenerator}. */
 export interface GeneratorInformation {
-  x: number;
-  y: number;
   seed: number;
   maxIterations: number;
 }
 
 /** The type of a fractal generator. */
-export type FractalGenerator = (data: GeneratorInformation) => string;
+export type FractalGenerator = (
+  position: Complex,
+  data: GeneratorInformation
+) => string;
 
 /**
  * Creates a fractal generator using the standard toolbar.
@@ -73,7 +75,7 @@ export default function createFractal(
       for (let j = 0; j < size; j++) {
         let x = xStart + ((xEnd - xStart) * i) / size;
         let y = yStart + ((yEnd - yStart) * j) / size;
-        context.fillStyle = generator({ x, y, seed, maxIterations });
+        context.fillStyle = generator([x, y], { seed, maxIterations });
         context.fillRect(i * pixelSize, j * pixelSize, pixelSize, pixelSize);
       }
 

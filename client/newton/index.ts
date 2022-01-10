@@ -11,11 +11,9 @@ import {
 import createFractal from "../assets/js/fractal.js";
 
 createFractal(
-  ({ x, y, maxIterations }) => {
-    let z: Complex = [x, y];
-    for (let i = 0; i < maxIterations; i++) {
+  (z, { maxIterations }) => {
+    for (let i = 0; i < maxIterations; i++)
       z = sub(z, div(add([-1, 0], cube(z)), mult([3, 0], sqr(z))));
-    }
 
     return `hsl(${(360 * angle(z)) / Math.PI}, 100%, 50%)`;
   },
