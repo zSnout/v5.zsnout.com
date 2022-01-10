@@ -1,3 +1,5 @@
+@use ".." as *;
+
 #main {
   cursor: text;
 }
@@ -8,4 +10,9 @@
 
 .ql-editor {
   padding: 0;
+
+  &.ql-blank::before {
+    color: $text-color;
+    opacity: 0.6;
+  }
 }
