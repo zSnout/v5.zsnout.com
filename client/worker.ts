@@ -17,33 +17,19 @@ let files = [
 async function onFetch(event: WindowEventMap["fetch"]) {
   event.respondWith(
     new Promise<Response | undefined>(async (resolve) => {
+      let req = event.request;
       let cache = await caches.open(cacheID);
-      let cached = await cache.match(event.request);
-      let fetched = fetch(event.request)
-        .then((res) => {
-          if (
-            res.ok &&
-            res.status < 400 &&
-            event.request.method == "GET" &&
-            res.type == "basic"
-          ) {
-            let clone = res.clone();
-            caches
-              .open(cacheID)
-              .then((cache) => cache.put(event.request, clone));
-          }
+      let cached = await cache.match(req);
+      let fetched = fetch(req)
+        .then(async (res) => {
+          if (res.ok && req.method.toUpperCase() == "GET")
+            await cache.put(req, res.clone());
 
-          return res;
+          return res.clone();
         })
-        .catch(
-          async () =>
-            (await cache.match("/offline/")) ||
-            new Response(
-              "Your zSnout installation is broken. Please connect to the internet to reinstall it."
-            )
-        );
+        .catch(async () => await cache.match("/offline/"));
 
-      event.waitUntil(fetched as any);
+      event.waitUntil(fetched);
       resolve(cached || fetched);
     })
   );
@@ -66,7 +52,7 @@ declare global {
     /** The `fetch` event sent to service workers. */
     fetch: Event & {
       request: Request;
-      waitUntil(operation: Promise<void>): void;
+      waitUntil(operation: Promise<any>): void;
       respondWith(
         response: Promise<Response | undefined> | Response | undefined
       ): void;
