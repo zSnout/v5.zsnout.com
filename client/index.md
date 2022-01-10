@@ -38,7 +38,6 @@ js: ./index.js
 [The Burning Ship](/burningship/)
 [Newton's Fractal](/newton/)
 [Feather Fractal](/feather/)
-[Custom Fractal](/fractal/)
 [The Effects of Noise](/noise/)
 [Reversed Noise](/reversenoise/)
 [Blob Simulator](/blobs/)
