@@ -3,7 +3,7 @@ import $ from "./jsx.js";
 import { getLocationHash, setLocationHash, shuffle, wait } from "./util.js";
 
 /** A list of options that can be passed to a fractal generator. */
-export interface OptionList {
+export interface OptionList<Equation> {
   title?: string;
   xStart?: number;
   xEnd?: number;
@@ -11,20 +11,25 @@ export interface OptionList {
   yEnd?: number;
   maxIterations?: number;
   seed?: number;
-  useSeed?: boolean;
+  saveSeed?: boolean;
+  eq?: string;
+  saveEq?: boolean;
+  eqParser?: (eq: string) => Equation;
   canvasSize?: 340 | 680 | 1360 | 2720;
 }
 
 /** Data passed to a {@linkcode FractalGenerator}. */
-export interface GeneratorInformation {
+export interface GeneratorInformation<Equation> {
   seed: number;
+  eq: string;
+  parsedEq?: Equation;
   maxIterations: number;
 }
 
 /** The type of a fractal generator. */
-export type FractalGenerator = (
+export type FractalGenerator<Equation> = (
   position: Complex,
-  data: GeneratorInformation
+  data: GeneratorInformation<Equation>
 ) => string;
 
 /**
@@ -32,11 +37,11 @@ export type FractalGenerator = (
  * @param generator The fractal generator to use.
  * @param options A list of options to use.
  */
-export default function createFractal(
-  generator: FractalGenerator,
-  { title = "Unnamed Fractal", ...options }: OptionList = {}
+export default function createFractal<Equation>(
+  generator: FractalGenerator<Equation>,
+  { title = "Unnamed Fractal", ...options }: OptionList<Equation> = {}
 ) {
-  let json: OptionList = {};
+  let json: OptionList<Equation> = {};
   try {
     let parsed = JSON.parse(getLocationHash());
     if (typeof parsed == "object" && parsed !== null) json = parsed;
@@ -51,6 +56,8 @@ export default function createFractal(
   canvas.height = canvasSize;
 
   let seed = json.seed ?? options.seed ?? Math.random();
+  let eq = json.eq ?? options.eq ?? "z";
+  let parsedEq = options.eqParser?.(eq) ?? undefined;
   let maxIterations = json.maxIterations ?? options.maxIterations ?? 100;
   let xStart = json.xStart ?? options.xStart ?? -1;
   let xEnd = json.xEnd ?? options.xEnd ?? 1;
@@ -75,7 +82,12 @@ export default function createFractal(
       for (let j = 0; j < size; j++) {
         let x = xStart + ((xEnd - xStart) * i) / size;
         let y = yStart + ((yEnd - yStart) * j) / size;
-        context.fillStyle = generator([x, y], { seed, maxIterations });
+        context.fillStyle = generator([x, y], {
+          seed,
+          eq,
+          parsedEq,
+          maxIterations,
+        });
         context.fillRect(i * pixelSize, j * pixelSize, pixelSize, pixelSize);
       }
 
@@ -129,7 +141,7 @@ export default function createFractal(
 
   /** Sets the page hash to match the current settings. */
   function setPageHash() {
-    let obj: OptionList = {
+    let obj: OptionList<any> = {
       xStart,
       xEnd,
       yStart,
@@ -137,14 +149,15 @@ export default function createFractal(
       maxIterations,
       canvasSize,
     };
-    if (options.useSeed) obj.seed = seed;
+    if (options.saveSeed) obj.seed = seed;
+    if (options.saveEq) obj.eq = eq;
 
     setLocationHash(JSON.stringify(obj));
   }
 
   /** Sets the page title according to the resolution. */
   function setPageTitle() {
-    document.title = `${title} at ${canvasSize / 680}x`;
+    document.title = `${title.replace("{EQ}", eq)} at ${canvasSize / 680}x`;
   }
 
   setPageTitle();
@@ -215,6 +228,13 @@ export default function createFractal(
     redrawFractal();
   });
 
+  $("#icon-neweq").on("click", () => {
+    eq = prompt("Enter an equation", eq) || eq;
+    parsedEq = options.eqParser?.(eq) ?? parsedEq;
+    setPageHash();
+    redrawFractal();
+  });
+
   $("#canvas").autoResize();
 }
 
@@ -228,7 +248,7 @@ export type Transformer = (z: Complex, c: Complex) => Complex;
  */
 export function createMandelbrotLike(
   transformer: Transformer,
-  options: OptionList = {}
+  options: OptionList<any> = {}
 ) {
   createFractal((c, { maxIterations }) => {
     let z: Complex = [0, 0];
@@ -236,7 +256,7 @@ export function createMandelbrotLike(
 
     do {
       z = transformer(z, c);
-      iter += 1;
+      iter++;
     } while (abs2(z) <= 4 && iter < maxIterations);
 
     let frac = 1 - iter / maxIterations;
