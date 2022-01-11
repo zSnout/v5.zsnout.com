@@ -6,6 +6,9 @@ import $ from "../../assets/js/jsx.js";
 /** The socket connected to the chess server. */
 let socket = io();
 
+/** This client's ID. */
+let myID = Math.random();
+
 /** Removes move indicators from the board. */
 function removeMoveIndicators() {
   $("#board .square-55d63").removeClass("move-indicator");
@@ -146,14 +149,24 @@ $("#icon-restart").on("click", () => {
 });
 
 $("#icon-pin").on("click", () => {
-  let pin = +prompt("Please enter your PIN:", myCode.toString())!;
-  if (Number.isNaN(pin)) return;
-  myCode = pin;
+  let pinText = prompt("Please enter your PIN:", myCode.toString());
+  if (!pinText || !+pinText) return;
 
+  let pin = +pinText;
+  if (Number.isNaN(pin)) return;
+
+  myCode = pin;
   game.reset();
   board.position(game.fen());
   $("#board").removeClass("game-over", "w-check", "b-check");
   setPageTitle();
+
+  socket.emit("chess:join", myCode, myID);
+});
+
+socket.on("chess:join", (code, id) => {
+  if (id == myID) return;
+  if (code == myCode) socket.emit("chess:data", myCode, game.fen());
 });
 
 socket.on("chess:data", (code, fen) => {
@@ -172,6 +185,7 @@ $("#board").on("touchmove", (event) => event.preventDefault());
 
 declare global {
   interface IOEvents {
+    "chess:join"(code: number, id: number): void;
     "chess:data"(code: number, fen: string): void;
   }
 }
