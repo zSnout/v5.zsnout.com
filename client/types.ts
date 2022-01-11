@@ -24,3 +24,16 @@ declare interface IOServerEvents {}
 declare interface ObjectConstructor {
   entries<K extends string, V>(obj: { [X in K]: V }): [K, V][];
 }
+
+// Add more accurate String.prototype.startsWith & .endsWith typings
+declare interface String {
+  startsWith<S extends string>(
+    searchString: S,
+    position?: number
+  ): this is `${S}${string}`;
+
+  endsWith<S extends string>(
+    searchString: S,
+    position?: number
+  ): this is `${string}${S}`;
+}
