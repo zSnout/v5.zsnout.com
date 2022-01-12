@@ -3,6 +3,10 @@ import { join } from "path";
 import { buildDir as buildEJS, watchDir as watchEJS } from "./ejs";
 import { buildDir as buildMD, watchDir as watchMD } from "./md";
 import { buildDir as buildJS, watchDir as watchJS } from "./js";
+import { existsSync, mkdirSync } from "fs";
+
+if (!existsSync(join(__dirname, "../.client")))
+  mkdirSync(join(__dirname, "../.client"));
 
 if (process.argv[2] == "-b") {
   buildEJS(join(__dirname, "../client/"));
