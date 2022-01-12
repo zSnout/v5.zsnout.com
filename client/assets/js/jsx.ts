@@ -626,6 +626,7 @@ declare global {
       className?: string;
       contentEditable?: string;
       dir?: string;
+      download?: string;
       draggable?: boolean;
       enterKeyHint?: string;
       hidden?: boolean;
