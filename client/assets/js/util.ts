@@ -173,5 +173,3 @@ declare global {
   /** A list of items that can be put into localStorage. */
   interface StorageItems {}
 }
-
-wait(200);
