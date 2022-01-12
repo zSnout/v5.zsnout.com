@@ -41,6 +41,7 @@ $(upload).on("input", async () => {
   png = await imageToPNG(file);
   overcolorify(png);
 
+  $.main.addClass("hasimage");
   output.src = URL.createObjectURL(pngToFile(png));
 });
 
