@@ -480,6 +480,14 @@ export class zQuery extends Array<HTMLElement> {
     window.addEventListener("resize", () => this.resizeToParent(autoEmpty));
     return this;
   }
+
+  /**
+   * Clicks all elements in this zQuery.
+   * @returns The current zQuery to allow for chaining.
+   */
+  click(): this {
+    return this.each((el) => el.click());
+  }
 }
 
 /**
