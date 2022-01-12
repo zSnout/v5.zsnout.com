@@ -3,6 +3,7 @@
     "@types/ace": "^0.0.47",
     "@types/chess.js": "^0.11.2",
     "@types/chessboardjs": "^0.3.2",
+    "@types/pngjs": "^6.0.1",
     "@types/quill": "^2.0.9",
     "chess.js": "^0.12.0",
     "chessboardjs": "^0.0.1",
