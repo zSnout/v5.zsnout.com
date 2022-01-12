@@ -29,6 +29,7 @@ js: ./index.js
 [Trope Highlighter](/tropes/)
 [Practice 2×2 to 144÷12](/practice/multdiv/)
 [Practice 2² to 20²](/practice/squares/)
+[Overcolorifier](/overcolor/)
 
 #### Fractals & Diagrams
 
