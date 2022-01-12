@@ -104,3 +104,21 @@ export function overcolorify(png: PNGInst) {
 
   return png;
 }
+
+/**
+ * Converts a video to a PNG.
+ * @param video The element containing the video.
+ * @returns A promise resolving to a PNG.
+ */
+export function videoToPNG(video: HTMLVideoElement) {
+  return new Promise<PNGInst>((resolve) => {
+    let canvas = document.createElement("canvas");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    let context = canvas.getContext("2d")!;
+    context.drawImage(video, 0, 0);
+
+    canvas.toBlob((blob) => resolve(fileToPNG(blob!)), "image/png", 1);
+  });
+}
