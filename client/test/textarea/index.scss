@@ -1,0 +1,27 @@
+@use "../.." as *;
+
+#main {
+  display: flex;
+  flex-direction: column;
+  gap: $margin;
+}
+
+textarea {
+  display: block;
+  padding: $margin;
+  border: 0.0625em solid $seperator;
+  background: $element;
+  resize: none;
+  border-radius: $margin;
+  color: $text-color;
+  font-family: $sans;
+  font-size: inherit;
+}
+
+#input {
+  flex-grow: 1;
+}
+
+#output {
+  flex-grow: 3;
+}
