@@ -112,7 +112,7 @@ export function overcolorify(png: PNGInst) {
  */
 export function videoToPNG(video: HTMLVideoElement) {
   return new Promise<PNGInst>((resolve) => {
-    let canvas = document.createElement("canvas");
+    let canvas = (<canvas />)[0] as HTMLCanvasElement;
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
 
