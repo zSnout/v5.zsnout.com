@@ -14,7 +14,7 @@ export function fileToPNG(blob: Blob) {
   return new Promise<PNGInst>((resolve) => {
     let reader = new FileReader();
     reader.readAsArrayBuffer(blob);
-    reader.onload = (e) => {
+    reader.onload = () => {
       let result = reader.result;
       if (result instanceof ArrayBuffer) {
         let png = new PNG();
@@ -45,4 +45,33 @@ export function downloadPNG(png: PNGInst, name: string = "image.png") {
   let a = <a href={url} download={name} style={{ display: "none" }}></a>;
   $.body.append(a);
   a.click();
+}
+
+/**
+ * Converts an arbitrary image to a PNG.
+ * @param image The image to convert.
+ * @returns A promise resolving to a PNG.
+ */
+export function imageToPNG(image: Blob) {
+  return new Promise<PNGInst>((resolve) => {
+    let reader = new FileReader();
+    reader.readAsDataURL(image);
+    reader.onload = () => {
+      let result = reader.result;
+      if (typeof result == "string") {
+        let image = new Image();
+        image.onload = () => {
+          let canvas = document.createElement("canvas");
+          canvas.width = image.width;
+          canvas.height = image.height;
+
+          let context = canvas.getContext("2d")!;
+          context.drawImage(image, 0, 0);
+
+          canvas.toBlob((blob) => resolve(fileToPNG(blob!)), "image/png", 1);
+        };
+        image.src = result;
+      }
+    };
+  });
 }
