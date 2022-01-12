@@ -44,5 +44,5 @@ export function downloadPNG(png: PNGInst, name: string = "image.png") {
   let url = URL.createObjectURL(blob);
   let a = <a href={url} download={name} style={{ display: "none" }}></a>;
   $.body.append(a);
-  a.render();
+  a.click();
 }
