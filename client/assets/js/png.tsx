@@ -80,15 +80,16 @@ export function imageToPNG(image: Blob) {
 /**
  * Removes all saturation and lightness from a PNG.
  * @param png The PNG to overcolor.
+ * @param rotation The amount to add to the hue of each color.
  * @returns The modified PNG.
  */
-export function overcolorify(png: PNGInst) {
+export function overcolorify(png: PNGInst, rotation: number = 0) {
   for (let y = 0; y < png.height; y++) {
     for (let x = 0; x < png.width; x++) {
       let idx = (png.width * y + x) << 2;
 
       let [r, g, b] = [png.data[idx], png.data[idx + 1], png.data[idx + 2]];
-      let [h, s, l] = rgbToHsl(r, g, b);
+      let h = (rgbToHsl(r, g, b)[0] + rotation) % 360;
       let [r2, g2, b2] = hslToRgb(h, 1, 0.5);
 
       if (Math.max(r, g, b) - Math.min(r, g, b) < 8) {
