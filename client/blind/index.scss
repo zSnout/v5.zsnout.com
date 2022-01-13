@@ -1,0 +1,35 @@
+@use ".." as *;
+
+#main {
+  display: flex;
+}
+
+#upload {
+  display: none;
+}
+
+#info {
+  text-align: center;
+  width: max(50%, 500px);
+  margin: auto;
+  font-size: 1.5em;
+}
+
+#output {
+  max-width: calc(100% - 0.25em);
+  max-height: calc(100% - 0.25em);
+  border: 0.125em solid $seperator;
+  border-radius: 1em;
+  margin: 0;
+  display: none;
+  margin: auto;
+}
+
+.hasimage {
+  #info {
+    display: none;
+  }
+  #output {
+    display: block;
+  }
+}

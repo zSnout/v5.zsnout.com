@@ -31,6 +31,7 @@ js: ./index.js
 [Practice 2² to 20²](/practice/squares/)
 [Overcolorifier](/overcolor/)
 [Live Overcolorifier](/overcolor/live/)
+[Blind Yourself](/blind/)
 
 #### Fractals & Diagrams
 
