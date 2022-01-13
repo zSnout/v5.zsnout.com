@@ -58,6 +58,7 @@ js: ./index.js
 [Chess With Analysis](/chess/analysis/)
 [Chess AI vs AI](/chess/engine/)
 [Bad Chess AIs](/chess/random/)
+[Chess vs Bad AI](/chess/vsrandom/)
 
 #### Blog Articles
 
