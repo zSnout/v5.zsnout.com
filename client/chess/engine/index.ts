@@ -60,13 +60,6 @@ setPageTitle();
 if (game.game_over()) $("#board").addClass("game-over");
 if (game.in_check()) $("#board").addClass(`${game.turn()}-check`);
 
-$("#icon-restart").on("click", () => {
-  game.reset();
-  board.position(game.fen());
-  $("#board").removeClass("game-over", "w-check", "b-check");
-  setPageTitle();
-});
-
 // Prevents weird things on mobile
 $("#board").on("touchmove", (event) => event.preventDefault());
 

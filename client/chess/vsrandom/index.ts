@@ -151,19 +151,6 @@ setPageTitle();
 if (game.game_over()) $("#board").addClass("game-over");
 if (game.in_check()) $("#board").addClass(`${game.turn()}-check`);
 
-$("#icon-restart").on("click", () => {
-  game.reset();
-  board.position(game.fen());
-  $("#board").removeClass("game-over", "w-check", "b-check");
-  setPageTitle();
-  if (Math.random() < 0.5) {
-    makeAIMove();
-    aiTurn = "w";
-  } else {
-    aiTurn = "b";
-  }
-});
-
 // Prevents weird things on mobile
 $("#board").on("touchmove", (event) => event.preventDefault());
 
@@ -173,4 +160,5 @@ declare global {
   }
 }
 
+board.orientation(aiTurn == "w" ? "black" : "white");
 if (game.turn() == aiTurn) setTimeout(makeAIMove);
