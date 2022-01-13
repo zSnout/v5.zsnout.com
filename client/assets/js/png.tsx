@@ -123,3 +123,30 @@ export function videoToPNG(video: HTMLVideoElement) {
     canvas.toBlob((blob) => resolve(fileToPNG(blob!)), "image/png", 1);
   });
 }
+
+/**
+ * Removes some colors from pixels.
+ * @param png The PNG to modify.
+ * @param redBlind Whether to remove all red from pixels.
+ * @param greenBlind Whether to remove all green from pixels.
+ * @param blueBlind Whether to remove all blue from pixels.
+ * @returns The modified PNG.
+ */
+export function colorBlind(
+  png: PNGInst,
+  redBlind: boolean,
+  greenBlind: boolean,
+  blueBlind: boolean
+) {
+  for (let y = 0; y < png.height; y++) {
+    for (let x = 0; x < png.width; x++) {
+      let idx = (png.width * y + x) << 2;
+
+      if (redBlind) png.data[idx] = 0;
+      if (greenBlind) png.data[idx + 1] = 0;
+      if (blueBlind) png.data[idx + 2] = 0;
+    }
+  }
+
+  return png;
+}
