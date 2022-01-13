@@ -35,27 +35,30 @@ async function onFetch(event: WindowEventMap["fetch"]) {
   );
 }
 
-self.addEventListener("install", (ev) =>
-  ev.waitUntil(caches.open(cacheID).then((cache) => cache.addAll(files)))
-);
+self.addEventListener("install", (ev) => {
+  ev.waitUntil(
+    Promise.all([
+      caches.open(cacheID).then((cache) => cache.addAll(files)),
+      caches.keys().then((k) => k.map((e) => e != cacheID && caches.delete(e))),
+    ])
+  );
+});
 
 self.addEventListener("fetch", onFetch);
 
 declare global {
   interface WindowEventMap {
     /** The `install` event sent to service workers. */
-    install: Event & { waitUntil(operation: Promise<void>): void };
+    install: Event & { waitUntil(operation: Promise<any>): void };
 
     /** The `activate` event sent to service workers. */
-    activate: Event & { waitUntil(operation: Promise<void>): void };
+    activate: Event & { waitUntil(operation: Promise<any>): void };
 
     /** The `fetch` event sent to service workers. */
     fetch: Event & {
       request: Request;
       waitUntil(operation: Promise<any>): void;
-      respondWith(
-        response: Promise<Response | undefined> | Response | undefined
-      ): void;
+      respondWith(response: Promise<Response | void> | Response | void): void;
     };
   }
 }
