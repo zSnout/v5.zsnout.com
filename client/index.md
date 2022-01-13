@@ -30,7 +30,7 @@ js: ./index.js
 [Practice 2×2 to 144÷12](/practice/multdiv/)
 [Practice 2² to 20²](/practice/squares/)
 [Overcolorifier](/overcolor/)
-[Constant Overcolorifier](/overcolor/video/)
+[Live Overcolorifier](/overcolor/live/)
 
 #### Fractals & Diagrams
 
