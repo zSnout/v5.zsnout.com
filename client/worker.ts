@@ -1,5 +1,5 @@
 /** The name of the cache to use. */
-let cacheID = "v1";
+let cacheID = "1.2";
 
 /** A list of files that MUST be cached. */
 let files = [
