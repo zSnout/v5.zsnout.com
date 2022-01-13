@@ -32,6 +32,7 @@ js: ./index.js
 [Overcolorifier](/overcolor/)
 [Live Overcolorifier](/overcolor/live/)
 [Blind Yourself](/blind/)
+[Live Blinding](/blind/live/)
 
 #### Fractals & Diagrams
 
