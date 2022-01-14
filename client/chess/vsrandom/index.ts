@@ -7,6 +7,9 @@ import Chess from "../chessjs.js";
 /** The turn that the AI takes. */
 let aiTurn: "w" | "b" = Math.random() < 0.5 ? "w" : "b";
 
+/** Whether to remove Black's non-king pieces. */
+let removeNonKing = new URL(location.href).searchParams.has("removenonking");
+
 /** Removes move indicators from the board. */
 function removeMoveIndicators() {
   $("#board .square-55d63").removeClass("move-indicator");
@@ -158,6 +161,11 @@ declare global {
   interface IOEvents {
     "chess:data"(code: number, fen: string): void;
   }
+}
+
+if (removeNonKing) {
+  game.load("4k3/8/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+  board.position(game.fen());
 }
 
 board.orientation(aiTurn == "w" ? "black" : "white");
