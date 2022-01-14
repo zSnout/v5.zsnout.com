@@ -152,4 +152,5 @@ declare global {
   }
 }
 
+board.orientation(aiTurn == "w" ? "black" : "white");
 if (game.turn() == aiTurn) setTimeout(makeAIMove);
