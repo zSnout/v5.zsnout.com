@@ -37,11 +37,8 @@ js: ./index.js
 #### Fractals & Diagrams
 
 \buttonlist
+[All Fractals](/fractals/)
 [Conway's Game of Life](/gameoflife/)
-[Mandelbrot Set](/mandelbrot/)
-[The Burning Ship](/burningship/)
-[Newton's Fractal](/newton/)
-[Feather Fractal](/feather/)
 [The Effects of Noise](/noise/)
 [Reversed Noise](/reversenoise/)
 [Blob Simulator](/blobs/)
