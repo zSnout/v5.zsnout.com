@@ -51,15 +51,7 @@ js: ./index.js
 \buttonlist
 [Bingo Board](/bingo/)
 [TicTacToe Generator](/tictactoe/generator/)
-[Chessboard](/chess/)
-[Chess With Friends](/chess/online/)
-[Chess vs AI](/chess/vsai/)
-[Illegal Chess vs AI](/chess/illegal/)
-[Chess With Analysis](/chess/analysis/)
-[Chess AI vs AI](/chess/engine/)
-[Bad Chess AIs](/chess/random/)
-[Chess vs Bad AI](/chess/vsrandom/)
-[Pawnstorm](/chess/#rank-134-P;square-e1-K;rank-5-ePPeePPe;rank-7-e)
+[Chess, Variants, and AIs](/chess/)
 
 #### Blog Articles
 

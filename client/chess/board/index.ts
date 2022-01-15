@@ -1,8 +1,8 @@
 import type { Square } from "chess.js";
 import type { Piece } from "chessboardjs";
-import $ from "../assets/js/jsx.js";
-import Chess from "./chessjs.js";
-import { setupUsingLocationHash } from "./position.js";
+import $ from "../../assets/js/jsx.js";
+import Chess from "../chessjs.js";
+import { setupUsingLocationHash } from "../position.js";
 
 /** Removes move indicators from the board. */
 function removeMoveIndicators() {
