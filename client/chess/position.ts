@@ -92,6 +92,20 @@ export default function position(name: string) {
 
     if ((match = pos.match(/^change-([pnbqrkPNBQRK]+)-([pnbqrkPNBQRK])$/)))
       position = position.replace(new RegExp(`[${match[1]}]`, "g"), match[2]);
+
+    if ((match = pos.match(/^random-([1-9][0-9]*)$/))) {
+      let count = +match[1];
+      game.load(minify(position));
+      for (let i = 0; i < count; i++) {
+        let moves = game.moves();
+        if (!moves.length || game.game_over()) break;
+
+        let move = moves[Math.floor(Math.random() * moves.length)];
+        game.move(move);
+      }
+
+      position = expand(game.fen().split(" ")[0]);
+    }
   }
 
   console.log(`new position: ${position}`);
