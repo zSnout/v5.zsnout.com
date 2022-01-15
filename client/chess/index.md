@@ -1,11 +1,10 @@
 ---
 title: Chess
 desc: Play all sorts of chess games on your device, with your friends, against computers, or play new variants!
+js: ./index.js
 ---
 
-\centerdoc
-
-# Basic Games
+## Basic Games
 
 \buttonlist
 [Chessboard](/chess/)
@@ -14,14 +13,14 @@ desc: Play all sorts of chess games on your device, with your friends, against c
 [Chess vs Bad AI](/chess/vsrandom/)
 [Analyse Games](/chess/analysis/)
 
-# Variants
+## Variants
 
 \buttonlist
 [Illegal Chess vs AI](/chess/illegal/)
 [Chess AI vs AI](/chess/engine/)
 [Bad Chess AIs](/chess/random/)
 
-# Custom Positions
+## Custom Positions
 
 \buttonlist
 [Pawnstorm](/chess/#rank-134-P;square-e1-K;rank-5-ePPeePPe;rank-7-e)
