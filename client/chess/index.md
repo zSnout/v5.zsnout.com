@@ -4,6 +4,8 @@ desc: Play all sorts of chess games on your device, with your friends, against c
 js: ./index.js
 ---
 
+# Chess on zSnout
+
 #### Basic Games
 
 \buttonlist
