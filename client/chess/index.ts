@@ -1,8 +1,8 @@
 import type { Square } from "chess.js";
 import type { Piece } from "chessboardjs";
 import $ from "../assets/js/jsx.js";
-import { getLocationHash, setLocationHash } from "../assets/js/util.js";
 import Chess from "./chessjs.js";
+import { setupUsingLocationHash } from "./position.js";
 
 /** Removes move indicators from the board. */
 function removeMoveIndicators() {
@@ -74,7 +74,6 @@ function onMouseoutSquare() {
 function onSnapEnd() {
   $("#board").removeClass("b-check", "w-check");
   board.position(game.fen());
-  setLocationHash(game.fen());
 
   setPageTitle();
   if (game.game_over()) $("#board").addClass("game-over");
@@ -107,7 +106,7 @@ function setPageTitle() {
   else document.title = `Chess - ${turn} to Move`;
 }
 
-let game = new Chess(getLocationHash() || undefined);
+let game = new Chess();
 
 let board = Chessboard("board", {
   draggable: true,
@@ -136,3 +135,5 @@ $("#icon-restart").on("click", () => {
 
 // Prevents weird things on mobile
 $("#board").on("touchmove", (event) => event.preventDefault());
+
+setupUsingLocationHash(game, board);

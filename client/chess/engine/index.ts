@@ -1,7 +1,7 @@
 import $ from "../../assets/js/jsx.js";
-import { getLocationHash } from "../../assets/js/util.js";
 import Chess from "../chessjs.js";
 import { bestMove } from "../engine.js";
+import { setupUsingLocationHash } from "../position.js";
 
 /** Resizes the visible board. */
 function resize() {
@@ -46,7 +46,7 @@ function setPageTitle() {
   else document.title = `Chess - ${turn} to Move`;
 }
 
-let game = new Chess(getLocationHash() || undefined);
+let game = new Chess();
 
 let board = Chessboard("board", {
   pieceTheme: "https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png",
@@ -63,4 +63,5 @@ if (game.in_check()) $("#board").addClass(`${game.turn()}-check`);
 // Prevents weird things on mobile
 $("#board").on("touchmove", (event) => event.preventDefault());
 
+setupUsingLocationHash(game, board);
 setTimeout(makeBestMove);

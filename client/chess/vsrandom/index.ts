@@ -3,12 +3,10 @@ import type { Piece } from "chessboardjs";
 import $ from "../../assets/js/jsx.js";
 import { wait } from "../../assets/js/util.js";
 import Chess from "../chessjs.js";
+import { setupUsingLocationHash } from "../position.js";
 
 /** The turn that the AI takes. */
 let aiTurn: "w" | "b" = Math.random() < 0.5 ? "w" : "b";
-
-/** Whether to remove Black's non-king pieces. */
-let removeNonKing = new URL(location.href).searchParams.has("removenonking");
 
 /** Removes move indicators from the board. */
 function removeMoveIndicators() {
@@ -163,10 +161,6 @@ declare global {
   }
 }
 
-if (removeNonKing) {
-  game.load("4k3/8/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-  board.position(game.fen());
-}
-
+setupUsingLocationHash(game, board);
 board.orientation(aiTurn == "w" ? "black" : "white");
 if (game.turn() == aiTurn) setTimeout(makeAIMove);

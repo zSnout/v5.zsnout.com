@@ -3,6 +3,7 @@ import type { Piece } from "chessboardjs";
 import $ from "../../assets/js/jsx.js";
 import Chess from "../chessjs.js";
 import { bestMove } from "../engine.js";
+import { setupUsingLocationHash } from "../position.js";
 
 /** The turn that the AI takes. */
 let aiTurn: "w" | "b" = Math.random() < 0.5 ? "w" : "b";
@@ -158,5 +159,6 @@ declare global {
   }
 }
 
+setupUsingLocationHash(game, board);
 board.orientation(aiTurn == "w" ? "black" : "white");
 if (game.turn() == aiTurn) setTimeout(makeAIMove);
