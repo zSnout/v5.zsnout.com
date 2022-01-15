@@ -1,6 +1,6 @@
 import type { ChessInstance } from "chess.js";
 import type { ChessBoardInstance } from "chessboardjs";
-import { getLocationHash } from "../assets/js/util.js";
+import { getLocationHash, randint } from "../assets/js/util.js";
 import Chess from "./chessjs.js";
 
 /** The game to be used for FEN validation. */
@@ -37,7 +37,7 @@ export function checkPos(pos: string) {
   let bHasKing = pos.indexOf("k") == pos.lastIndexOf("k") && pos.includes("k");
 
   return (
-    rows.every((row) => row.match(/^[pnbqrkPNBQRKe]{8}$/)) &&
+    rows.every((row) => row.match(/^[pnbqrkPNBQRKeaAdD?]{8}$/)) &&
     wHasKing &&
     bHasKing
   );
@@ -49,7 +49,27 @@ export function checkPos(pos: string) {
  * @returns A boolean indicating whether the position is valid.
  */
 export function checkRow(pos: string) {
-  return !!expand(pos).match(/^[pnbqrkPNBQRKe]{8}$/);
+  return !!expand(pos).match(/^[pnbqrkPNBQRKeaAdD?]{8}$/);
+}
+
+/**
+ * Picks a random piece.
+ * @param type The modifier to apply.
+ * @returns A random piece.
+ */
+export function randomPiece(type: "a" | "A" | "d" | "D" | "?" = "?") {
+  let num = randint(1, 5);
+  let piece =
+    num == 2 ? "n" : num == 3 ? "b" : num == 4 ? "r" : num == 5 ? "q" : "p";
+  num = randint(2, 5);
+  piece +=
+    num == 2 ? "n" : num == 3 ? "b" : num == 4 ? "r" : num == 5 ? "q" : "p";
+
+  if (type == "a") return piece[0];
+  if (type == "A") return piece[0].toUpperCase();
+  if (type == "d") return piece[1];
+  if (type == "D") return piece[1].toUpperCase();
+  return randint() ? piece[0] : piece[1].toUpperCase();
 }
 
 /**
@@ -58,39 +78,67 @@ export function checkRow(pos: string) {
  * @returns A FEN string representing the parsed position.
  */
 export default function position(name: string) {
-  console.log("parsing position...");
   let position = expand("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
   let match;
 
   for (let pos of name.split(/\s*;\s*/g)) {
-    console.log(`parsing ${pos}...`);
     if ((match = pos.match(/^board-(.+)$/)) && checkPos(match[1]))
       position = match[1];
 
-    if ((match = pos.match(/^rank-([1-8])-(.+)$/)) && checkRow(match[2])) {
-      let newPos = position.split("/");
-      newPos[8 - +match[1]] = match[2];
-      if (checkPos(newPos.join("/"))) position = newPos.join("/");
+    if ((match = pos.match(/^rank-([1-8]+)-([pnbqrkPNBQRKeaAdD?])$/)))
+      pos = `rank-${match[1]}-${match[2].repeat(8)}`;
+
+    if ((match = pos.match(/^file-([a-h]+)-([pnbqrkPNBQRKeaAdD?])$/)))
+      pos = `file-${match[1]}-${match[2].repeat(8)}`;
+
+    if ((match = pos.match(/^rank-([1-8]+)-(.+)$/)) && checkRow(match[2])) {
+      for (let rank of match[1].split("")) {
+        let newPos = position.split("/");
+        newPos[8 - +rank] = expand(match[2]);
+        position = newPos.join("/");
+      }
     }
 
-    if ((match = pos.match(/^file-([a-h])-(.+)$/)) && checkRow(match[2])) {
-      /** The file to be changed, from 0-7. */
-      let file = match[1].charCodeAt(0) - 97;
-      let newPos = position.split("/");
-      let data = expand(match[2]);
-      for (let i = 0; i < newPos.length; i++)
-        newPos[i] = newPos[i]
+    if ((match = pos.match(/^file-([a-h]+)-(.+)$/)) && checkRow(match[2])) {
+      for (let filetxt of match[1].split("")) {
+        let file = filetxt.charCodeAt(0) - 97;
+        let newPos = position.split("/");
+        let data = expand(match[2]);
+        for (let i = 0; i < newPos.length; i++)
+          newPos[i] = newPos[i]
+            .split("")
+            .map((e, j) => (j == file ? data[7 - i] : e))
+            .join("");
+
+        position = newPos.join("/");
+      }
+    }
+
+    if (
+      (match = pos.match(/^square-((?:[a-h][1-8])+)-([pnbqrkPNBQRKeaAdD?])$/))
+    ) {
+      for (let sqr of match[1].match(/[a-h][1-8]/g) || []) {
+        let file = sqr.charCodeAt(0) - 97;
+        let rank = 8 - +sqr[1];
+        let newPos = position.split("/");
+        let data = expand(match[2]);
+        newPos[rank] = newPos[rank]
           .split("")
-          .map((e, j) => (j == file ? data[7 - i] : e))
+          .map((e, j) => (j == file ? data[0] : e))
           .join("");
 
-      if (checkPos(newPos.join("/"))) position = newPos.join("/");
+        position = newPos.join("/");
+      }
     }
 
-    if ((match = pos.match(/^remove-([pnbqrkPNBQRK]+)$/)))
+    if ((match = pos.match(/^remove-([pnbqrkPNBQRKaAdD?]+)$/)))
       position = position.replace(new RegExp(`[${match[1]}]`, "g"), "e");
 
-    if ((match = pos.match(/^change-([pnbqrkPNBQRK]+)-([pnbqrkPNBQRK])$/)))
+    if (
+      (match = pos.match(
+        /^change-([pnbqrkPNBQRKaAdD?]+)-([pnbqrkPNBQRKaAdD?])$/
+      ))
+    )
       position = position.replace(new RegExp(`[${match[1]}]`, "g"), match[2]);
 
     if ((match = pos.match(/^random-([1-9][0-9]*)$/))) {
@@ -108,12 +156,8 @@ export default function position(name: string) {
     }
   }
 
-  console.log(`new position: ${position}`);
-
-  // Remove `e` squares
-  position = minify(position);
-
-  console.log(`new position: ${position}`);
+  // Remove `e` squares and expand random pieces.
+  position = minify(position).replace(/[AaDd?]/g, (e) => randomPiece(e as any));
 
   // Check castling availability
   let castling = "";
@@ -143,5 +187,5 @@ export function setupUsingLocationHash(
   board: ChessBoardInstance
 ) {
   game.load(position(getLocationHash()));
-  board.position(game.fen());
+  board.position(game.fen(), false);
 }
