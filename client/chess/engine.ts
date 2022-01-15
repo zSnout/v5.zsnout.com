@@ -48,9 +48,9 @@ export async function stockfish(
     if (msg.startsWith("bestmove")) {
       let match = lastmsg.match(/score (cp|mate) (-?\d+)/);
       let bestmove = msg.match(/bestmove ([a-h][1-8])([a-h][1-8])([qnbr]?)/);
-      if (!match || !bestmove) return null;
+      if (!match && !bestmove) return null;
 
-      let move: ShortMove = {
+      let move: ShortMove | null = bestmove && {
         from: bestmove[1] as Square,
         to: bestmove[2] as Square,
         promotion: (bestmove[3] || undefined) as
@@ -61,13 +61,15 @@ export async function stockfish(
           | undefined,
       };
 
-      let score = +match[2];
-      if (game.turn() == "b") score = -score;
+      if (!match) return [0, move!];
 
-      if (match[1] == "cp") return [score / 100, move];
-      else if (score > 0) return [`M${score}`, move];
-      else if (score < 0) return [`-M${-score}`, move];
-      else return null;
+      let score = +match[2];
+      let points: number | `M${number}` | `-M${number}` = 0;
+      if (game.turn() == "b") score = -score;
+      if (match[1] == "cp") points = score / 100;
+      else if (score > 0) points = `M${score}`;
+      else if (score < 0) points = `-M${-score}`;
+      return [points, move!];
     }
 
     lastmsg = msg;
