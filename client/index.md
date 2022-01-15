@@ -59,6 +59,7 @@ js: ./index.js
 [Chess AI vs AI](/chess/engine/)
 [Bad Chess AIs](/chess/random/)
 [Chess vs Bad AI](/chess/vsrandom/)
+[Pawnstorm](/chess/#rank-1-PPPPKPPP;rank-3-PPPPPPPP;rank-4-PPPPPPPP;rank-5-ePPeePPe;rank-7-8)
 
 #### Blog Articles
 
