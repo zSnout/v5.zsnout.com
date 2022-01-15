@@ -9,7 +9,7 @@ js: ./index.js
 #### Basic Games
 
 \buttonlist
-[Chessboard](/chess/)
+[Chessboard](/chess/board/)
 [Chess With Friends](/chess/online/)
 [Chess vs AI](/chess/vsai/)
 [Chess vs Bad AI](/chess/vsrandom/)
@@ -25,4 +25,4 @@ js: ./index.js
 #### Custom Positions
 
 \buttonlist
-[Pawnstorm](/chess/#rank-134-P;square-e1-K;rank-5-ePPeePPe;rank-7-e)
+[Pawnstorm](/chess/board/#rank-134-P;square-e1-K;rank-5-ePPeePPe;rank-7-e)
