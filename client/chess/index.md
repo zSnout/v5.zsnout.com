@@ -4,7 +4,7 @@ desc: Play all sorts of chess games on your device, with your friends, against c
 js: ./index.js
 ---
 
-## Basic Games
+#### Basic Games
 
 \buttonlist
 [Chessboard](/chess/)
@@ -13,14 +13,14 @@ js: ./index.js
 [Chess vs Bad AI](/chess/vsrandom/)
 [Analyse Games](/chess/analysis/)
 
-## Variants
+#### Variants
 
 \buttonlist
 [Illegal Chess vs AI](/chess/illegal/)
 [Chess AI vs AI](/chess/engine/)
 [Bad Chess AIs](/chess/random/)
 
-## Custom Positions
+#### Custom Positions
 
 \buttonlist
 [Pawnstorm](/chess/#rank-134-P;square-e1-K;rank-5-ePPeePPe;rank-7-e)
