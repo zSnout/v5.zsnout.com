@@ -136,8 +136,13 @@ export async function createFractal(
     yEnd = cy + yDelta;
   }
 
+  let lastHashChange = 0;
+
   /** Sets the page hash to match the current settings. */
-  function setPageHash() {
+  function setPageHash(checkLastChange = false) {
+    if (checkLastChange && Date.now() - lastHashChange < 500) return;
+    lastHashChange = Date.now();
+
     let obj: OptionList = { xStart, xEnd, yStart, yEnd, maxIterations };
 
     setLocationHash(JSON.stringify(obj));
@@ -188,7 +193,7 @@ export async function createFractal(
     if (zoomType == "out") zoomOut(x, y);
     else zoomIn(x, y);
 
-    setPageHash();
+    setPageHash(true);
     updateGl();
   }, 10);
 
