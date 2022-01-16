@@ -13,5 +13,6 @@ createMandelbrotLike(
     yEnd: 2,
     maxIterations: 100,
     canvasSize: 680,
+    escapeSize: 16,
   }
 );
