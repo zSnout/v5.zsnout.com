@@ -169,6 +169,17 @@ export function wait<T>(ms: number, value?: T): Promise<T> {
   return new Promise<T>((resolve) => setTimeout(resolve, ms, value));
 }
 
+/**
+ * Creates an array with each item as a number from 0 to the specified length (exclusive).
+ * @param length The number of items in the range.
+ * @returns An array of numbers from 0 to `length - 1`.
+ */
+export function range(length = 1) {
+  return Array(length)
+    .fill(0)
+    .map((_, i) => i);
+}
+
 declare global {
   /** A list of items that can be put into localStorage. */
   interface StorageItems {}
