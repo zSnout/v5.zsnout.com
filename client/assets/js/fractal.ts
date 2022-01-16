@@ -249,7 +249,7 @@ export type Transformer = (z: Complex, c: Complex) => Complex;
  */
 export function createMandelbrotLike(
   transformer: Transformer,
-  options: OptionList<any> = {}
+  { escapeSize = 4, ...options }: OptionList<any> & { escapeSize?: number } = {}
 ) {
   createFractal((c, { maxIterations }) => {
     let z: Complex = [0, 0];
@@ -258,7 +258,7 @@ export function createMandelbrotLike(
     do {
       z = transformer(z, c);
       iter++;
-    } while (abs2(z) <= 4 && iter < maxIterations);
+    } while (abs2(z) <= escapeSize && iter < maxIterations);
 
     let frac = 1 - iter / maxIterations;
     if (frac) return `hsl(${360 * ((frac * 2) % 1)}, 100%, 50%)`;
