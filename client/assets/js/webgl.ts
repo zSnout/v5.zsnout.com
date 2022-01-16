@@ -185,8 +185,6 @@ export async function createFractal(
     x = x + (zoomX * xs) / 100;
     y = y + (zoomY * ys) / 100;
 
-    console.log({ zoomX, zoomY, x, y });
-
     if (zoomType == "out") zoomOut(x, y);
     else zoomIn(x, y);
 
