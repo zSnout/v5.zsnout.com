@@ -97,8 +97,6 @@ export async function createFractal(
 
   /** Updates the variables in the GLSL script. */
   function updateGl() {
-    [yStart, yEnd] = [yEnd, yStart];
-
     let xScale = (xEnd - xStart) / 2;
     let yScale = (yEnd - yStart) / 2;
 
@@ -106,8 +104,6 @@ export async function createFractal(
     gl.uniform2fv(scaleLoc, [xScale, yScale]);
     gl.uniform2fv(offsetLoc, [xStart + xScale, yStart + yScale]);
     gl.drawArrays(gl.TRIANGLES, 0, 6);
-
-    [yStart, yEnd] = [yEnd, yStart];
   }
 
   /**
