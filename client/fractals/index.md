@@ -14,6 +14,11 @@ js: ./index.js
 [Feather Fractal](/feather/)
 [Custom Fractal](/fractal/)
 
+#### Instant Zooming
+
+\buttonlist
+[Mandelbrot Set](/mandelbrot/webgl/)
+
 #### Other Fractals
 
 \buttonlist
