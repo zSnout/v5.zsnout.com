@@ -52,8 +52,8 @@ export interface OptionList {
   xEnd?: number;
   yStart?: number;
   yEnd?: number;
+  colorMode?: number;
   maxIterations?: number;
-  canvasSize?: 340 | 680 | 1360 | 2720;
 }
 
 /**
@@ -84,6 +84,7 @@ export async function createFractal(
   let xEnd = json.xEnd ?? options.xEnd ?? 1;
   let yStart = json.yStart ?? options.yStart ?? -1;
   let yEnd = json.yEnd ?? options.yEnd ?? 1;
+  let colorMode = json.colorMode ?? options.colorMode ?? 0;
 
   let vertShaderSrc = await fetch(vertexShader).then((e) => e.text());
   let fragShaderSrc = await fetch(fragmentShader).then((e) => e.text());
@@ -93,6 +94,7 @@ export async function createFractal(
 
   let scaleLoc = gl.getUniformLocation(program, "scale");
   let offsetLoc = gl.getUniformLocation(program, "offset");
+  let colorModeLoc = gl.getUniformLocation(program, "colorMode");
   let maxIterationsLoc = gl.getUniformLocation(program, "maxIterations");
 
   /** Updates the variables in the GLSL script. */
@@ -101,6 +103,7 @@ export async function createFractal(
     let yScale = (yEnd - yStart) / 2;
 
     gl.uniform1i(maxIterationsLoc, Math.floor(maxIterations));
+    gl.uniform1i(colorModeLoc, Math.floor(colorMode + 5) % 5);
     gl.uniform2fv(scaleLoc, [xScale, yScale]);
     gl.uniform2fv(offsetLoc, [xStart + xScale, yStart + yScale]);
     gl.drawArrays(gl.TRIANGLES, 0, 6);
@@ -225,6 +228,12 @@ export async function createFractal(
 
   $("#icon-zoomout").on("click", () => {
     zoomOut((xStart + xEnd) / 2, (yStart + yEnd) / 2, 1);
+    setPageHash();
+    updateGl();
+  });
+
+  $("#icon-recolor").on("click", () => {
+    colorMode = Math.floor(colorMode + 1) % 5;
     setPageHash();
     updateGl();
   });
