@@ -10,10 +10,8 @@ js: ./index.js
 \toc
 
 - [General Pages](#general-pages)
-- [Fractals & Diagrams](#fractals--diagrams)
+- [Fractals and Diagrams](#fractals-and-diagrams)
 - [Games](#games)
-- [Blog Articles](#blog-articles)
-- [Math Articles](#math-articles)
 - [Website Themes](#website-themes)
 - [External Resources](#external-resources)
 
@@ -24,6 +22,8 @@ js: ./index.js
 [Log In](/account/login/)
 [Notepad](/notepad/)
 [Experimental](/home/beta/)
+[zSnout Blog](/blog/)
+[Math Articles](/math/)
 [Storymatic Playground](/storymatic/playground/)
 [Storymatic To JavaScript](/storymatic/smtojs/)
 [Bookmarklet Creator](/bookmarklet/)
@@ -36,7 +36,7 @@ js: ./index.js
 [Blind Yourself](/blind/)
 [Live Blinding](/blind/live/)
 
-#### Fractals & Diagrams
+#### Fractals and Diagrams
 
 \buttonlist
 [All Fractals](/home/fractal/)
@@ -50,21 +50,6 @@ js: ./index.js
 [Chess, Variants, and AIs](/home/chess/)
 [Bingo Board](/bingo/)
 [TicTacToe Generator](/tictactoe/generator/)
-
-#### Blog Articles
-
-\buttonlist
-[What makes zSnout different?](/blog/what-makes-zsnout-different/)
-[GitHub Copilot is Amazing](/blog/github-copilot-is-amazing/)
-
-#### Math Articles
-
-\buttonlist
-[Divisibility Rules & Tricks](/math/divisibility-rules/)
-[Force People to Think Of 1089](/math/forcing-1089/)
-[Is It A Thursday? Calculate It!](/math/calculating-weekdays/)
-[Proving That 0 = 1](/math/does-0-equal-1/)
-[1 + 2 + 3 + 4 ... = -1/12?](/math/infinity-is-0.0833/)
 
 #### Website Themes
 
