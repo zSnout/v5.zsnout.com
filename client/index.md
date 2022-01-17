@@ -39,7 +39,7 @@ js: ./index.js
 #### Fractals & Diagrams
 
 \buttonlist
-[All Fractals](/fractals/)
+[All Fractals](/home/fractal/)
 [Conway's Game of Life](/gameoflife/)
 [The Effects of Noise](/noise/)
 [Reversed Noise](/reversenoise/)
@@ -47,9 +47,9 @@ js: ./index.js
 #### Games
 
 \buttonlist
+[Chess, Variants, and AIs](/home/chess/)
 [Bingo Board](/bingo/)
 [TicTacToe Generator](/tictactoe/generator/)
-[Chess, Variants, and AIs](/chess/)
 
 #### Blog Articles
 
