@@ -1,26 +1,20 @@
 ---
 title: Fractals
-desc: Play around with some amazing fractal images on zSnout!
-js: ./index.js
+desc: Play around with some amazing fractal images on zSnout, including the Mandelbrot Set and Burning Ship, or create your own fractal!
+js: ../index.js
 ---
 
 # Fractals on zSnout
-
-#### Mandelbrot-Like
 
 \buttonlist
 [Mandelbrot Set](/mandelbrot/)
 [Burning Ship](/burningship/)
 [Feather Fractal](/feather/)
 [Custom Fractal](/fractal/)
+[Newton's Fractal](/newton/)
 
-#### Instant Zooming
+#### Instant Render (Experimental)
 
 \buttonlist
 [Mandelbrot Set](/mandelbrot/webgl/)
 [Burning Ship](/burningship/webgl/)
-
-#### Other Fractals
-
-\buttonlist
-[Newton's Fractal](/newton/)
