@@ -314,6 +314,12 @@
           padding: 0.5 * $margin $margin;
           flex: 1;
           text-align: center;
+          display: flex;
+
+          > em {
+            margin: auto;
+            font-style: normal;
+          }
         }
 
         > em {
