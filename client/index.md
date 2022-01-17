@@ -1,6 +1,7 @@
 ---
 title: Welcome to zSnout!
 desc: zSnout is a collection of different projects created for fun by Zachary Sakowitz. It runs on the open-source code available at https://github.com/zsnout/zsnout.com. It was initially created during COVID-19, and has undergone two major revisions since then.
+css: ./home.css
 js: ./index.js
 ---
 
