@@ -146,7 +146,14 @@ export async function createFractal(
     if (checkLastChange && Date.now() - lastHashChange < 500) return;
     lastHashChange = Date.now();
 
-    let obj: OptionList = { xStart, xEnd, yStart, yEnd, maxIterations };
+    let obj: OptionList = {
+      xStart,
+      xEnd,
+      yStart,
+      yEnd,
+      colorMode,
+      maxIterations,
+    };
 
     setLocationHash(JSON.stringify(obj));
   }
