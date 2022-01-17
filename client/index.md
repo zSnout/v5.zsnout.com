@@ -23,6 +23,7 @@ js: ./index.js
 [Sign Up](/account/create/)
 [Log In](/account/login/)
 [Notepad](/notepad/)
+[Experimental](/home/beta/)
 [Storymatic Playground](/storymatic/playground/)
 [Storymatic To JavaScript](/storymatic/smtojs/)
 [Bookmarklet Creator](/bookmarklet/)
@@ -42,7 +43,6 @@ js: ./index.js
 [Conway's Game of Life](/gameoflife/)
 [The Effects of Noise](/noise/)
 [Reversed Noise](/reversenoise/)
-[Blob Simulator](/blobs/)
 
 #### Games
 
