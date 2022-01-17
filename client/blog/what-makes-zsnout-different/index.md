@@ -5,7 +5,7 @@ desc: Learn about why zSnout is such a different website compared to most other 
 
 _Published by Zachary Sakowitz on December 9, 2021._
 
-To me, many things stand out to me about zSnout that I simply don't see in other websites. For example, zSnout has many subsites for different purposes whereas most websites have one main purpose, it uses a different theming system that other websites, and it was designed from the ground up to work as an app.
+To me, many things stand out to me about zSnout that I simply don't see in other websites. For example, zSnout has many subsites for different purposes whereas most websites have one main purpose, it uses a different theming system that other websites, and it was designed from the ground up to work as an app. I think that's pretty cool, and I want to explore it more!
 
 \toc
 
