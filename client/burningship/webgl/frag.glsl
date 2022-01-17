@@ -5,6 +5,11 @@ in vec2 _pos;
 out vec4 color;
 uniform int maxIterations;
 
+// 0 - INT_NONE, EXT_TIME
+// 1 - INT_ORBIT, EXT_NONE
+// 2 - INT_ORBIT, EXT_ORBIT
+uniform int colorMode;
+
 uniform vec2 scale;
 uniform vec2 offset;
 
@@ -19,17 +24,47 @@ vec3 palette(float t) {
   return hsl2rgb(vec3(1.0 - hue, 1.0, 0.5));
 }
 
-void main() {
-  vec2 c = _pos * scale + offset, z;
+vec4 iterate(vec2 c) {
+  vec2 z, pz, ppz;
+  vec3 sz;
 
   int iterations = 0;
   for(int i = 0; i < maxIterations; i++) {
+    ppz = pz;
+    pz = z;
     z = vec2(z.x * z.x - z.y * z.y, 2.0 * abs(z.x) * abs(z.y)) + c;
     iterations++;
     if(length(z) > 2.0)
       break;
+
+    sz.x += dot(z - pz, pz - ppz);
+    sz.y += dot(z - pz, z - pz);
+    sz.z += dot(z - ppz, z - ppz);
   }
 
+  return vec4(sz, iterations);
+}
+
+void main() {
+  vec2 c = _pos * scale + offset;
+  vec4 res = iterate(c);
+
+  vec3 sz = res.xyz;
+  float iterations = res.w;
+
   float frac = float(iterations) / float(maxIterations);
-  color = frac >= 1.0 ? vec4(0, 0, 0, 1) : vec4(palette(frac), 1);
+  if(frac < 1.0 && (colorMode == 0)) {
+    // interior, mode 0
+    color = vec4(palette(frac), 1);
+  } else if(colorMode == 2 || (frac >= 1.0 && colorMode == 1)) {
+    // interior, mode 2
+    // exterior, modes 2, 1
+    sz = abs(sz) / float(iterations);
+    vec3 n1 = sin(abs(sz * 5.0)) * 0.45 + 0.5;
+    color = vec4(n1, 1);
+  } else {
+    // interior, mode 1
+    // exterior, mode 0
+    color = vec4(0, 0, 0, 1);
+  }
 }
