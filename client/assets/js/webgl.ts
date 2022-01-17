@@ -103,7 +103,7 @@ export async function createFractal(
     let yScale = (yEnd - yStart) / 2;
 
     gl.uniform1i(maxIterationsLoc, Math.floor(maxIterations));
-    gl.uniform1i(colorModeLoc, Math.floor(colorMode + 5) % 5);
+    gl.uniform1i(colorModeLoc, Math.floor(colorMode + 3) % 3);
     gl.uniform2fv(scaleLoc, [xScale, yScale]);
     gl.uniform2fv(offsetLoc, [xStart + xScale, yStart + yScale]);
     gl.drawArrays(gl.TRIANGLES, 0, 6);
@@ -233,7 +233,7 @@ export async function createFractal(
   });
 
   $("#icon-recolor").on("click", () => {
-    colorMode = Math.floor(colorMode + 1) % 5;
+    colorMode = Math.floor(colorMode + 1) % 3;
     setPageHash();
     updateGl();
   });
