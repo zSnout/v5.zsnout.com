@@ -18,3 +18,4 @@ js: ../index.js
 \buttonlist
 [Mandelbrot Set](/mandelbrot/webgl/)
 [Burning Ship](/burningship/webgl/)
+[Feather Fractal](/feather/webgl/)
