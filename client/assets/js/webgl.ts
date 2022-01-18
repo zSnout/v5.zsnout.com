@@ -171,10 +171,11 @@ export async function createFractal(
   let zoomX = (xEnd - xStart) / 2;
   let zoomY = (yEnd - yStart) / 2;
 
-  function onMouse({ type, clientX, clientY, button }: MouseEvent) {
+  function onMouse({ type, clientX, clientY, button, shiftKey }: MouseEvent) {
+    if (button != 0) return;
     if (type == "mouseup") return (zoomType = "none");
     if (type == "mousemove" && zoomType == "none") return;
-    if (type == "mousedown") zoomType = button == 2 ? "out" : "in";
+    if (type == "mousedown") zoomType = shiftKey ? "out" : "in";
 
     let { left, top, height, width } = canvas.getBoundingClientRect();
     let x = clientX - left;
@@ -184,7 +185,6 @@ export async function createFractal(
     zoomY = 1 - y / height - 0.5;
   }
 
-  $(canvas).on("contextmenu", (e) => e.preventDefault());
   $(canvas).on("mousedown", onMouse);
   $(canvas).on("mousemove", onMouse);
   $("html").on("mouseup", onMouse);
