@@ -19,7 +19,7 @@ js: ./index.js
 
 \buttonlist
 [Sign Up](/account/create/)
-[Log In](/account/login/)
+[Log In](/account/login/)<button id="clear-cache">Clear Cache</button>
 [Notepad](/notepad/)
 [Experimental](/home/beta/)
 [zSnout Blog](/blog/)
