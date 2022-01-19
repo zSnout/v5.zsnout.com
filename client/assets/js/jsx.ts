@@ -835,8 +835,5 @@ declare global {
   }
 
   /** The data that can be added to zQueries. */
-  interface Data {
-    abc?: number;
-    def?: { a: 23 };
-  }
+  interface Data {}
 }
