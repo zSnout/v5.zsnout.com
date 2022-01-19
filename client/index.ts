@@ -43,6 +43,6 @@ $("#clear-cache").on(
   "click",
   async () =>
     confirm(
-      "Are you sure you want to clear the cache? This will remove offline capabilities of any pages you have visited. To re-enabe offline mode, simply visit a page."
+      "Are you sure you want to clear the cache? This will remove offline capabilities of any pages you have visited. To re-enable offline mode, simply visit a page."
     ) && (await caches.keys()).map(caches.delete.bind(caches))
 );
