@@ -12,6 +12,15 @@ export type CSSRules = Omit<
   | "setProperty"
 >;
 
+/**
+ * Checks if an item is `undefined`.
+ * @param item The item to check.
+ * @returns A boolean indicating whether the item is non-undefined.
+ */
+function filterNonVoid<T>(item: T): item is Exclude<T, undefined> {
+  return item !== undefined;
+}
+
 /** The main zQuery class. */
 export class zQuery extends Array<HTMLElement> {
   /**
@@ -44,6 +53,20 @@ export class zQuery extends Array<HTMLElement> {
    */
   scrollToBottom(): this {
     return this.each((el) => el.scrollTo(0, 1000000));
+  }
+
+  data<T extends keyof Data>(key: T, all: true): Data[T][];
+  data<T extends keyof Data>(key: T, all?: false): Data[T] | void;
+  data<T extends keyof Data>(key: T, value: Exclude<Data[T], boolean>): this;
+  data<T extends keyof Data>(key: T, value?: Data[T] | boolean) {
+    if (value === true)
+      return this.map((el) => el?.zQueryData?.[key]).filter(filterNonVoid);
+    else if (value === undefined || value === false)
+      return this.data(key, true)[0];
+    else
+      return this.each((el) => (el.zQueryData ??= {})).each(
+        (el) => (el.zQueryData![key] = value)
+      );
   }
 
   /**
@@ -803,5 +826,17 @@ declare global {
     /** Gets the prop type of a component. */
     type Props<T extends FunctionComponent<{}> | string> =
       T extends FunctionComponent<infer U> ? U : Attributes;
+  }
+}
+
+declare global {
+  interface HTMLElement {
+    zQueryData?: Data;
+  }
+
+  /** The data that can be added to zQueries. */
+  interface Data {
+    abc?: number;
+    def?: { a: 23 };
   }
 }
