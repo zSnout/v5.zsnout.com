@@ -73,6 +73,29 @@ export function randomPiece(type: "a" | "A" | "d" | "D" | "?" = "?") {
 }
 
 /**
+ * Gets a list of possible castling moves.
+ * @param position The position to check.
+ * @returns A FEN-style list of possible castling opportunities.
+ */
+export function castling(position: string) {
+  let castling = "";
+
+  let whiteRank = expand(position.split("/")[7]);
+  if (whiteRank[4] == "K") {
+    if (whiteRank[7] == "R") castling += "K";
+    if (whiteRank[0] == "R") castling += "Q";
+  }
+
+  let blackRank = expand(position.split("/")[0]);
+  if (blackRank[4] == "k") {
+    if (blackRank[7] == "r") castling += "k";
+    if (blackRank[0] == "r") castling += "q";
+  }
+
+  return castling || "-";
+}
+
+/**
  * Parses a string into a FEN string.
  * @param name The name of the position.
  * @returns A FEN string representing the parsed position.
