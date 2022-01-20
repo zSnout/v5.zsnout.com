@@ -8,13 +8,6 @@ declare namespace AceAjax {
   }
 }
 
-declare var Chessboard: typeof import("chessboardjs").ChessBoard;
-declare var Quill: typeof import("quill").Quill;
-declare var png: typeof import("pngjs");
-declare var io: (
-  ...args: Partial<Parameters<typeof import("socket.io-client").io>>
-) => import("socket.io-client").Socket<IOEvents, IOEvents>;
-
 /** A list of all client-side Socket.IO events. */
 declare interface IOEvents {}
 
@@ -38,3 +31,10 @@ declare interface String {
     position?: number
   ): this is `${string}${S}`;
 }
+
+declare var Chessboard: typeof import("chessboardjs").ChessBoard;
+declare var Quill: typeof import("quill").Quill;
+declare var png: typeof import("pngjs");
+declare var io: (
+  ...args: Partial<Parameters<typeof import("socket.io-client").io>>
+) => import("socket.io-client").Socket<IOEvents, IOEvents>;
