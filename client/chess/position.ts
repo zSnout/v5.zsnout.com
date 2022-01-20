@@ -182,22 +182,7 @@ export default function position(name: string) {
   // Remove `e` squares and expand random pieces.
   position = minify(position).replace(/[AaDd?]/g, (e) => randomPiece(e as any));
 
-  // Check castling availability
-  let castling = "";
-
-  let whiteRank = expand(position.split("/")[7]);
-  if (whiteRank[4] == "K") {
-    if (whiteRank[7] == "R") castling += "K";
-    if (whiteRank[0] == "R") castling += "Q";
-  }
-
-  let blackRank = expand(position.split("/")[0]);
-  if (blackRank[4] == "k") {
-    if (blackRank[7] == "r") castling += "k";
-    if (blackRank[0] == "r") castling += "q";
-  }
-
-  return `${position} w ${castling || "-"} - 0 1`;
+  return `${position} w ${castling(position)} - 0 1`;
 }
 
 /**
