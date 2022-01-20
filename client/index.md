@@ -20,10 +20,11 @@ js: ./index.js
 \buttonlist
 [Sign Up](/account/create/)
 [Log In](/account/login/)<button id="clear-cache">Clear Cache</button>
-[Notepad](/notepad/)
 [Experimental](/home/beta/)
 [zSnout Blog](/blog/)
 [Math Articles](/math/)
+[Notepad](/notepad/)
+[Identicon Generator](/icon/)
 [Storymatic Playground](/storymatic/playground/)
 [Storymatic To JavaScript](/storymatic/smtojs/)
 [Bookmarklet Creator](/bookmarklet/)

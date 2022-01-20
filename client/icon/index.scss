@@ -1,0 +1,35 @@
+@use ".." as *;
+
+#main {
+  display: flex;
+  flex-direction: column;
+  gap: $margin;
+}
+
+$icon-size: 512px;
+
+#field {
+  margin: auto auto 0 auto;
+  font-size: 1em;
+  font-family: $sans;
+  border: 0.0625em solid $seperator;
+  background: $element;
+  padding: 0.5em;
+  width: calc($icon-size - 0.125em);
+  border-radius: 0.5em;
+  color: $text-color;
+
+  &::placeholder {
+    color: $text-color;
+    opacity: 0.5;
+  }
+}
+
+#icon {
+  width: $icon-size;
+  height: $icon-size;
+  margin: 0 auto auto auto;
+  background: white;
+  border-radius: 0.5em;
+  padding: 0.5em;
+}
