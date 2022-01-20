@@ -1,6 +1,10 @@
 import type { ChessInstance } from "chess.js";
 import type { ChessBoardInstance } from "chessboardjs";
-import { getLocationHash, randint } from "../assets/js/util.js";
+import {
+  getLocationHash,
+  randint,
+  setLocationHash,
+} from "../assets/js/util.js";
 import Chess from "./chessjs.js";
 
 /** The game to be used for FEN validation. */
@@ -166,7 +170,7 @@ export default function position(name: string) {
 
     if ((match = pos.match(/^random-([1-9][0-9]*)$/))) {
       let count = +match[1];
-      game.load(minify(position));
+      game.load(`${minify(position)} w ${castling(position)} - 0 1`);
       for (let i = 0; i < count; i++) {
         let moves = game.moves();
         if (!moves.length || game.game_over()) break;
@@ -194,6 +198,10 @@ export function setupUsingLocationHash(
   game: ChessInstance,
   board: ChessBoardInstance
 ) {
-  game.load(position(getLocationHash()));
+  let pos = position(getLocationHash());
+  game.load(pos);
   board.position(game.fen(), false);
+
+  if (new URL(location.href).searchParams.has("setpos"))
+    setLocationHash(`board-${pos.split(" ")[0]}`);
 }
