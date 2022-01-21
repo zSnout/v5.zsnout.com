@@ -72,11 +72,10 @@ function makeAssetList(assets: Assets) {
   let styles = [...baseAssets.styles, ...assets.styles];
   let scripts = [...baseAssets.scripts, ...assets.scripts];
 
+  // prettier-ignore
   return [
-    // prettier-ignore
     ...meta.map(([name, content]) => `<meta name="${xml(name)}" content="${xml(content)}" />`),
     ...styles.map((href) => `<link rel="stylesheet" href="${xml(href)}" />`),
-    // prettier-ignore
     ...scripts.map((src) => `<script type="module" src="${xml(src)}"></script>`),
   ];
 }
