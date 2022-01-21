@@ -36,6 +36,10 @@ body {
   border-bottom-left-radius: 0.5em;
   border-bottom-right-radius: 0.5em;
 
+  @media (max-width: 990px) {
+    border-radius: 0;
+  }
+
   a {
     cursor: pointer;
     padding: 0.25em;
