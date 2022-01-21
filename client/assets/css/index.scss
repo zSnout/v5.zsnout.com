@@ -180,8 +180,7 @@ body {
   }
 }
 
-@mixin embed {
-  #nav,
+@mixin fullscreen {
   #outer-footer {
     display: none;
   }
@@ -198,12 +197,21 @@ body {
   }
 }
 
+.fullscreen,
 .embed {
-  @include embed;
+  @include fullscreen;
+}
+
+.embed #nav {
+  display: none;
 }
 
 @include print {
-  @include embed;
+  @include fullscreen;
+
+  #nav {
+    display: none;
+  }
 }
 
 .notification {
