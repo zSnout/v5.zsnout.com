@@ -54,5 +54,3 @@ $("#icon-enlarge").on("click", () => {
   setPageHash();
   drawImage();
 });
-
-$("#canvas").autoResize();
