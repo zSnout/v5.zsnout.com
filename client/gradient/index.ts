@@ -1,11 +1,5 @@
 import $ from "../assets/js/jsx.js";
-import {
-  getLocationHash,
-  getTheme,
-  setLocationHash,
-  ThemeColor,
-  wait,
-} from "../assets/js/util.js";
+import { getLocationHash, setLocationHash } from "../assets/js/util.js";
 
 let canvas = $("#canvas")[0] as HTMLCanvasElement;
 let context = canvas.getContext("2d")!;
