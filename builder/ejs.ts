@@ -24,6 +24,9 @@ interface RenderOptions extends Assets {
   /** The title of the webpage. */
   title: string;
 
+  /** Whether to make the `<main>` element fullscreen. */
+  fullscreen: boolean;
+
   /** Navigation icons that will go in the navbar. */
   icons: [title: string, href: string, icon: string][];
 }
@@ -127,10 +130,9 @@ export async function render({ body, title, icons, ...assets }: RenderOptions) {
         body,
         title,
         indent,
-        buttons: icons.map(([title, href, icon]) =>
-          makeIcon(title, href, icon)
-        ),
+        buttons: icons.map((icon) => makeIcon(...icon)),
         assets: makeAssetList(assets),
+        fullscreen: assets.fullscreen,
         xml,
       },
       ejsOptions
@@ -149,6 +151,7 @@ export async function renderText(content: string) {
   let styles: RenderOptions["styles"] = [];
   let scripts: RenderOptions["scripts"] = [];
   let icons: RenderOptions["icons"] = [];
+  let fullscreen: RenderOptions["fullscreen"] = false;
 
   try {
     let body = await ejsRender(
@@ -161,13 +164,23 @@ export async function renderText(content: string) {
         nav: (title: string, href: string, icon: string) =>
           icons.push([title, href, icon]),
         desc: (description: string) => meta.push(["description", description]),
+        fullscreen: () => (fullscreen = true),
         indent,
         xml,
       },
       ejsOptions
     );
 
-    let rendered = await render({ body, title, icons, meta, styles, scripts });
+    let rendered = await render({
+      body,
+      title,
+      icons,
+      meta,
+      styles,
+      scripts,
+      fullscreen,
+    });
+
     return minifyHTML(rendered);
   } catch (err: any) {
     return `This page failed to render. Sorry!\n\n${err?.message || err}`;
