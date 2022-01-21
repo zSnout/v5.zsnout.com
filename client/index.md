@@ -41,10 +41,11 @@ js: ./index.js
 
 \buttonlist
 [All Fractals](/home/fractal/)
-[Fake Gradient](/gradient/)
 [Conway's Game of Life](/gameoflife/)
 [The Effects of Noise](/noise/)
 [Reversed Noise](/reversenoise/)
+[Fake Gradient](/gradient/)
+[Fake Gradient 2](/gradient2/)
 
 #### Games
 
