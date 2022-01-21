@@ -182,7 +182,7 @@ body {
 
 @mixin fullscreen {
   #outer-footer {
-    display: none;
+    margin-top: 0;
   }
 
   #outer {
@@ -197,21 +197,25 @@ body {
   }
 }
 
+@mixin embed {
+  #outer-footer,
+  #nav {
+    display: none;
+  }
+}
+
 .fullscreen,
 .embed {
   @include fullscreen;
 }
 
-.embed #nav {
-  display: none;
+.embed {
+  @include embed;
 }
 
 @include print {
   @include fullscreen;
-
-  #nav {
-    display: none;
-  }
+  @include embed;
 }
 
 .notification {
