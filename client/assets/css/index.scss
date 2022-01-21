@@ -23,21 +23,31 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  padding: calc($margin-top - math.div($margin, 2))
-    calc($margin-right - math.div($margin, 2)) math.div($margin, 2)
-    calc($margin-left - math.div($margin, 2));
+  padding: calc($margin-top - (0.5 * $margin)) (0.5 * $margin) (0.5 * $margin)
+    (0.5 * $margin);
   height: calc($navbar-height + $margin);
   z-index: 2;
   display: flex;
   overflow: visible;
   max-width: 980px;
   margin: 0 auto;
-  background: top center $background;
+  background: $element;
+  box-shadow: $seperator 0 0 0.375em 0.0625em;
+  border-bottom-left-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
 
   a {
     cursor: pointer;
-    padding: math.div($margin, 2);
-    border-radius: math.div($margin, 4);
+    padding: 0.25em;
+    border-radius: 0.125em;
+
+    &:first-child {
+      border-bottom-left-radius: 0.25em;
+    }
+
+    &:last-child {
+      border-bottom-right-radius: 0.25em;
+    }
 
     @include focus {
       background: $focused;
