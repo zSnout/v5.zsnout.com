@@ -11,7 +11,6 @@ let canvas = $("#canvas")[0] as HTMLCanvasElement;
 let context = canvas.getContext("2d")!;
 let canvasSize = 1000;
 canvas.width = canvasSize;
-canvas.height = canvasSize;
 
 try {
   let size = +getLocationHash();
@@ -19,7 +18,6 @@ try {
   if (Number.isFinite(size) && size >= 5) {
     canvasSize = size;
     canvas.width = canvasSize;
-    canvas.height = canvasSize;
   }
 } catch {}
 
@@ -32,7 +30,7 @@ function setPageHash() {
 function drawImage() {
   for (let i = 0; i < canvasSize; i++) {
     context.fillStyle = Math.random() < i / canvasSize ? "black" : "white";
-    context.fillRect(i, 0, 1, canvasSize);
+    context.fillRect(i, 0, 1, 1);
   }
 }
 
@@ -47,7 +45,6 @@ $("#icon-shrink").on("click", () => {
   else if (canvasSize >= 25) canvasSize -= 5;
 
   canvas.width = canvasSize;
-  canvas.height = canvasSize;
   setPageHash();
   drawImage();
 });
@@ -60,7 +57,6 @@ $("#icon-enlarge").on("click", () => {
   else canvasSize = 5;
 
   canvas.width = canvasSize;
-  canvas.height = canvasSize;
   setPageHash();
   drawImage();
 });
