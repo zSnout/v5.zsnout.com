@@ -194,6 +194,28 @@ export function createGen(seed: number) {
   };
 }
 
+/**
+ * Gets a color from the user's current theme.
+ * @param color The color to get.
+ * @returns The theme color of the element.
+ */
+export function getTheme(color: ThemeColor) {
+  let computed = getComputedStyle(document.documentElement);
+  return computed.getPropertyValue(`--${color}`);
+}
+
+/** The different colors in a zSnout theme. */
+export enum ThemeColor {
+  Background = "background",
+  Element = "element",
+  FocusedElement = "focused",
+  TextColor = "text-color",
+  HeadingColor = "heading-color",
+  Seperator = "seperator",
+  SelectionBackground = "selection-bg",
+  SelectionTextColor = "selection-color",
+}
+
 declare global {
   /** A list of items that can be put into localStorage. */
   interface StorageItems {}
