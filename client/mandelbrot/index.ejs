@@ -1,8 +1,7 @@
 <%
   title("Mandelbrot Set"), desc("View the amazing Mandelbrot Set in all of its glory with features like zooming and high resolution!");
-  css("./index.css"), js("./index.js");
+  css("/assets/css/canvasfs.css"), js("./index.js"), fullscreen();
   nav("Increase Iteration Count", "@focus", "focus"), nav("Decrease Iteration Count", "@blur", "blur");
-  nav("Change Resolution", "@resolution", "hd");
   nav("Zoom In", "@zoomin", "zoomin"), nav("Zoom Out", "@zoomout", "zoomout");
 %>
 

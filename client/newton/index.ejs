@@ -1,8 +1,7 @@
 <%
-  title("Newton's Fractal"), desc("View a fractal using the Newton's Method algorithm!");
-  css("./index.css"), js("./index.js");
+  title("Newton's Fractal"), desc("View a fractal created using the Newton's Method algorithm!");
+  css("/assets/css/canvasfs.css"), js("./index.js"), fullscreen();
   nav("Increase Iteration Count", "@focus", "focus"), nav("Decrease Iteration Count", "@blur", "blur");
-  nav("Change Resolution", "@resolution", "hd");
   nav("Zoom In", "@zoomin", "zoomin"), nav("Zoom Out", "@zoomout", "zoomout");
 %>
 
