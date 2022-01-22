@@ -97,11 +97,43 @@ export async function createFractal(
   let colorModeLoc = gl.getUniformLocation(program, "colorMode");
   let maxIterationsLoc = gl.getUniformLocation(program, "maxIterations");
 
+  /**
+   * Normalizes the coordinates of the grid by zooming out certain directions.
+   * @returns A set of normalized coordinates.
+   */
+  function computeEndpoints() {
+    return ((xStart, xEnd, yStart, yEnd) => {
+      let xCenter = (xStart + xEnd) / 2;
+      let yCenter = (yStart + yEnd) / 2;
+      let xSize = Math.min(canvas.width, canvas.height) / canvas.width;
+      let ySize = Math.min(canvas.width, canvas.height) / canvas.height;
+
+      xStart -= xCenter;
+      xEnd -= xCenter;
+      yStart -= yCenter;
+      yEnd -= yCenter;
+
+      xStart /= xSize;
+      xEnd /= xSize;
+      yStart /= ySize;
+      yEnd /= ySize;
+
+      xStart += xCenter;
+      xEnd += xCenter;
+      yStart += yCenter;
+      yEnd += yCenter;
+
+      return { xStart, xEnd, yStart, yEnd };
+    })(xStart, xEnd, yStart, yEnd);
+  }
+
   /** Updates the variables in the GLSL script. */
   function updateGl() {
+    let { xStart, xEnd, yStart, yEnd } = computeEndpoints();
     let xScale = (xEnd - xStart) / 2;
     let yScale = (yEnd - yStart) / 2;
 
+    gl.viewport(0, 0, canvas.width, canvas.height);
     gl.uniform1i(maxIterationsLoc, Math.floor(maxIterations));
     gl.uniform1i(colorModeLoc, Math.floor(colorMode + 3) % 3);
     gl.uniform2fv(scaleLoc, [xScale, yScale]);
@@ -178,11 +210,14 @@ export async function createFractal(
     if (type == "mousedown") zoomType = shiftKey ? "out" : "in";
 
     let { left, top, height, width } = canvas.getBoundingClientRect();
-    let x = clientX - left;
-    let y = clientY - top;
+    let x = (clientX - left) / width - 0.5;
+    let y = 1 - (clientY - top) / height - 0.5;
 
-    zoomX = x / width - 0.5;
-    zoomY = 1 - y / height - 0.5;
+    let size = Math.min(width, height);
+    zoomX = (x / size) * width;
+    zoomY = (y / size) * height;
+
+    console.log({ zoomX, zoomY });
   }
 
   $(canvas).on("mousedown", onMouse);
@@ -245,5 +280,12 @@ export async function createFractal(
     updateGl();
   });
 
-  $("#canvas").autoResize();
+  function onResize() {
+    canvas.width = 2 * window.innerWidth;
+    canvas.height = 2 * window.innerHeight;
+    updateGl();
+  }
+
+  window.addEventListener("resize", onResize);
+  onResize();
 }
