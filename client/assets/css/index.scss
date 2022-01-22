@@ -38,6 +38,7 @@ body {
   box-shadow: $seperator 0 0 0.375em 0.0625em;
   border-bottom-left-radius: 0.5em;
   border-bottom-right-radius: 0.5em;
+  user-select: none;
 
   a {
     cursor: pointer;
@@ -193,6 +194,10 @@ body {
   #main {
     max-width: initial;
     height: 100%;
+  }
+
+  #nav {
+    opacity: 0.8;
   }
 }
 
