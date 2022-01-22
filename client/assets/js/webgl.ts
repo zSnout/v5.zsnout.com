@@ -281,8 +281,8 @@ export async function createFractal(
   });
 
   function onResize() {
-    canvas.width = 4 * window.innerWidth;
-    canvas.height = 4 * window.innerHeight;
+    canvas.width = 2 * window.innerWidth;
+    canvas.height = 2 * window.innerHeight;
     updateGl();
   }
 
