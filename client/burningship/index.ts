@@ -14,6 +14,5 @@ createMandelbrotLike(
     yStart: -2,
     yEnd: 1,
     maxIterations: 100,
-    canvasSize: 680,
   }
 );

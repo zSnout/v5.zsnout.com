@@ -43,7 +43,6 @@ createFractal<Variable[][]>(
     yStart: -2,
     yEnd: 2,
     maxIterations: 50,
-    canvasSize: 680,
     eq: "zz+c",
     saveEq: true,
     eqParser(eq) {
