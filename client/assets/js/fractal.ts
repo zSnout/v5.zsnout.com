@@ -105,8 +105,8 @@ export default function createFractal<Equation>(
   /** Redraws the image. */
   async function redrawFractal() {
     let success = await redrawFractalAt(0.5);
-    if (success) success = await redrawFractalAt(1);
-    if (success) success = await redrawFractalAt(2);
+    success &&= await redrawFractalAt(1);
+    success &&= await redrawFractalAt(2);
     return success;
   }
 
