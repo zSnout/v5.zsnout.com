@@ -15,7 +15,6 @@ export interface OptionList<Equation> {
   eq?: string;
   saveEq?: boolean;
   eqParser?: (eq: string) => Equation;
-  canvasSize?: 340 | 680 | 1360 | 2720;
 }
 
 /** Data passed to a {@linkcode FractalGenerator}. */
@@ -50,11 +49,6 @@ export default function createFractal<Equation>(
   let canvas = $("#canvas")[0] as HTMLCanvasElement;
   let context = canvas.getContext("2d")!;
 
-  let canvasSize: 340 | 680 | 1360 | 2720 =
-    json.canvasSize ?? (options.canvasSize || 680);
-  canvas.width = canvasSize;
-  canvas.height = canvasSize;
-
   let seed = json.seed ?? options.seed ?? Math.random();
   let eq = json.eq ?? options.eq ?? "z";
   let parsedEq = options.eqParser?.(eq) ?? undefined;
@@ -69,26 +63,34 @@ export default function createFractal<Equation>(
 
   /**
    * Redraws the image at a specific resolution.
-   * @param size The size of the image to draw.
+   * @param reso The resolution of the image.
    * @returns A promise resolving to a boolean indicating whether the fractal was drawn without being canceled.
    */
-  async function redrawFractalAt(size: number) {
+  async function redrawFractalAt(reso: number) {
+    let { xStart, xEnd, yStart, yEnd } = computeEndpoints();
+    console.log({ xStart, xEnd, yStart, yEnd });
     let myID = (drawID = Math.random());
-    let pixelSize = canvasSize / size;
+    let xSize = canvas.width * reso;
+    let ySize = canvas.height * reso;
     let colsDrawn = 0;
 
-    for (let i of shuffle(Array.from({ length: size }, (_, i) => i))) {
+    let numCols = Math.ceil(canvas.width * reso);
+    let numRows = Math.ceil(canvas.height * reso);
+
+    for (let i of shuffle(Array.from({ length: numCols }, (_, i) => i))) {
       colsDrawn++;
-      for (let j = 0; j < size; j++) {
-        let x = xStart + ((xEnd - xStart) * i) / size;
-        let y = yStart + ((yEnd - yStart) * j) / size;
+      for (let j = 0; j < numRows; j++) {
+        let x = xStart + ((xEnd - xStart) * i) / xSize;
+        let y = yStart + ((yEnd - yStart) * j) / ySize;
+
         context.fillStyle = generator([x, y], {
           seed,
           eq,
           parsedEq,
           maxIterations,
         });
-        context.fillRect(i * pixelSize, j * pixelSize, pixelSize, pixelSize);
+
+        context.fillRect(i / reso, j / reso, 1 / reso, 1 / reso);
       }
 
       if (colsDrawn % 10 == 0) {
@@ -102,11 +104,40 @@ export default function createFractal<Equation>(
 
   /** Redraws the image. */
   async function redrawFractal() {
-    let success = await redrawFractalAt(340);
-    if (success && canvasSize > 340) success = await redrawFractalAt(680);
-    if (success && canvasSize > 680) success = await redrawFractalAt(1360);
-    if (success && canvasSize > 1360) success = await redrawFractalAt(2720);
+    let success = await redrawFractalAt(0.5);
+    if (success) success = await redrawFractalAt(1);
+    if (success) success = await redrawFractalAt(2);
     return success;
+  }
+
+  /**
+   * Normalizes the coordinates of the grid by zooming out certain directions.
+   * @returns A set of normalized coordinates.
+   */
+  function computeEndpoints() {
+    return ((xStart, xEnd, yStart, yEnd) => {
+      let xCenter = (xStart + xEnd) / 2;
+      let yCenter = (yStart + yEnd) / 2;
+      let xSize = Math.min(canvas.width, canvas.height) / canvas.width;
+      let ySize = Math.min(canvas.width, canvas.height) / canvas.height;
+
+      xStart -= xCenter;
+      xEnd -= xCenter;
+      yStart -= yCenter;
+      yEnd -= yCenter;
+
+      xStart /= xSize;
+      xEnd /= xSize;
+      yStart /= ySize;
+      yEnd /= ySize;
+
+      xStart += xCenter;
+      xEnd += xCenter;
+      yStart += yCenter;
+      yEnd += yCenter;
+
+      return { xStart, xEnd, yStart, yEnd };
+    })(xStart, xEnd, yStart, yEnd);
   }
 
   /**
@@ -141,14 +172,7 @@ export default function createFractal<Equation>(
 
   /** Sets the page hash to match the current settings. */
   function setPageHash() {
-    let obj: OptionList<any> = {
-      xStart,
-      xEnd,
-      yStart,
-      yEnd,
-      maxIterations,
-      canvasSize,
-    };
+    let obj: OptionList<any> = { xStart, xEnd, yStart, yEnd, maxIterations };
     if (options.saveSeed) obj.seed = seed;
     if (options.saveEq) obj.eq = eq;
 
@@ -157,7 +181,7 @@ export default function createFractal<Equation>(
 
   /** Sets the page title according to the resolution. */
   function setPageTitle() {
-    document.title = `${title.replace("{EQ}", eq)} at ${canvasSize / 680}x`;
+    document.title = title.replace("{EQ}", eq);
   }
 
   setPageTitle();
@@ -197,19 +221,6 @@ export default function createFractal<Equation>(
     redrawFractal();
   });
 
-  $("#icon-resolution").on("click", () => {
-    if (canvasSize == 340) canvasSize = 680;
-    else if (canvasSize == 680) canvasSize = 1360;
-    else if (canvasSize == 1360) canvasSize = 2720;
-    else canvasSize = 340;
-    canvas.width = canvasSize;
-    canvas.height = canvasSize;
-
-    setPageTitle();
-    setPageHash();
-    redrawFractal();
-  });
-
   $("#icon-zoomin").on("click", () => {
     zoomIn((xStart + xEnd) / 2, (yStart + yEnd) / 2);
     setPageHash();
@@ -236,7 +247,14 @@ export default function createFractal<Equation>(
     redrawFractal();
   });
 
-  $("#canvas").autoResize();
+  function onResize() {
+    canvas.width = 2 * window.innerWidth;
+    canvas.height = 2 * window.innerHeight;
+    redrawFractal();
+  }
+
+  window.addEventListener("resize", onResize);
+  onResize();
 }
 
 /** The type of a coordinate transformer. */
