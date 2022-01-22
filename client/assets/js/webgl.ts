@@ -216,8 +216,6 @@ export async function createFractal(
     let size = Math.min(width, height);
     zoomX = (x / size) * width;
     zoomY = (y / size) * height;
-
-    console.log({ zoomX, zoomY });
   }
 
   $(canvas).on("mousedown", onMouse);
