@@ -29,7 +29,10 @@ body {
   z-index: 2;
   display: flex;
   overflow: visible;
-  max-width: min(980px, calc(100% - 2 * $outer-margin));
+  max-width: min(
+    980px,
+    calc(100% - 2 * $outer-margin - $inset-left - $inset-right)
+  );
   margin: 0 auto;
   background: $element;
   box-shadow: $seperator 0 0 0.375em 0.0625em;
