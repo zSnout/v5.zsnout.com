@@ -161,7 +161,7 @@ export async function createFractal(
    * @param cx The real part of the point to zoom in on.
    * @param cy The imaginary part of the point to zoom in on.
    */
-  function zoomOut(cx: number, cy: number, delta = 1.99) {
+  function zoomOut(cx: number, cy: number, delta = 2) {
     let xDelta = (xEnd - xStart) / delta;
     let yDelta = (yEnd - yStart) / delta;
 
@@ -207,7 +207,7 @@ export async function createFractal(
     if (button != 0) return;
     if (type == "mouseup") return (zoomType = "none");
     if (type == "mousemove" && zoomType == "none") return;
-    if (type == "mousedown") zoomType = shiftKey ? "out" : "in";
+    if (type == "mousedown") zoomType = shiftKey === true ? "out" : "in";
 
     let { left, top, height, width } = canvas.getBoundingClientRect();
     let x = (clientX - left) / width - 0.5;
@@ -218,9 +218,14 @@ export async function createFractal(
     zoomY = (y / size) * height;
   }
 
-  $(canvas).on("mousedown", onMouse);
-  $(canvas).on("mousemove", onMouse);
-  $("html").on("mouseup", onMouse);
+  function onKey({ shiftKey }: KeyboardEvent) {
+    if (zoomType == "none") return;
+    if (shiftKey === true) zoomType = "out";
+    if (shiftKey === false) zoomType = "in";
+  }
+
+  $(canvas).on("mousedown", onMouse).on("mousemove", onMouse);
+  $.root.on("keydown", onKey).on("keyup", onKey).on("mouseup", onMouse);
 
   setInterval(() => {
     if (zoomType == "none") return;
