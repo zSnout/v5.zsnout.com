@@ -157,9 +157,9 @@ export async function createFractal(
   }
 
   /**
-   * Zooms in on a point in the Mandelbrot set with 2x zoom.
-   * @param cx The real part of the point to zoom in on.
-   * @param cy The imaginary part of the point to zoom in on.
+   * Zooms out on a point in the Mandelbrot set with 2x zoom.
+   * @param cx The real part of the point to zoom out on.
+   * @param cy The imaginary part of the point to zoom out on.
    */
   function zoomOut(cx: number, cy: number, delta = 2) {
     let xDelta = (xEnd - xStart) / delta;
@@ -218,7 +218,16 @@ export async function createFractal(
     zoomY = (y / size) * height;
   }
 
-  function onKey({ shiftKey }: KeyboardEvent) {
+  function onKey({ shiftKey, key, type }: KeyboardEvent) {
+    if (type == "keydown") {
+      if (key == "-" || key == "_")
+        zoomOut((xStart + xEnd) / 2, (yStart + yEnd) / 2, 1);
+      if (key == "+" || key == "=")
+        zoomIn((xStart + xEnd) / 2, (yStart + yEnd) / 2, 4);
+      if (key == "-" || key == "+" || key == "=" || key == "_")
+        return setPageHash(), updateGl();
+    }
+
     if (zoomType == "none") return;
     if (shiftKey === true) zoomType = "out";
     if (shiftKey === false) zoomType = "in";
