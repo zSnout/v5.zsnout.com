@@ -16,6 +16,10 @@ declare interface IOServerEvents {}
 
 // Add more accurate Object.entries typings
 declare interface ObjectConstructor {
+  fromEntries<K extends string, V>(
+    entries: Iterable<readonly [K, V]>
+  ): { [X in K]: V };
+
   entries<K extends string, V>(obj: { [X in K]: V }): [K, V][];
 }
 
