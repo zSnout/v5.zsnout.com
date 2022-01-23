@@ -23,7 +23,7 @@ declare interface ObjectConstructor {
   entries<K extends string, V>(obj: { [X in K]: V }): [K, V][];
 }
 
-// Add more accurate String.prototype.startsWith & .endsWith typings
+// Add more accurate String typings
 declare interface String {
   startsWith<S extends string>(
     searchString: S,
@@ -34,6 +34,9 @@ declare interface String {
     searchString: S,
     position?: number
   ): this is `${string}${S}`;
+
+  toLowerCase<S extends string>(this: S): Lowercase<S>;
+  toUpperCase<S extends string>(this: S): Uppercase<S>;
 }
 
 declare var Chessboard: typeof import("chessboardjs").ChessBoard;
