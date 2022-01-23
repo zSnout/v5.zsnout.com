@@ -21,6 +21,7 @@ declare interface ObjectConstructor {
   ): { [X in K]: V };
 
   entries<K extends string, V>(obj: { [X in K]: V }): [K, V][];
+  entries<K extends string, V>(obj: { [X in K]?: V }): [K, V][];
 }
 
 // Add more accurate String typings
