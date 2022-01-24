@@ -4,7 +4,7 @@ import { join } from "path";
 import server from "..";
 
 let csp = `default-src 'self'
-  connect-src 'self' blob: https://chessboardjs.com/ https://fonts.googleapis.com/ https://fonts.gstatic.com/ https://cdnjs.cloudflare.com/ https://unpkg.com/ https://raw.githubusercontent.com/ https://0.peerjs.com/
+  connect-src 'self' blob: https://chessboardjs.com/ https://fonts.googleapis.com/ https://fonts.gstatic.com/ https://cdnjs.cloudflare.com/ https://unpkg.com/ https://raw.githubusercontent.com/ https://0.peerjs.com/ wss://0.peerjs.com/
   style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com/ https://fonts.googleapis.com/
   script-src 'self' https://cdnjs.cloudflare.com/ https://unpkg.com/
   img-src 'self' data: blob: https://chessboardjs.com/
