@@ -14,7 +14,7 @@ let csp = `default-src 'self'
   base-uri 'none'
   report-uri /csp`.replaceAll("\n", "; ");
 
-server.addHook("preHandler", (req, res, next) => {
+server.addHook("preHandler", (_req, res, next) => {
   res.header("content-security-policy", csp);
   next();
 });
