@@ -23,6 +23,7 @@ js: ./index.js
 [Experimental](/home/beta/)
 [zSnout Blog](/blog/)
 [Math Articles](/math/)
+[zCall](/call/)
 [Notepad](/notepad/)
 [Identicon Generator](/icon/)
 [Storymatic Playground](/storymatic/playground/)
