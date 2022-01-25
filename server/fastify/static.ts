@@ -4,18 +4,23 @@ import { join } from "path";
 import server from "..";
 
 let csp = `default-src 'self'
-  connect-src 'self' blob: https://chessboardjs.com/ https://fonts.googleapis.com/ https://fonts.gstatic.com/ https://cdnjs.cloudflare.com/ https://unpkg.com/ https://raw.githubusercontent.com/ https://0.peerjs.com/ wss://0.peerjs.com/
+  connect-src 'self' blob: https://chessboardjs.com/ https://fonts.googleapis.com/ https://fonts.gstatic.com/ https://cdnjs.cloudflare.com/ https://unpkg.com/ https://raw.githubusercontent.com/ https://0.peerjs.com/ wss://0.peerjs.com/ https://www.desmos.com/
   style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com/ https://fonts.googleapis.com/
-  script-src 'self' https://cdnjs.cloudflare.com/ https://unpkg.com/
+  script-src 'self' https://cdnjs.cloudflare.com/ https://unpkg.com/ https://www.desmos.com/
   img-src 'self' data: blob: https://chessboardjs.com/
-  font-src 'self' https://fonts.gstatic.com/
+  font-src 'self' data: https://fonts.gstatic.com/
   object-src 'none'
   worker-src 'self' blob: https://unpkg.com/
   base-uri 'none'
   report-uri /csp`.replaceAll("\n", "; ");
 
-server.addHook("preHandler", (_req, res, next) => {
+server.addHook("preHandler", (req, res, next) => {
   res.header("content-security-policy", csp);
+  if (req.url.startsWith("/desmos/"))
+    res.header(
+      "content-security-policy",
+      csp.replace("script-src", "script-src 'unsafe-eval'")
+    );
   next();
 });
 
