@@ -3,6 +3,7 @@ import {
   getLocationHash,
   getStorage,
   onStorageChange,
+  setLocationHash,
   setStorage,
 } from "../assets/js/util.js";
 
@@ -45,6 +46,7 @@ peer.on("open", (myID) => {
       document.title = "zCall - Connecting...";
       let call = peer.call(peerID, stream);
       call.on("stream", setOtherVideo);
+      setLocationHash("");
     })
     .catch(showError);
 });
