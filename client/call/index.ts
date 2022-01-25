@@ -1,6 +1,10 @@
 import $ from "../assets/js/jsx.js";
-import { createNotification } from "../assets/js/notification.js";
-import { getLocationHash } from "../assets/js/util.js";
+import {
+  getLocationHash,
+  getStorage,
+  onStorageChange,
+  setStorage,
+} from "../assets/js/util.js";
 
 let myVideo = $("#myvideo")[0] as HTMLVideoElement;
 let video = $("#video")[0] as HTMLVideoElement;
@@ -13,6 +17,8 @@ let setOtherVideo = (stream: MediaStream) =>
   ((video.srcObject = stream), (document.title = "zCall - Connected")); // prettier-ignore
 let requestMedia = () =>
   navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+let updateVideoSize = (type = getStorage("zCallVideoType")) =>
+  $.main.removeClass("cover").addClass(...(type == "cover" ? ["cover"] : []));
 let showError = (err: any) => showInfo(`Error: ${err.message || err}`);
 
 let peer = new Peer();
@@ -54,3 +60,20 @@ peer.on("call", (call) => {
     })
     .catch(showError);
 });
+
+$("#icon-resize").on("click", () =>
+  setStorage(
+    "zCallVideoType",
+    getStorage("zCallVideoType") == "cover" ? "contain" : "cover"
+  )
+);
+
+updateVideoSize();
+onStorageChange("zCallVideoType", updateVideoSize);
+window.addEventListener("resize", () => updateVideoSize());
+
+declare global {
+  interface StorageItems {
+    zCallVideoType: "contain" | "cover";
+  }
+}
