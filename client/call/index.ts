@@ -9,6 +9,7 @@ import {
 
 let myVideo = $("#myvideo")[0] as HTMLVideoElement;
 let video = $("#video")[0] as HTMLVideoElement;
+let preventNewConnections = false;
 let info = $("#info");
 
 let showInfo = (text: string) =>
@@ -53,8 +54,10 @@ peer.on("open", (myID) => {
 });
 
 peer.on("call", (call) => {
+  if (preventNewConnections) return;
   requestMedia()
     .then((stream) => {
+      preventNewConnections = true;
       setMyVideo(stream);
       $.main.addClass("showvideo");
       document.title = "zCall - Connecting...";
