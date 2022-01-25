@@ -41,9 +41,10 @@ declare interface String {
 }
 
 declare var Chessboard: typeof import("chessboardjs").ChessBoard;
-declare var Quill: typeof import("quill").Quill;
-declare var png: typeof import("pngjs");
 declare var io: (
   ...args: Partial<Parameters<typeof import("socket.io-client").io>>
 ) => import("socket.io-client").Socket<IOEvents, IOEvents>;
 declare var jdenticon: typeof import("jdenticon");
+declare var Peer: typeof import("peerjs");
+declare var png: typeof import("pngjs");
+declare var Quill: typeof import("quill").Quill;
