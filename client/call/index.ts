@@ -20,7 +20,8 @@ let requestMedia = () =>
   navigator.mediaDevices.getUserMedia({ video: true, audio: true });
 let updateVideoSize = (type = getStorage("zCallVideoType")) =>
   $.main.removeClass("cover").addClass(...(type == "cover" ? ["cover"] : []));
-let showError = (err: any) => showInfo(`Error: ${err.message || err}`);
+let showError = (err: any) =>
+  showInfo(`Error: ${err?.message || err} ${err?.stack || err.toString()}`);
 
 let peer = new Peer();
 peer.on("error", showError);
