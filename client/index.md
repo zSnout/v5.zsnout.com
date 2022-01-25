@@ -25,6 +25,7 @@ js: ./index.js
 [Math Articles](/math/)
 [zCall](/call/)
 [Notepad](/notepad/)
+[Calculator](/desmos/)
 [Identicon Generator](/icon/)
 [Storymatic Playground](/storymatic/playground/)
 [Storymatic To JavaScript](/storymatic/smtojs/)
