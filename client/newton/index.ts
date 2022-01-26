@@ -1,13 +1,4 @@
-import {
-  add,
-  angle,
-  Complex,
-  cube,
-  div,
-  mult,
-  sqr,
-  sub,
-} from "../assets/js/complex.js";
+import { add, angle, cube, div, mult, sqr, sub } from "../assets/js/complex.js";
 import createFractal from "../assets/js/fractal.js";
 
 createFractal(
