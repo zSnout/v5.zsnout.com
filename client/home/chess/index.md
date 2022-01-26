@@ -20,7 +20,7 @@ js: ../index.js
 \buttonlist
 [Illegal Chess vs AI](/chess/illegal/)
 [AI vs AI](/chess/engine/)
-[Random vs Random](/chess/random/)
+[Random AI vs Random AI](/chess/random/)
 [Instant Random Game](/chess/random/?instant)
 
 #### Custom Positions
