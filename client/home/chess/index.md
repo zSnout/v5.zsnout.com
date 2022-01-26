@@ -1,6 +1,6 @@
 ---
 title: Chess
-desc: Play all sorts of chess games on your device, with your friends, against computers, or play new variants!
+desc: Play all sorts of chess types on your device, with your friends, against computers, or play new variants!
 js: ../index.js
 ---
 
@@ -9,10 +9,10 @@ js: ../index.js
 #### Basic Games
 
 \buttonlist
-[Chessboard](/chess/board/)
-[Chess With Friends](/chess/online/)
+[Chess With Friends](/chess/board/)
+[Chess Online](/chess/online/)
 [Chess vs AI](/chess/vsai/)
-[Chess vs Random](/chess/vsrandom/)
+[Chess vs Random AI](/chess/vsrandom/)
 [Analyse Games](/chess/analysis/)
 
 #### Variants
