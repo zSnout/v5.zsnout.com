@@ -24,3 +24,5 @@ js: ../index.js
 [Newton's Fractal](/newton/webgl/)
 [Newton's Fractal (2)](/newton2/webgl/)
 [Newtonbrot](/newtonbrot/webgl/)
+[WTF Newtonbrot 1](/wtf/newtonbrot/)
+[WTF Newtonbrot 2](/wtf/newtonbrot2/)
