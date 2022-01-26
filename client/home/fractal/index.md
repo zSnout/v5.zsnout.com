@@ -13,6 +13,7 @@ js: ../index.js
 [Custom Fractal](/fractal/)
 [Newton's Fractal](/newton/)
 [Newton's Fractal (2)](/newton2/)
+[Newtonbrot](/newtonbrot/)
 
 #### Instant Render (Experimental)
 
@@ -22,3 +23,4 @@ js: ../index.js
 [Feather Fractal](/feather/webgl/)
 [Newton's Fractal](/newton/webgl/)
 [Newton's Fractal (2)](/newton2/webgl/)
+[Newtonbrot](/newtonbrot/webgl/)
