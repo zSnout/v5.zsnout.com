@@ -1,3 +1,5 @@
+import $ from "../../assets/js/jsx.js";
+import { getLocationHash } from "../../assets/js/util.js";
 import { createFractal, createProgram } from "../../assets/js/webgl.js";
 
 createFractal(
@@ -30,3 +32,11 @@ createFractal(
     fragmentShader: "./frag.glsl",
   }
 );
+
+setInterval(() => {
+  try {
+    let json = JSON.parse(getLocationHash());
+    if (+json.xEnd - +json.xStart < 0.0001) $.main.addClass("rickroll");
+    else $.main.removeClass("rickroll");
+  } catch {}
+}, 1000);

@@ -1,7 +1,8 @@
 <%
-  title("Newtonbrot"), css("/assets/css/canvasfs.css"), js("./index.js"), fullscreen();
+  title("Newtonbrot"), css("./index.css"), css("/assets/css/canvasfs.css"), js("./index.js"), fullscreen();
   nav("Increase Iteration Count", "@focus", "focus"), nav("Decrease Iteration Count", "@blur", "blur");
   nav("Zoom In", "@zoomin", "zoomin"), nav("Zoom Out", "@zoomout", "zoomout");
 %>
 
+<img src="/assets/img/rickroll.jpeg" id="rickroll">
 <canvas id="canvas" width="2720" height="2720"></canvas>

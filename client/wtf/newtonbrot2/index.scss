@@ -1,0 +1,34 @@
+#main {
+  z-index: 3;
+}
+
+#nav {
+  z-index: 4;
+}
+
+#rickroll {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0.5;
+}
+
+#canvas {
+  background: white;
+  z-index: 2;
+}
+
+.rickroll {
+  #canvas {
+    z-index: 1;
+  }
+
+  #rickroll {
+    display: block;
+    z-index: 2;
+  }
+}
