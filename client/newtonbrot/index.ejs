@@ -1,0 +1,8 @@
+<%
+  title("Newtonbrot"), desc("See a superhuman view of many Newton's Fractals, and see the object hidden within...");
+  css("/assets/css/canvasfs.css"), js("./index.js"), fullscreen();
+  nav("Increase Iteration Count", "@focus", "focus"), nav("Decrease Iteration Count", "@blur", "blur");
+  nav("Zoom In", "@zoomin", "zoomin"), nav("Zoom Out", "@zoomout", "zoomout");
+%>
+
+<canvas id="canvas" width="1360" height="1360"></canvas>
