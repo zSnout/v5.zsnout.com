@@ -6,9 +6,6 @@ import $ from "../../assets/js/jsx.js";
 /** The socket connected to the chess server. */
 let socket = io();
 
-/** This client's ID. */
-let myID = Math.random();
-
 /** Removes move indicators from the board. */
 function removeMoveIndicators() {
   $("#board .square-55d63").removeClass("move-indicator");
@@ -84,7 +81,7 @@ function onSnapEnd() {
   if (game.game_over()) $("#board").addClass("game-over");
   if (game.in_check()) $("#board").addClass(`${game.turn()}-check`);
 
-  socket.emit("chess:data", myCode, game.fen());
+  socket.emit("chess:data", game.fen());
 }
 
 /** Resizes the visible board. */
@@ -153,25 +150,19 @@ $("#icon-pin").on("click", () => {
   if (!pinText || !+pinText) return;
 
   let pin = +pinText;
-  if (Number.isNaN(pin)) return;
+  if (Number.isNaN(pin) || myCode == pin) return;
+  if (!String(pin).match(/^\d{6}$/)) return;
 
   myCode = pin;
-  game.reset();
-  board.position(game.fen());
   $("#board").removeClass("game-over", "w-check", "b-check");
   setPageTitle();
 
-  socket.emit("chess:join", myCode, myID);
+  socket.emit("chess:join", myCode);
 });
 
-socket.on("chess:join", (code, id) => {
-  if (id == myID) return;
-  if (code == myCode) socket.emit("chess:data", myCode, game.fen());
-});
+socket.on("chess:request", () => socket.emit("chess:data", game.fen()));
 
-socket.on("chess:data", (code, fen) => {
-  if (code != myCode) return;
-
+socket.on("chess:data", (fen) => {
   game.load(fen);
   board.position(game.fen());
   $("#board").removeClass("game-over", "w-check", "b-check");
@@ -180,12 +171,17 @@ socket.on("chess:data", (code, fen) => {
   setPageTitle();
 });
 
+socket.on("connect", () => {
+  socket.emit("chess:join", myCode);
+});
+
 // Prevents weird things on mobile
 $("#board").on("touchmove", (event) => event.preventDefault());
 
 declare global {
   interface IOEvents {
-    "chess:join"(code: number, id: number): void;
-    "chess:data"(code: number, fen: string): void;
+    "chess:join"(code: number): void;
+    "chess:request"(): void;
+    "chess:data"(fen: string): void;
   }
 }
