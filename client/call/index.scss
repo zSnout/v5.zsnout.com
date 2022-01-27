@@ -2,7 +2,9 @@
 
 video {
   background: $element;
-  display: none;
+  display: block;
+  max-width: 25%;
+  max-height: 25%;
 }
 
 main {
@@ -20,7 +22,7 @@ main {
   );
 }
 
-.showvideo {
+.video {
   video {
     display: block;
   }
@@ -32,23 +34,4 @@ main {
   #info {
     display: none;
   }
-}
-
-#video {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-
-  .cover & {
-    object-fit: cover;
-  }
-}
-
-#myvideo {
-  position: absolute;
-  top: calc($margin-top + ($navbar-height + $margin + $outer-margin));
-  left: $outer-margin;
-  max-width: 15%;
-  max-height: 15%;
-  outline: 0.125em solid $seperator;
 }
