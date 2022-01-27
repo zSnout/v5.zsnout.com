@@ -81,4 +81,8 @@ declare global {
   interface StorageItems {
     zCallVideoType: "contain" | "cover";
   }
+
+  interface IOEvents {
+    "zcall:join"(roomID: string, userID: string): void;
+  }
 }
