@@ -1,16 +1,23 @@
 import server from "..";
 
 server.io.on("connection", (socket) => {
-  socket.on("chess:data", (code, fen) =>
-    server.io.emit("chess:data", code, fen)
-  );
+  let last: string;
 
-  socket.on("chess:join", (code, id) => server.io.emit("chess:join", code, id));
+  socket.on("chess:join", (code) => {
+    let room = `chess:${code}`;
+    if (last) socket.leave(last);
+    last = room;
+    socket.join(room);
+
+    socket.to(room).emit("chess:request");
+    socket.on("chess:data", (fen) => socket.to(room).emit("chess:data", fen));
+  });
 });
 
 declare global {
   interface IOEvents {
-    "chess:join"(code: number, id: number): void;
-    "chess:data"(code: number, fen: string): void;
+    "chess:join"(code: number): void;
+    "chess:request"(): void;
+    "chess:data"(fen: string): void;
   }
 }
