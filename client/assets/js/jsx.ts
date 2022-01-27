@@ -654,6 +654,9 @@ declare global {
       ariaValueText?: string;
       autocapitalize?: string;
       autocomplete?: string;
+      muted?: string;
+      autoplay?: string;
+      controls?: string;
       className?: string;
       contentEditable?: string;
       dir?: string;
