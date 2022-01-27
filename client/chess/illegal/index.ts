@@ -147,12 +147,6 @@ if (game.in_check()) $("#board").addClass(`${game.turn()}-check`);
 // Prevents weird things on mobile
 $("#board").on("touchmove", (event) => event.preventDefault());
 
-declare global {
-  interface IOEvents {
-    "chess:data"(code: number, fen: string): void;
-  }
-}
-
 setupUsingLocationHash(game, board);
 board.orientation(aiTurn == "w" ? "black" : "white");
 if (game.turn() == aiTurn) setTimeout(makeAIMove);
