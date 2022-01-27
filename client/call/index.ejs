@@ -1,12 +1,9 @@
 <%
-  title("zCall"), fullscreen(), css("./index.css"), js("./index.js");
-  nav("Change Video Size", "@resize", "hd");
+  title("zCall"), css("./index.css"), js("./index.js");
   nav("Share Session", "@share-session", "share");
 %>
 
 <script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.js"></script>
 
 <p id="info">Connecting to zCall server...</p>
-
-<video id="video" autoplay></video>
-<video id="myvideo" autoplay muted></video>
+<div id="videos"></div>
