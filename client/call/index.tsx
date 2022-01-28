@@ -139,6 +139,14 @@ function setupSocketIO([stream, userID]: StreamData): StreamData {
     await connectToUser(peerID, stream);
   });
 
+  socket.on("zcall:leave", (peerID) => {
+    $(`video[peerid='${peerID}']`).remove();
+    let vidCount = videos.children().length;
+    $.main.removeClass(`video-${vidCount + 1}`).addClass(`video-${vidCount}`);
+    if (vidCount == 1 || vidCount == 2) $.root.addClass("fullscreen");
+    else $.root.removeClass("fullscreen");
+  });
+
   return [stream, userID];
 }
 
