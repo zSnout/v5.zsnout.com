@@ -52,6 +52,12 @@ function makeVideo(stream: MediaStream, otherID: string, muted?: boolean) {
   videoEl.setAttribute("peerid", otherID);
   videos.append(video);
 
+  let vidCount = videos.children().length;
+  $.main.removeClass(`video-${vidCount - 1}`).addClass(`video-${vidCount}`);
+
+  if (vidCount == 1 || vidCount == 2) $.root.addClass("fullscreen");
+  else $.root.removeClass("fullscreen");
+
   return new Promise<void>((resolve) => {
     videoEl.onloadedmetadata = () => {
       videoEl.play();
