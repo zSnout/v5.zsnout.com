@@ -1,5 +1,11 @@
 import $, { jsx } from "../assets/js/jsx.js";
-import { getLocationHash, setLocationHash } from "../assets/js/util.js";
+import {
+  getLocationHash,
+  getStorage,
+  onStorageChange,
+  setLocationHash,
+  setStorage,
+} from "../assets/js/util.js";
 import "/socket.io/socket.io.js";
 
 /**
@@ -175,9 +181,28 @@ function addCallReciever([stream, userID]: StreamData): StreamData {
   return [stream, userID];
 }
 
+function updateZCallCover(status = getStorage("zcall:cover")) {
+  if (status == "true") $.main.addClass("cover");
+  else $.main.removeClass("cover");
+}
+
+$("#icon-resize").on("click", () =>
+  setStorage(
+    "zcall:cover",
+    getStorage("zcall:cover") == "true" ? "false" : "true"
+  )
+);
+
+updateZCallCover();
+onStorageChange("zcall:cover", updateZCallCover);
+
 declare global {
   interface IOEvents {
     "zcall:join"(roomID: string, userID: string): void;
     "zcall:leave"(userID: string): void;
+  }
+
+  interface StorageItems {
+    "zcall:cover"?: "true" | "false";
   }
 }
