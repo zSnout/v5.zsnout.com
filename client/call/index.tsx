@@ -1,4 +1,5 @@
 import $, { jsx } from "../assets/js/jsx.js";
+import { createNotification } from "../assets/js/notification.js";
 import {
   getLocationHash,
   getStorage,
@@ -205,6 +206,11 @@ $("#icon-resize").on("click", () =>
     getStorage("zcall:cover") == "true" ? "false" : "true"
   )
 );
+
+$("#icon-share-session").on("click", () => {
+  navigator.clipboard.writeText(location.href);
+  createNotification("Session URL copied to clipboard");
+});
 
 updateZCallCover();
 onStorageChange("zcall:cover", updateZCallCover);
