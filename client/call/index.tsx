@@ -60,12 +60,7 @@ function makeVideo(stream: MediaStream, peerID: string, muted?: boolean) {
   videoEl.srcObject = stream;
   videoEl.setAttribute("peerid", peerID);
   videos.append(video);
-
-  let vidCount = videos.children().length;
-  $.main.removeClass(`video-${vidCount - 1}`).addClass(`video-${vidCount}`);
-
-  if (vidCount == 1 || vidCount == 2) $.root.addClass("fullscreen");
-  else $.root.removeClass("fullscreen");
+  checkVidCount();
 
   return new Promise<void>((resolve) => {
     videoEl.onloadedmetadata = () => {
@@ -87,6 +82,18 @@ function connectToUser(peerID: string, stream: MediaStream) {
       resolve(makeVideo(otherStream, peerID));
     });
   });
+}
+
+/** Checks the video count and updates DOM classes. */
+function checkVidCount() {
+  let vidCount = videos.children().length;
+  $.main.removeClass(`video-${vidCount - 1}`).addClass(`video-${vidCount}`);
+
+  if (vidCount == 1 || vidCount == 2) $.root.addClass("fullscreen");
+  else $.root.removeClass("fullscreen");
+
+  if (vidCount == 1 || vidCount == 2) $("#icon-resize").show();
+  else $("#icon-resize").hide();
 }
 
 /**
@@ -151,10 +158,7 @@ function setupSocketIO([stream, userID]: StreamData): StreamData {
 
   socket.on("zcall:leave", (peerID) => {
     $(`video[peerid='${peerID}']`).remove();
-    let vidCount = videos.children().length;
-    $.main.removeClass(`video-${vidCount + 1}`).addClass(`video-${vidCount}`);
-    if (vidCount == 1 || vidCount == 2) $.root.addClass("fullscreen");
-    else $.root.removeClass("fullscreen");
+    checkVidCount();
   });
 
   return [stream, userID];
