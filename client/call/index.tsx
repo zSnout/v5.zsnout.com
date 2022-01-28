@@ -26,7 +26,11 @@ let peer = new Peer();
 peer.on("error", (err) => ((document.title = "zCall - Error"), showError(err)));
 
 peer.on("open", (myID) =>
-  showMyVideo(myID).then(setupSocketIO).then(addCallReciever).catch(showError)
+  showMyVideo(myID)
+    .then(allowMuting)
+    .then(setupSocketIO)
+    .then(addCallReciever)
+    .catch(showError)
 );
 
 /** The type returned by the string of `showMyVideo`, `setupSocketIO`, etc. */
@@ -79,6 +83,40 @@ async function showMyVideo(userID: string): Promise<StreamData> {
   let stream = await requestMedia();
   $.main.addClass("video");
   await makeVideo(stream, userID, true);
+  return [stream, userID];
+}
+
+/**
+ * Allows muting of the user's audio and video.
+ * @param data Data about the user; used for making calls.
+ * @returns The original `StreamData` object passed to this call.
+ */
+function allowMuting([stream, userID]: StreamData): StreamData {
+  let audio = $("#icon-audio");
+  let video = $("#icon-video");
+  let audioSVG = $("#icon-audio use");
+  let videoSVG = $("#icon-video use");
+
+  audio.on("click", () => {
+    let track = stream.getAudioTracks()[0];
+
+    audioSVG.attr(
+      "href",
+      `/assets/icons/${track.enabled ? "no" : ""}mic.svg#icon`
+    );
+    track.enabled = !track.enabled;
+  });
+
+  video.on("click", () => {
+    let track = stream.getVideoTracks()[0];
+
+    videoSVG.attr(
+      "href",
+      `/assets/icons/${track.enabled ? "no" : ""}camera.svg#icon`
+    );
+    track.enabled = !track.enabled;
+  });
+
   return [stream, userID];
 }
 
