@@ -49,15 +49,17 @@ video {
   }
 }
 
-.video-1,
-.video-2 {
-  #videos {
-    display: block;
-  }
+.video {
+  .video-1,
+  .video-2 {
+    #videos {
+      display: block;
+    }
 
-  video {
-    max-width: initial;
-    max-height: initial;
+    video {
+      max-width: initial;
+      max-height: initial;
+    }
   }
 }
 
