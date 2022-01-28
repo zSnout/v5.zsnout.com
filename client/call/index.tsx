@@ -21,7 +21,6 @@ let showInfo = (text: string) => ($.main.removeClass("video"), info.text(text));
 let requestMedia = () =>
   navigator.mediaDevices.getUserMedia({ video: true, audio: true });
 
-let socket = io();
 let peer = new Peer();
 peer.on("error", (err) => ((document.title = "zCall - Error"), showError(err)));
 
@@ -39,17 +38,17 @@ type StreamData = [stream: MediaStream, userID: string];
 /**
  * Creates a video stream and adds it to the DOM.
  * @param stream The stream to make a video element for.
- * @param otherID The ID of the user the video is created for.
+ * @param peerID The ID of the user the video is created for.
  * @param muted Whether to mute the video.
  * @returns A promise resolving once the video has loaded.
  */
-function makeVideo(stream: MediaStream, otherID: string, muted?: boolean) {
-  if ($(`video[peerid='${otherID}']`).length) return Promise.resolve();
+function makeVideo(stream: MediaStream, peerID: string, muted?: boolean) {
+  if ($(`video[peerid='${peerID}']`).length) return Promise.resolve();
   let video = <video />;
   let videoEl = video[0] as HTMLVideoElement;
   if (muted) videoEl.muted = true;
   videoEl.srcObject = stream;
-  videoEl.setAttribute("peerid", otherID);
+  videoEl.setAttribute("peerid", peerID);
   videos.append(video);
 
   let vidCount = videos.children().length;
@@ -68,14 +67,14 @@ function makeVideo(stream: MediaStream, otherID: string, muted?: boolean) {
 
 /**
  * Connects to another user.
- * @param otherID The ID of the other user.
+ * @param peerID The ID of the other user.
  * @param stream The stream to send to the other user.
  * @returns A promise resolving once connected.
  */
-function connectToNewUser(otherID: string, stream: MediaStream) {
+function connectToUser(peerID: string, stream: MediaStream) {
   return new Promise<void>((resolve) => {
-    peer.call(otherID, stream).on("stream", (otherStream) => {
-      resolve(makeVideo(otherStream, otherID));
+    peer.call(peerID, stream).on("stream", (otherStream) => {
+      resolve(makeVideo(otherStream, peerID));
     });
   });
 }
@@ -132,11 +131,12 @@ function allowMuting([stream, userID]: StreamData): StreamData {
  * @returns The original `StreamData` object passed to this call.
  */
 function setupSocketIO([stream, userID]: StreamData): StreamData {
-  socket.emit("zcall:join", roomID, userID);
+  let socket = io();
+  socket.on("connect", () => socket.emit("zcall:join", roomID, userID));
 
-  socket.on("zcall:join", async (_, otherID) => {
-    if ($(`video[peerid='${otherID}']`).length) return;
-    await connectToNewUser(otherID, stream);
+  socket.on("zcall:join", async (_, peerID) => {
+    if ($(`video[peerid='${peerID}']`).length) return;
+    await connectToUser(peerID, stream);
   });
 
   return [stream, userID];
@@ -166,5 +166,6 @@ function addCallReciever([stream, userID]: StreamData): StreamData {
 declare global {
   interface IOEvents {
     "zcall:join"(roomID: string, userID: string): void;
+    "zcall:leave"(userID: string): void;
   }
 }
