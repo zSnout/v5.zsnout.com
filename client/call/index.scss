@@ -46,6 +46,13 @@ main {
   }
 }
 
+.video-1,
+.video-2 {
+  #videos {
+    display: block;
+  }
+}
+
 .video-1 {
   #videos video {
     border: 0;
@@ -75,10 +82,8 @@ main {
     height: 100%;
     object-fit: contain;
   }
-}
 
-main:not(.video-1):not(.video-2) {
-  #videos {
-    
+  &.cover #videos video:last-child {
+    object-fit: cover;
   }
 }
