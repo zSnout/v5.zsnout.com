@@ -2,6 +2,10 @@ import $, { jsx } from "../assets/js/jsx.js";
 import { getLocationHash, setLocationHash } from "../assets/js/util.js";
 import "/socket.io/socket.io.js";
 
+/**
+ * Generates UUIDs for the room if needed.
+ * @returns A version 4 UUID.
+ */
 function generateUUID() {
   return ("" + 1e7 + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
     (
