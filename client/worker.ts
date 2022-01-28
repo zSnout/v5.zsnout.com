@@ -1,5 +1,5 @@
 /** The name of the cache to use. */
-let cacheID = "1.3";
+let cacheID = "ae43b852-216c-4a60-b623-d795baa7fb6e";
 
 /** The response to use when the user is offline. */
 let offlineResp = `<!DOCTYPE html>
