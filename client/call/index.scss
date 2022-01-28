@@ -3,8 +3,8 @@
 video {
   background: $element;
   display: block;
-  max-width: 25%;
-  max-height: 25%;
+  border: 0.0625em solid $seperator;
+  border-radius: 0.25em;
 }
 
 main {
@@ -22,6 +22,16 @@ main {
   );
 }
 
+#videos {
+  display: grid;
+  gap: $margin;
+
+  .fullscreen & {
+    width: 100%;
+    height: 100%;
+  }
+}
+
 .video {
   video {
     display: block;
@@ -33,5 +43,42 @@ main {
 
   #info {
     display: none;
+  }
+}
+
+.video-1 {
+  #videos video {
+    border: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  &.cover #videos video {
+    object-fit: cover;
+  }
+}
+
+.video-2 {
+  #videos video:first-child {
+    position: absolute;
+    top: calc($margin-top + ($navbar-height + $margin + $outer-margin));
+    right: calc($outer-margin + $inset-right);
+    max-width: max(15%, 100px);
+    max-height: max(15%, 100px);
+    outline: 0.125em solid $seperator;
+  }
+
+  #videos video:last-child {
+    border: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+main:not(.video-1):not(.video-2) {
+  #videos {
+    
   }
 }
