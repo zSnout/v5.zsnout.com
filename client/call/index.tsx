@@ -32,15 +32,20 @@ let requestMedia = () =>
   navigator.mediaDevices.getUserMedia({ video: true, audio: true });
 
 let peer = new Peer();
-peer.on("error", (err) => ((document.title = "zCall - Error"), showError(err)));
 
-peer.on("open", (myID) =>
+peer.on("error", (err) => {
+  document.title = "zCall - Error";
+  showError(err);
+});
+
+peer.on("open", (myID) => {
+  document.title = "zCall - Connecting...";
   showMyVideo(myID)
     .then(allowMuting)
     .then(setupSocketIO)
     .then(addCallReciever)
-    .catch(showError)
-);
+    .catch(showError);
+});
 
 /** The type returned by the string of `showMyVideo`, `setupSocketIO`, etc. */
 type StreamData = [stream: MediaStream, userID: string];
@@ -151,7 +156,11 @@ function allowMuting([stream, userID]: StreamData): StreamData {
  */
 function setupSocketIO([stream, userID]: StreamData): StreamData {
   let socket = io();
-  socket.on("connect", () => socket.emit("zcall:join", roomID, userID));
+
+  socket.on("connect", () => {
+    document.title = "zCall - Connected";
+    socket.emit("zcall:join", roomID, userID);
+  });
 
   socket.on("zcall:join", async (_, peerID) => {
     if ($(`video[peerid='${peerID}']`).length) return;
@@ -176,11 +185,9 @@ function addCallReciever([stream, userID]: StreamData): StreamData {
     if (call.peer == userID) return;
     if ($(`video[peerid='${call.peer}']`).length) return;
 
-    document.title = "zCall - Connecting...";
     call.answer(stream);
     call.on("stream", async (stream) => {
       await makeVideo(stream, call.peer);
-      document.title = "zCall - Connected";
     });
   });
 
