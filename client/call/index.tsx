@@ -87,13 +87,15 @@ function connectToUser(peerID: string, stream: MediaStream) {
 /** Checks the video count and updates DOM classes. */
 function checkVidCount() {
   let vidCount = videos.children().length;
-  $.main.removeClass(`video-${vidCount - 1}`).addClass(`video-${vidCount}`);
-
-  if (vidCount == 1 || vidCount == 2) $.root.addClass("fullscreen");
-  else $.root.removeClass("fullscreen");
-
-  if (vidCount == 1 || vidCount == 2) $("#icon-resize").show();
-  else $("#icon-resize").hide();
+  $.main.removeClass("video-1", "video-2");
+  if (vidCount == 1 || vidCount == 2) {
+    $.root.addClass("fullscreen");
+    $.main.addClass(`video-${vidCount}`);
+    $("#icon-resize").show();
+  } else {
+    $.root.removeClass("fullscreen");
+    $("#icon-resize").hide();
+  }
 }
 
 /**
