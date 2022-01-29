@@ -8,9 +8,10 @@ main {
 
 #grid {
   border-radius: 0.5em;
+  overflow: hidden;
 
   div {
-    height: 1.5625em;
+    height: 1.5em;
     margin: 0;
     white-space: nowrap;
 
@@ -19,23 +20,9 @@ main {
       width: 1.5em;
       height: 1.5em;
       background: $element;
-      border-right: 0.0625em solid $seperator;
-      border-bottom: 0.0625em solid $seperator;
-
-      &:first-child {
-        border-left: 0.0625em solid $seperator;
-      }
 
       &.filled {
         background: $text-color;
-      }
-    }
-
-    &:first-child {
-      height: 1.625em;
-
-      span {
-        border-top: 0.0625em solid $seperator;
       }
     }
   }
