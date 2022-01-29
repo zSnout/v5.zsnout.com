@@ -3,7 +3,7 @@ import { createNotification } from "./notification.js";
 import { getStorage, onStorageChange, setStorage } from "./util.js";
 
 /** Checks the current theme set in `localStorage` and updates the page accordingly. */
-function setTheme(theme = getStorage("theme")) {
+function setTheme(theme = getStorage("options:theme")) {
   $.root.removeClass(
     ...[...$.root[0].classList].filter((className) =>
       className.startsWith("theme-")
@@ -13,11 +13,13 @@ function setTheme(theme = getStorage("theme")) {
   $.root.addClass(`theme-${theme || "light"}`);
 }
 
-setTheme(getStorage("theme"));
-onStorageChange("theme", setTheme);
+setTheme(getStorage("options:theme"));
+onStorageChange("options:theme", setTheme);
 
 /** Gets all pages in the "Recently Visited" list. */
-export function getRecentlyVisited(data = getStorage("recentlyVisited")) {
+export function getRecentlyVisited(
+  data = getStorage("options:recentlyVisited")
+) {
   if (!data) return null;
 
   try {
@@ -61,7 +63,7 @@ export function checkRecentlyVisited() {
 function resetRecentlyVisited() {
   if (location.pathname != "/")
     setStorage(
-      "recentlyVisited",
+      "options:recentlyVisited",
       JSON.stringify([
         {
           href: location.pathname,
@@ -69,20 +71,20 @@ function resetRecentlyVisited() {
         },
       ])
     );
-  else setStorage("recentlyVisited", "[]");
+  else setStorage("options:recentlyVisited", "[]");
 }
 
 if (new URL(location.href).searchParams.has("embed")) $.root.addClass("embed");
 if (new URL(location.href).searchParams.has("nobg")) $.root.addClass("nobg");
 
-onStorageChange("recentlyVisited", checkRecentlyVisited);
+onStorageChange("options:recentlyVisited", checkRecentlyVisited);
 
 let hasPrompted = false;
-let didInstall = getStorage("didInstall");
+let didInstall = getStorage("pwa:isInstalled");
 if (
   !didInstall ||
   (didInstall == "false" &&
-    +getStorage("lastInstallTime")! < Date.now() - 1000 * 60 * 60 * 24 * 7)
+    +getStorage("pwa:lastInstallTime")! < Date.now() - 1000 * 60 * 60 * 24 * 7)
 ) {
   window.addEventListener("beforeinstallprompt", (event: any) => {
     if (hasPrompted) return;
@@ -97,16 +99,16 @@ if (
 
           let { outcome } = await event.userChoice;
 
-          if (outcome == "dismissed") setStorage("didInstall", "false");
-          else setStorage("didInstall", "true");
+          if (outcome == "dismissed") setStorage("pwa:isInstalled", "false");
+          else setStorage("pwa:isInstalled", "true");
 
-          setStorage("lastInstallTime", "" + Date.now());
+          setStorage("pwa:lastInstallTime", "" + Date.now());
         },
         async Cancel() {
           hide();
 
-          setStorage("didInstall", "false");
-          setStorage("lastInstallTime", "" + Date.now());
+          setStorage("pwa:isInstalled", "false");
+          setStorage("pwa:lastInstallTime", "" + Date.now());
         },
       }
     );
@@ -123,7 +125,7 @@ if (location.pathname == "/") {
   );
   recentlyVisited.unshift({ href: location.pathname, title: document.title });
   recentlyVisited = recentlyVisited.slice(0, 11);
-  setStorage("recentlyVisited", JSON.stringify(recentlyVisited));
+  setStorage("options:recentlyVisited", JSON.stringify(recentlyVisited));
 } else {
   resetRecentlyVisited();
 }
@@ -133,28 +135,26 @@ checkRecentlyVisited();
 declare global {
   interface StorageItems {
     /** The user's selected theme. When omitted, use the native theme. */
-    theme?: "light" | "aqua" | "dark" | "yellow-pink";
-
-    /** Whether the user has installed the app. */
-    didInstall?: "true" | "false";
-
-    /** The time of the last install. */
-    lastInstallTime?: string;
+    "options:theme"?: "light" | "aqua" | "dark" | "yellow-pink";
 
     /** A JSON list of the last 11 pages the user visited. */
-    recentlyVisited?: string;
+    "options:recentlyVisited"?: string;
+
+    /** Whether the user has installed the app. */
+    "pwa:isInstalled"?: "true" | "false";
+
+    /** The time of the last install. */
+    "pwa:lastInstallTime"?: string;
   }
 }
 
 navigator.serviceWorker.register("/worker.js").catch(() => {});
 
 document.title = `${document.title} - zSnout`;
-
 let { get: getTitle, set: setTitle } = Object.getOwnPropertyDescriptor(
   Object.getPrototypeOf(Object.getPrototypeOf(document)),
   "title"
 )!;
-
 Object.defineProperty(document, "title", {
   enumerable: true,
   configurable: true,

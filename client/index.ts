@@ -6,8 +6,8 @@ import { getStorage, setStorage } from "./assets/js/util.js";
  * Sets the theme of the page and calls `checkTheme`.
  * @param theme The theme to set `localStorage` to.
  */
-function setTheme(theme: StorageItems["theme"]) {
-  setStorage("theme", theme);
+function setTheme(theme: StorageItems["options:theme"]) {
+  setStorage("options:theme", theme);
 }
 
 $("#theme-aqua").on("click", () => setTheme("aqua"));
