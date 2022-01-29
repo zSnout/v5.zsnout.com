@@ -200,9 +200,18 @@
       grid-gap: $margin;
       grid-template-columns: repeat(auto-fill, minmax(min(10em, 100%), 1fr));
 
+      --btn-bg: #808080;
+      --btn-focus: white;
+
+      .theme-light &,
+      .theme-yellow-pink & {
+        --btn-bg: white;
+        --btn-focus: #808080;
+      }
+
       a,
       button {
-        background: white;
+        background: var(--btn-bg);
         display: inline-flex;
         position: relative;
         text-align: center;
@@ -210,7 +219,7 @@
         cursor: pointer;
 
         @include focus {
-          background: black;
+          background: var(--btn-focus);
         }
       }
 
