@@ -10,3 +10,7 @@
   max-width: initial;
   max-height: initial;
 }
+
+.cover #output {
+  object-fit: cover;
+}

@@ -1,5 +1,10 @@
 import { createProgram, createShader } from "../../assets/js/webgl.js";
 import $, { jsx } from "../../assets/js/jsx.js";
+import {
+  getStorage,
+  onStorageChange,
+  setStorage,
+} from "../../assets/js/util.js";
 
 let output = $("#output")[0] as HTMLCanvasElement;
 let gl = output.getContext("webgl2")!;
@@ -93,13 +98,14 @@ info.on("click", async () => {
       let image = new Image();
       image.src = data;
       image.onload = () => {
-        gl.canvas.width = video.videoWidth;
-        gl.canvas.height = video.videoHeight;
         renderImage(image);
         requestAnimationFrame(renderFrame);
       };
     }
 
+    gl.canvas.width = video.videoWidth;
+    gl.canvas.height = video.videoHeight;
+    gl.canvas?.captureStream();
     renderFrame();
   } catch {
     info.text(
@@ -107,3 +113,24 @@ info.on("click", async () => {
     );
   }
 });
+
+$("#icon-resize").on("click", () =>
+  setStorage(
+    "overcolor:cover",
+    getStorage("overcolor:cover") == "true" ? "false" : "true"
+  )
+);
+
+function onResize(status = getStorage("overcolor:cover")) {
+  if (status == "true") $.main.addClass("cover");
+  else $.main.removeClass("cover");
+}
+
+onStorageChange("overcolor:cover", onResize);
+onResize();
+
+declare global {
+  interface StorageItems {
+    "overcolor:cover": "true" | "false";
+  }
+}
