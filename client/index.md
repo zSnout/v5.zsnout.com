@@ -34,10 +34,9 @@ js: ./index.js
 [Trope Highlighter](/tropes/)
 [Practice 2×2 to 144÷12](/practice/multdiv/)
 [Practice 2² to 20²](/practice/squares/)
-[Overcolorifier](/overcolor/)
-[Live Overcolorifier](/overcolor/live/)
-[Blind Yourself](/blind/)
-[Live Blinding](/blind/live/)
+[Overcolorifier](/overcolor/live/)
+[Overcolorifier 2](/overcolor/webgl/)
+[Color Remover](/blind/live/)
 
 #### Fractals and Diagrams
 
