@@ -202,6 +202,7 @@
 
       a,
       button {
+        background: white;
         display: inline-flex;
         position: relative;
         text-align: center;
@@ -211,7 +212,7 @@
 
       img {
         border: 0;
-        opacity: 0.5;
+        opacity: 0.75;
         user-select: none;
       }
 
@@ -231,6 +232,9 @@
         background: $element;
         padding: 0.125em 0.25em;
         border-radius: 0.25em;
+      }
+
+      @include focus {
       }
     }
 
