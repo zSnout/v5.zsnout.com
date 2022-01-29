@@ -10,7 +10,7 @@ function setTheme(theme: StorageItems["theme"] | null) {
     )
   );
 
-  $.root.addClass(`theme-${theme || "aqua"}`);
+  $.root.addClass(`theme-${theme || "light"}`);
 }
 
 setTheme(getStorage("theme"));
