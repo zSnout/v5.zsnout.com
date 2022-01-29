@@ -21,16 +21,16 @@ quill.on("text-change", (_delta, _oldContents, source) => {
   if (source != "user") return;
 
   ignoreEvent = true;
-  setStorage("notepad", JSON.stringify(quill.getContents().ops));
+  setStorage("notepad:content", JSON.stringify(quill.getContents().ops));
 });
 
 declare global {
   interface StorageItems {
-    notepad?: string;
+    "notepad:content"?: string;
   }
 }
 
-onStorageChange("notepad", (val) => {
+onStorageChange("notepad:content", (val) => {
   if (!val) return;
   if (ignoreEvent) return (ignoreEvent = false);
 
@@ -39,7 +39,7 @@ onStorageChange("notepad", (val) => {
   } catch {}
 });
 
-let val = getStorage("notepad");
+let val = getStorage("notepad:content");
 if (val) {
   try {
     quill.setContents(JSON.parse(val));
