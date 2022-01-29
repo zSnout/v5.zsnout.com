@@ -3,7 +3,7 @@ import { createNotification } from "./notification.js";
 import { getStorage, onStorageChange, setStorage } from "./util.js";
 
 /** Checks the current theme set in `localStorage` and updates the page accordingly. */
-function setTheme(theme: StorageItems["theme"] | null) {
+function setTheme(theme = getStorage("theme")) {
   $.root.removeClass(
     ...[...$.root[0].classList].filter((className) =>
       className.startsWith("theme-")
