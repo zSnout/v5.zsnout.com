@@ -39,21 +39,21 @@ export default async function fetch<T extends Schema | undefined>(
   body?: unknown
 ): Promise<FetchResult<T>> {
   try {
-    let request: any = {
-      method,
-      headers: {
-        "x-auth": getStorage("auth") || "",
-      } as Record<string, string>,
-    };
+    let headers: Record<string, string> = {};
+    let request: RequestInit = { method };
+
+    let token = getStorage("options:authToken");
+    if (token) headers["x-auth"] = token;
 
     if (body) {
       let json = JSON.stringify(body);
 
-      request.headers["content-type"] = "application/json";
-      request.headers["content-length"] = String(json.length);
+      headers["content-type"] = "application/json";
+      headers["content-length"] = "" + json.length;
       request.body = json;
     }
 
+    request.headers = headers;
     let response = await window.fetch(route, request);
 
     let respBody: unknown;
@@ -84,6 +84,6 @@ export default async function fetch<T extends Schema | undefined>(
 declare global {
   interface StorageItems {
     /** The user's authetication token. */
-    auth?: string;
+    "options:authToken"?: string;
   }
 }

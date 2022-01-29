@@ -29,7 +29,7 @@ $("#form").on("submit", async (event) => {
   label.text(result.ok ? result.data.message : result.error);
 
   if (result.ok && !result.data.error && result.data.session) {
-    setStorage("auth", result.data.session);
+    setStorage("options:authToken", result.data.session);
     location.href = "/";
   }
 });

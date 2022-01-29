@@ -15,7 +15,7 @@ $("#theme-light").on("click", () => setTheme("light"));
 $("#theme-dark").on("click", () => setTheme("dark"));
 $("#theme-yellow-pink").on("click", () => setTheme("yellow-pink"));
 
-let auth = getStorage("auth");
+let auth = getStorage("options:authToken");
 
 if (auth)
   fetch(
@@ -33,7 +33,7 @@ if (auth)
         .text("Log Out")
         .attr("href", "")
         .on("click", () => {
-          setStorage("auth", undefined);
+          setStorage("options:authToken", undefined);
           location.reload();
         });
     }
