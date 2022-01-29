@@ -362,13 +362,13 @@ export function createViewer(
         output.empty();
       } else if (data.type == "savedata") {
         if (data.id.length < 10) return;
-        setStorage(`sm-${data.id}-${data.key}`, JSON.stringify(data.value));
+        setStorage(`sm:${data.id}-${data.key}`, JSON.stringify(data.value));
       } else if (data.type == "loaddata") {
         if (data.id.length < 10) return;
 
         let json = null;
         try {
-          json = JSON.parse(getStorage(`sm-${data.id}-${data.key}`) || "null");
+          json = JSON.parse(getStorage(`sm:${data.id}-${data.key}`) || "null");
         } catch {}
 
         worker.send({ type: "data", data: json });
@@ -445,6 +445,6 @@ function makeTag(data: string) {
 
 declare global {
   interface StorageItems {
-    [key: `sm-${string}-${string}`]: string;
+    [key: `sm:${string}-${string}`]: string;
   }
 }
