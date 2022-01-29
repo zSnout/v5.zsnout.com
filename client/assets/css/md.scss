@@ -208,6 +208,10 @@
         text-align: center;
         padding: 0;
         cursor: pointer;
+
+        @include focus {
+          background: black;
+        }
       }
 
       img {
@@ -232,9 +236,6 @@
         background: $element;
         padding: 0.125em 0.25em;
         border-radius: 0.25em;
-      }
-
-      @include focus {
       }
     }
 
