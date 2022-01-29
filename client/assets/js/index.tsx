@@ -17,17 +17,13 @@ setTheme(getStorage("theme"));
 onStorageChange("theme", setTheme);
 
 /** Gets all pages in the "Recently Visited" list. */
-export function getRecentlyVisited(
-  recentlyVisited: StorageItems["recentlyVisited"] | null = getStorage(
-    "recentlyVisited"
-  )
-): { href: string; title: string }[] | null {
-  if (!recentlyVisited) return null;
+export function getRecentlyVisited(data = getStorage("recentlyVisited")) {
+  if (!data) return null;
 
   try {
     let lastVisited;
     try {
-      lastVisited = JSON.parse(recentlyVisited);
+      lastVisited = JSON.parse(data);
     } catch {
       return null;
     }
