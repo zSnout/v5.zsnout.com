@@ -1,5 +1,15 @@
 import $ from "./jsx.js";
+import { rpnToGLSL, toReversePolish } from "./math.js";
 import { getLocationHash, setLocationHash } from "./util.js";
+
+/**
+ * Converts an equation to GLSL.
+ * @param equation The equation to convert.
+ * @returns GLSL code that draws the equation.
+ */
+function eqToGLSL(equation: string) {
+  return rpnToGLSL(toReversePolish(equation));
+}
 
 /**
  * Compiles a GLSL shader.
@@ -54,6 +64,8 @@ export interface OptionList {
   yEnd?: number;
   colorMode?: number;
   maxIterations?: number;
+  iterEQ?: string;
+  colorEQ?: string;
 }
 
 /**
@@ -68,7 +80,11 @@ export async function createFractal(
     vertexShader,
     fragmentShader,
     ...options
-  }: OptionList & { vertexShader: string; fragmentShader: string }
+  }: OptionList & {
+    vertexShader: string;
+    fragmentShader: string;
+    saveEQs?: boolean;
+  }
 ) {
   let json: OptionList = {};
   try {
@@ -85,9 +101,14 @@ export async function createFractal(
   let yStart = json.yStart ?? options.yStart ?? -1;
   let yEnd = json.yEnd ?? options.yEnd ?? 1;
   let colorMode = json.colorMode ?? options.colorMode ?? 0;
+  let iterEQ = json.iterEQ ?? options.iterEQ ?? "z^2 + c";
+  let colorEQ = json.colorEQ ?? options.colorEQ ?? "sz + z";
 
   let vertShaderSrc = await fetch(vertexShader).then((e) => e.text());
-  let fragShaderSrc = await fetch(fragmentShader).then((e) => e.text());
+  let fragShaderSrc = await fetch(fragmentShader)
+    .then((e) => e.text())
+    .then((e) => e.replace("ITEREQ", eqToGLSL(iterEQ)))
+    .then((e) => e.replace("COLOREQ", eqToGLSL(colorEQ)));
   let vertShader = createShader(gl, "VERTEX", vertShaderSrc)!;
   let fragShader = createShader(gl, "FRAGMENT", fragShaderSrc)!;
   let program = init(gl, vertShader, fragShader);
@@ -185,6 +206,8 @@ export async function createFractal(
       yEnd,
       colorMode,
       maxIterations,
+      iterEQ,
+      colorEQ,
     };
 
     setLocationHash(JSON.stringify(obj));
@@ -290,6 +313,30 @@ export async function createFractal(
     colorMode = Math.floor(colorMode + 1) % 3;
     setPageHash();
     updateGl();
+  });
+
+  $("#icon-itereq").on("click", () => {
+    let old = iterEQ;
+    iterEQ =
+      prompt(
+        "Enter an equation to iterate. You may use z, c, pz, ppz, and sz."
+      ) || iterEQ;
+    if (iterEQ == old) return;
+
+    setPageHash();
+    location.reload();
+  });
+
+  $("#icon-coloreq").on("click", () => {
+    let old = colorEQ;
+    colorEQ =
+      prompt(
+        "Enter an equation to use for sz. You may use z, c, pz, ppz, and sz."
+      ) || colorEQ;
+    if (colorEQ == old) return;
+
+    setPageHash();
+    location.reload();
   });
 
   function onResize() {
