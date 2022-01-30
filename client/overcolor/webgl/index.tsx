@@ -131,6 +131,6 @@ onResize();
 
 declare global {
   interface StorageItems {
-    "overcolor:cover": "true" | "false";
+    "overcolor:cover"?: "true" | "false";
   }
 }
