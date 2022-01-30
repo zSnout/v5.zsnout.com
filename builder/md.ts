@@ -53,6 +53,9 @@ export interface MarkdownFileData {
   /** A list of CSS resources this page needs. */
   css: string[];
 
+  /** A list of navicons this pages has. */
+  nav: [title: string, link: string, icon: string][];
+
   /** If set to `true` doesn't include 'assets/css/md.css' stylesheet. */
   renderOnly: boolean;
 }
@@ -70,6 +73,11 @@ export interface MarkdownMeta {
 
   /** CSS resources this page needs. */
   css?: string | string[];
+
+  /** A list of navicons this pages has. */
+  nav:
+    | [title: string, link: string, icon: string]
+    | [title: string, link: string, icon: string][];
 
   /** If set to `true` doesn't include 'assets/css/md.css' stylesheet. */
   renderOnly?: boolean;
@@ -113,6 +121,13 @@ export async function getRawData(
     let css = meta.css || [];
     css = typeof css == "string" ? [css] : css;
 
+    let nav = meta.nav || [];
+    if (
+      !((nav): nav is [any, any, any][] =>
+        nav.length == 0 || Array.isArray(nav[0]))(nav)
+    )
+      nav = [nav];
+
     html = html
       .replaceAll(/<p>\s*\$\$([^$]+)\$\$\s*<\/p>/g, (_, latex) => {
         let svg = MathJax.tex2svg(unescapeXML(latex), { display: true });
@@ -133,6 +148,7 @@ export async function getRawData(
       html,
       js,
       css,
+      nav,
       renderOnly: meta.renderOnly || false,
     };
   } catch {
@@ -216,6 +232,7 @@ export async function buildFile(file: string): Promise<void> {
     html: body,
     css,
     js,
+    nav,
     renderOnly,
   } = rawData;
 
@@ -234,12 +251,19 @@ export async function buildFile(file: string): Promise<void> {
     .map((asset) => `js("${asset}")`)
     .join(", ");
 
+  let navList = nav
+    .map(
+      ([title, url, icon]) =>
+        `nav("${escapeJS(title)}", "${escapeJS(url)}", "${escapeJS(icon)}")`
+    )
+    .join(", ");
+
   body = `<div class="markdown">${body}</div>`.replace(
     /^<div class="markdown">\s*#(\w+)#/,
     '<div class="markdown $1">'
   );
 
-  body = `<% ${cssList}; ${jsList}; title("${title}"); desc("${desc}") %>${body}`;
+  body = `<% ${cssList}; ${jsList}; ${navList}; title("${title}"); desc("${desc}") %>${body}`;
 
   let outPath = file.replace(".md", ".html");
   if (!existsSync(dirname(outPath)))
