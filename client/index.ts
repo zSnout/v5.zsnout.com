@@ -12,19 +12,19 @@ function setTheme(theme: StorageItems["options:theme"]) {
 
 $('[href="#theme-aqua"]')
   .attr("href", "")
-  .on("click", () => setTheme("aqua"));
+  .on("click", (e) => (e.preventDefault(), setTheme("aqua")));
 
 $('[href="#theme-light"]')
   .attr("href", "")
-  .on("click", () => setTheme("light"));
+  .on("click", (e) => (e.preventDefault(), setTheme("light")));
 
 $('[href="#theme-dark"]')
   .attr("href", "")
-  .on("click", () => setTheme("dark"));
+  .on("click", (e) => (e.preventDefault(), setTheme("dark")));
 
 $('[href="#theme-yellow-pink"]')
   .attr("href", "")
-  .on("click", () => setTheme("yellow-pink"));
+  .on("click", (e) => (e.preventDefault(), setTheme("yellow-pink")));
 
 let auth = getStorage("options:authToken");
 
@@ -55,10 +55,12 @@ $('[href="#clear-cache"')
   .attr("href", "")
   .on(
     "click",
-    async () =>
+    async (e) => (
+      e.preventDefault(),
       confirm(
         "Are you sure you want to clear the cache? This will remove offline capabilities of any pages you have visited. To re-enable offline mode, simply visit a page."
       ) && (await caches.keys()).map(caches.delete.bind(caches))
+    )
   );
 
 /** Adds the current icon size onto the `main` element. */
