@@ -29,10 +29,11 @@ if (auth)
         `Welcome to zSnout, @${result.data.username}!`
       );
 
+      $('[href="/account/login/"] strong').text("Log Out");
       $('[href="/account/login/"]')
-        .text("Log Out")
         .attr("href", "")
-        .on("click", () => {
+        .on("click", (event) => {
+          event.preventDefault();
           setStorage("options:authToken", undefined);
           location.reload();
         });
