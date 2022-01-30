@@ -1,6 +1,6 @@
 import fetch from "./assets/js/fetch.js";
 import $ from "./assets/js/jsx.js";
-import { getStorage, setStorage } from "./assets/js/util.js";
+import { getStorage, onStorageChange, setStorage } from "./assets/js/util.js";
 
 /**
  * Sets the theme of the page and calls `checkTheme`.
@@ -60,3 +60,28 @@ $('[href="#clear-cache"')
         "Are you sure you want to clear the cache? This will remove offline capabilities of any pages you have visited. To re-enable offline mode, simply visit a page."
       ) && (await caches.keys()).map(caches.delete.bind(caches))
   );
+
+/** Adds the current icon size onto the `main` element. */
+function onResize(status = getStorage("options:iconSize")) {
+  $.main
+    .removeClass("icon-small", "icon-medium", "icon-large")
+    .addClass(`icon-${status || "large"}`);
+}
+
+$("#icon-resize").on("click", () => {
+  let status = getStorage("options:iconSize");
+  if (status == "large" || !status) status = "medium";
+  else if (status == "medium") status = "small";
+  else status = "large";
+
+  setStorage("options:iconSize", status);
+});
+
+onStorageChange("options:iconSize", onResize);
+onResize();
+
+declare global {
+  interface StorageItems {
+    "options:iconSize"?: "small" | "medium" | "large";
+  }
+}

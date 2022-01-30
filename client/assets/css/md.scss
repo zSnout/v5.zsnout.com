@@ -204,6 +204,18 @@
       grid-gap: $margin;
       grid-template-columns: repeat(auto-fill, minmax(min(10em, 100%), 1fr));
 
+      .icon-medium & {
+        grid-template-columns: repeat(auto-fill, minmax(min(9em, 100%), 1fr));
+      }
+
+      .icon-small & {
+        grid-template-columns: repeat(auto-fill, minmax(min(8em, 100%), 1fr));
+
+        em {
+          display: none;
+        }
+      }
+
       --btn-bg: #808080;
       --btn-focus: white;
 
@@ -243,6 +255,20 @@
         font-style: normal;
         justify-content: center;
         align-items: center;
+
+        &:last-of-type:not(:first-of-type) {
+          display: none;
+        }
+
+        .icon-medium & {
+          &:first-of-type {
+            display: none;
+          }
+
+          &:last-of-type {
+            display: inline-flex;
+          }
+        }
       }
 
       strong {
