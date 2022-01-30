@@ -75,7 +75,6 @@ $("#icon-recolor").on("click", () => {
     })
     .map(({ el, trope }) => (trope ? el.addClass(trope) : el));
 
-  console.log(spans);
   editor.empty();
   editor.append(...spans.map((e) => [e, " "]).flat());
 });
