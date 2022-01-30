@@ -244,7 +244,9 @@
       strong {
         background: $element;
         padding: 0.125em 0.25em;
+        box-shadow: $seperator 0 0 0.25em 0.125em;
         border-radius: 0.25em;
+        margin: 0.5em;
       }
     }
 
