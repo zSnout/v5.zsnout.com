@@ -1,0 +1,9 @@
+<%
+  title("Mandelbrot Set"), css("/assets/css/canvasfs.css"), js("./index.js");
+  nav("Increase Iteration Count", "@focus", "focus"), nav("Decrease Iteration Count", "@blur", "blur");
+  nav("Change Iterated Equation", "@itereq", "pin"), nav("Change Color System", "@coloreq", "palette");
+  nav("Change Color System", "@recolor", "palette"), fullscreen();
+  nav("Zoom In", "@zoomin", "zoomin"), nav("Zoom Out", "@zoomout", "zoomout");
+%>
+
+<canvas id="canvas" width="2720" height="2720"></canvas>
