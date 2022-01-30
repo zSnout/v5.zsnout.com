@@ -43,7 +43,12 @@ export function toReversePolish(equation: string): (string | number)[] {
 
       tokens.push(match[0]);
       equation = equation.slice(match[0].length);
-    } else if (equation[0] == "z" || equation[0] == "c" || equation[0] == "i") {
+    } else if (
+      equation[0] == "z" ||
+      equation[0] == "c" ||
+      equation[0] == "i" ||
+      equation[0] == "e"
+    ) {
       if (wasLastTokenAValue) tokens.push("**");
       wasLastTokenAValue = true;
 
@@ -70,6 +75,7 @@ export function toReversePolish(equation: string): (string | number)[] {
       token == "z" ||
       token == "c" ||
       token == "i" ||
+      token == "e" ||
       token == "pi"
     ) {
       outputQueue.push(token);
@@ -116,4 +122,62 @@ export function toReversePolish(equation: string): (string | number)[] {
   }
 
   return outputQueue;
+}
+
+/**
+ * Converts RPN code to GLSL.
+ * @param rpn The RPN of the equation to write.
+ * @returns A GLSL expression equivalent to the RPN code.
+ */
+export function rpnToGLSL(rpn: (string | number)[]) {
+  try {
+    let stack: string[] = [];
+
+    for (let token of rpn) {
+      if (typeof token == "number") {
+        stack.push(`vec2(${token}, 0)`);
+      } else if (
+        token == "z" ||
+        token == "c" ||
+        token == "i" ||
+        token == "e" ||
+        token == "pi"
+      ) {
+        stack.push(token);
+      } else if (token == "+" || token == "-") {
+        let t1 = stack.pop();
+        let t2 = stack.pop();
+        stack.push(`${t2} ${token} ${t1}`);
+      } else if (
+        token == "*" ||
+        token == "**" ||
+        token == "/" ||
+        token == "^" ||
+        token == "min" ||
+        token == "max"
+      ) {
+        if (token == "/") token = "div";
+        else if (token == "^") token = "pow";
+        else if (token == "*" || token == "**") token = "mult";
+
+        let t1 = stack.pop();
+        let t2 = stack.pop();
+        stack.push(`${token}(${t2}, ${t1})`);
+      } else if (
+        token == "sin" ||
+        token == "cos" ||
+        token == "tan" ||
+        token == "exp" ||
+        token == "log" ||
+        token == "abs"
+      ) {
+        stack.push(`${token}(${stack.pop()})`);
+      }
+    }
+
+    if (stack.length != 1) return "z";
+    else return stack[0];
+  } catch {
+    return "z";
+  }
 }
