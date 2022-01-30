@@ -102,8 +102,8 @@ let offlineResp = `<!DOCTYPE html>
     <script nonce="%nonce%">
       document.getElementById("reload").onclick = () => location.reload();
 
-      document.documentElement.classList = "theme-" + localStorage.theme;
-      window.onstorage = () => document.documentElement.classList = "theme-" + localStorage.theme;
+      document.documentElement.classList = "theme-" + localStorage["options:theme"];
+      window.onstorage = () => document.documentElement.classList = "theme-" + localStorage["options:theme"];
     </script>
   </body>
 </html>`;
