@@ -61,8 +61,6 @@ export function toReversePolish(equation: string): (string | number)[] {
   let token;
 
   while ((token = tokens.shift())) {
-    console.log(outputQueue, operatorStack, token);
-
     if (typeof token == "number" || token.match(/^(pi|pz|ppz|sz|e|i|c|z)$/)) {
       outputQueue.push(token);
     } else if (token == ")") {
