@@ -1,8 +1,10 @@
 import $, { jsx } from "../assets/js/jsx.js";
 
-type TropeNames = keyof typeof Tropes;
-
+/** The main editor. */
 let editor = $("#editor");
+
+/** The possible names for Torah tropes. */
+type TropeNames = keyof typeof Tropes;
 
 /** A list of Torah tropes. */
 let Tropes = {
@@ -77,8 +79,6 @@ $("#icon-recolor").on("click", () => {
   editor.empty();
   editor.append(...spans.map((e) => [e, " "]).flat());
 });
-
-export {};
 
 $.main.on("click", ({ target }) => {
   if (target == $.main[0]) editor.focus();
