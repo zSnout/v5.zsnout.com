@@ -35,25 +35,18 @@ export function toReversePolish(equation: string): (string | number)[] {
 
       tokens.push(+match[0]);
       equation = equation.slice(match[0].length);
-    } else if (
-      (match = equation.match(/^(pi|sin|cos|tan|exp|log|abs|min|max)/))
-    ) {
+    } else if ((match = equation.match(/^(sin|cos|tan|exp|log|abs|min|max)/))) {
       if (wasLastTokenAValue) tokens.push("**");
-      wasLastTokenAValue = match[0] == "pi";
+      wasLastTokenAValue = false;
 
       tokens.push(match[0]);
       equation = equation.slice(match[0].length);
-    } else if (
-      equation[0] == "z" ||
-      equation[0] == "c" ||
-      equation[0] == "i" ||
-      equation[0] == "e"
-    ) {
+    } else if ((match = equation.match(/^(pi|pz|ppz|sz|e|i|c|z)/))) {
       if (wasLastTokenAValue) tokens.push("**");
       wasLastTokenAValue = true;
 
-      tokens.push(equation[0]);
-      equation = equation.slice(1);
+      tokens.push(match[0]);
+      equation = equation.slice(match[0].length);
     } else if ((match = equation.match(/^[-+*\/^()]/))) {
       if (wasLastTokenAValue && match[0] == "(") tokens.push("**");
       wasLastTokenAValue = false;
@@ -70,14 +63,7 @@ export function toReversePolish(equation: string): (string | number)[] {
   while ((token = tokens.shift())) {
     console.log(outputQueue, operatorStack, token);
 
-    if (
-      typeof token == "number" ||
-      token == "z" ||
-      token == "c" ||
-      token == "i" ||
-      token == "e" ||
-      token == "pi"
-    ) {
+    if (typeof token == "number" || token.match(/^(pi|pz|ppz|sz|e|i|c|z)$/)) {
       outputQueue.push(token);
     } else if (token == ")") {
       while (operatorStack.at(-1) != "(") {
@@ -136,13 +122,7 @@ export function rpnToGLSL(rpn: (string | number)[]) {
     for (let token of rpn) {
       if (typeof token == "number") {
         stack.push(`vec2(${token}, 0)`);
-      } else if (
-        token == "z" ||
-        token == "c" ||
-        token == "i" ||
-        token == "e" ||
-        token == "pi"
-      ) {
+      } else if (token.match(/^(pi|pz|ppz|sz|e|i|c|z)$/)) {
         stack.push(token);
       } else if (token == "+" || token == "-") {
         let t1 = stack.pop();
