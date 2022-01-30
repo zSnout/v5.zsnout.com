@@ -157,11 +157,12 @@ export function rpnToGLSL(rpn: (string | number)[]) {
         token == "max"
       ) {
         if (token == "/") token = "div";
-        else if (token == "^") token = "pow";
+        else if (token == "^") token = "power";
         else if (token == "*" || token == "**") token = "mult";
 
         let t1 = stack.pop();
         let t2 = stack.pop();
+
         stack.push(`${token}(${t2}, ${t1})`);
       } else if (
         token == "sin" ||
