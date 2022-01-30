@@ -20,7 +20,7 @@ zSnout is collection of different projects created for fun by Zachary Sakowitz. 
 [![](/home/icons/gameoflife.png) _**Game of Life**_](/gameoflife/)
 [![](/home/icons/bookmarklet.png) _**Bookmarklet Creator**_](/bookmarklet/)
 [![](/home/icons/phone.png) _**zCall**_](/call/)
-[![](/home/icons/multdiv.png) _**Practice 2x2 to 12x12**_](/practice/multdiv/)<button id="clear-cache">![](/home/icons/restart.png) _**Restart zSnout**_</button>
+[![](/home/icons/multdiv.png) _**Practice 2x2 to 12x12**_](/practice/multdiv/)
 [![](/home/icons/squares.png) _**Practice 2² to 20²**_](/practice/squares/)
 [![](/home/icons/blind.png) _**Color Remover**_](/blind/live/)
 [![](/home/icons/storymatic.png) _**Storymatic**_](/storymatic/playground/)
@@ -39,54 +39,8 @@ zSnout is collection of different projects created for fun by Zachary Sakowitz. 
 [![](/home/icons/blobs.png) _**Blob Simulator**_](/blobs/)
 [![](/home/icons/code.png) _**zSnout on GitHub**_](https://github.com/zsnout/zsnout.com/)
 [![](/home/icons/youtube.png) _**zSnout on YouTube**_](https://youtube.com/channel/UCZ1po0sntEdbIsG8yLOqSAQ)
-
-<!-- #### General Pages -->
-<!-- \buttonlist -->
-<!-- [Sign Up](/account/create/) -->
-<!-- [Log In](/account/login/)<button id="clear-cache">Clear Cache</button> -->
-<!-- [Experimental](/home/beta/) -->
-<!-- [zSnout Blog](/blog/) -->
-<!-- [Math Articles](/math/) -->
-<!-- [zCall](/call/) -->
-<!-- [Notepad](/notepad/) -->
-<!-- [Identicon Generator](/icon/) -->
-<!-- [Storymatic Playground](/storymatic/playground/) -->
-<!-- [Storymatic To JavaScript](/storymatic/smtojs/) -->
-<!-- [Bookmarklet Creator](/bookmarklet/) -->
-<!-- [English Is Weird...](/englishisweird/) -->
-<!-- [Trope Highlighter](/tropes/) -->
-<!-- [Practice 2×2 to 144÷12](/practice/multdiv/) -->
-<!-- [Practice 2² to 20²](/practice/squares/) -->
-<!-- [Overcolorifier](/overcolor/live/) -->
-<!-- [Overcolorifier 2](/overcolor/webgl/) -->
-<!-- [Color Remover](/blind/live/) -->
-
-<!-- #### Fractals and Diagrams -->
-<!-- \buttonlist -->
-<!-- [All Fractals](/home/fractal/) -->
-<!-- [Conway's Game of Life](/gameoflife/) -->
-<!-- [The Effects of Noise](/noise/) -->
-<!-- [Reversed Noise](/reversenoise/) -->
-<!-- [Fake Gradient](/gradient/) -->
-<!-- [Fake Gradient 2](/gradient2/) -->
-
-<!-- #### Games -->
-<!-- \buttonlist -->
-<!-- [Chess, Variants, and AIs](/home/chess/) -->
-<!-- [Bingo Board](/bingo/) -->
-<!-- [TicTacToe Generator](/tictactoe/generator/) -->
-
-#### Website Themes
-
-\buttonlist
-<button id="theme-aqua">Use Aqua Theme</button>
-<button id="theme-light">Use Light Theme</button>
-<button id="theme-dark">Use Dark Theme</button>
-<button id="theme-yellow-pink">Use Yellow/Pink Theme</button>
-
-<!-- #### External Resources -->
-<!-- \buttonlist -->
-<!-- [All Website Code](https://github.com/zsnout/zsnout.com) -->
-<!-- [zSnout on GitHub](https://github.com/zsnout) -->
-<!-- [Contributors to zSnout](https://github.com/zSnout/zsnout.com/graphs/contributors) -->
-<!-- [YouTube Channel](https://youtube.com/channel/UCZ1po0sntEdbIsG8yLOqSAQ) -->
+[![](/home/icons/white.svg) _**Use Light Theme**_](#theme-light)
+[![](/home/icons/black.svg) _**Use Dark Theme**_](#theme-dark)
+[![](/home/icons/aqua.svg) _**Use Aqua Theme**_](#theme-aqua)
+[![](/home/icons/yellow-pink.svg) _**Use Yellow/Pink Theme**_](#theme-yellow-pink)
+[![](/home/icons/restart.png) _**Clear Cache**_](#clear-cache)
