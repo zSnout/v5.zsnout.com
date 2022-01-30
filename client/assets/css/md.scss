@@ -182,6 +182,10 @@
   }
 
   p {
+    &.bottom_margin {
+      margin-bottom: 1.25em;
+    }
+
     &.buttonlist {
       display: grid;
       grid-gap: $margin;
