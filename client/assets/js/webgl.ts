@@ -319,7 +319,8 @@ export async function createFractal(
     let old = iterEQ;
     iterEQ =
       prompt(
-        "Enter an equation to iterate. You may use z, c, pz, ppz, and sz."
+        "Enter an equation to iterate. You may use z, c, pz, ppz, and sz.",
+        iterEQ
       ) || iterEQ;
     if (iterEQ == old) return;
 
@@ -331,7 +332,8 @@ export async function createFractal(
     let old = colorEQ;
     colorEQ =
       prompt(
-        "Enter an equation to use for sz. You may use z, c, pz, ppz, and sz."
+        "Enter an equation to use for sz. You may use z, c, pz, ppz, and sz.",
+        colorEQ
       ) || colorEQ;
     if (colorEQ == old) return;
 
