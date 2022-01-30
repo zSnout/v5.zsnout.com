@@ -68,7 +68,7 @@ $("#icon-recolor").on("click", () => {
     }))
     .map(({ el, trope }, index, array) => {
       if (trope == "Munach" && array[index + 1].trope)
-        return { el, trope: `Munach${array[index + 1].trope}` as TropeNames };
+        return { el, trope: `Munach${array[index + 1].trope}` };
       else return { el, trope };
     })
     .map(({ el, trope }) => (trope ? el.addClass(trope) : el));
