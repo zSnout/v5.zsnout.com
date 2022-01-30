@@ -33,3 +33,7 @@ $("#form").on("submit", async (event) => {
     location.href = "/";
   }
 });
+
+$("#sign-up").on("click", () => {
+  location.href = "/account/create/";
+});
