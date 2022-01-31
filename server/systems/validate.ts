@@ -21,7 +21,9 @@ export type Schema =
   | { [x: string]: Schema };
 
 /** Converts a schema to a TypeScript type. */
-export type SchemaToType<T> = T extends keyof SchemaMap
+export type SchemaToType<T> = Schema extends T
+  ? any
+  : T extends keyof SchemaMap
   ? SchemaMap[T]
   : T extends ["tuple", ...(infer U & Schema[])]
   ? { [K in keyof U]: SchemaToType<U[K]> }
