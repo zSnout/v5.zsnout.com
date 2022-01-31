@@ -17,7 +17,7 @@ server.capture(
       let formats = info.formats;
 
       details.thumbnails.sort((a, b) => b.height - a.height);
-      let { url: tnURL } = details.thumbnails.filter((e) => e.height <= 256)[0];
+      let { url: tnURL } = details.thumbnails[0];
       let thumbnail = await (await fetch)(tnURL).then((r) => r.arrayBuffer());
       let thumbnailData = Buffer.from(thumbnail).toString("base64");
 
