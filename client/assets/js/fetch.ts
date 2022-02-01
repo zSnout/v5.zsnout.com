@@ -67,6 +67,15 @@ export default async function fetch<T extends Schema | undefined>(
       respBody = null;
     }
 
+    if (typeof respBody == "object" && respBody !== null) {
+      if ((respBody as any)?.error) {
+        return {
+          ok: false,
+          error: String((respBody as any)?.message || (respBody as any)?.error),
+        };
+      }
+    }
+
     // throws after getting body so that we can use fastify's json message if possible
     if (!response.ok)
       throw new Error(`${(respBody as any).message ?? respBody}`); // prettier-ignore
