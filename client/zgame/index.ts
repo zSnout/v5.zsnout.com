@@ -9,6 +9,7 @@ import { generateBoard } from "./gen.js";
 let game = $("#game");
 let canvas = game[0] as HTMLCanvasElement;
 let wallColor = getTheme(ThemeColor.Element);
+let focusColor = getTheme(ThemeColor.FocusedElement);
 let backgroundColor = getTheme(ThemeColor.Background).split(", ").at(-1)!;
 let ctx = canvas.getContext("2d")!;
 let tileSize = 32;
@@ -22,6 +23,7 @@ type TileDrawHandler = (x: number, y: number) => void;
 export const enum Tile {
   Air,
   Wall,
+  Exit,
   Final,
   // The `Final` tile is never meant to be drawn; it is used to allow tile loops in the editor.
 }
@@ -30,6 +32,7 @@ export const enum Tile {
 export const Tiles: { readonly [K in Tile]?: TileDrawHandler } = {
   [Tile.Air]: (x, y) => rect(x, y, tileSize, tileSize, backgroundColor),
   [Tile.Wall]: (x, y) => rect(x, y, tileSize, tileSize, wallColor),
+  [Tile.Exit]: (x, y) => rect(x, y, tileSize, tileSize, focusColor),
 };
 
 /**

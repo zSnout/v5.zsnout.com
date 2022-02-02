@@ -11,6 +11,9 @@ function createBase(width: number, height: number) {
     .map((row) => ((row[0] = Tile.Wall), row))
     .map((row) => ((row[width - 1] = Tile.Wall), row));
 
+  base[height - 2][width - 1] = Tile.Exit;
+  base[height - 3][width - 1] = Tile.Exit;
+
   return base;
 }
 
