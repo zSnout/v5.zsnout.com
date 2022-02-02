@@ -1,5 +1,11 @@
 import { Tile } from ".";
 
+/**
+ * Creates a very basic map of tiles.
+ * @param width The width of the map.
+ * @param height The height of the map.
+ * @returns A 2D array of tiles.
+ */
 function createBase(width: number, height: number) {
   let base: Tile[][] = Array(height)
     .fill(!!0)
@@ -17,6 +23,10 @@ function createBase(width: number, height: number) {
   return base;
 }
 
+/**
+ * Creates a tile map using advanced generation techniques.
+ * @returns A 2D array of tiles.
+ */
 export function generateBoard(): Tile[][] {
   let base = createBase(96, 64);
 
