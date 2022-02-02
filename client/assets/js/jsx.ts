@@ -511,6 +511,22 @@ export class zQuery extends Array<HTMLElement> {
   click(): this {
     return this.each((el) => el.click());
   }
+
+  /**
+   * Gets the width of an element.
+   * @returns The scroll width of the first element in this zQuery.
+   */
+  width(): number {
+    return this[0]?.scrollWidth;
+  }
+
+  /**
+   * Gets the height of an element.
+   * @returns The scroll height of the first element in this zQuery.
+   */
+  height(): number {
+    return this[0]?.scrollHeight;
+  }
 }
 
 /**
