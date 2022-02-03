@@ -15,14 +15,18 @@ js: ../index.js
 [Newton's Fractal (2)](/newton2/)
 [Newtonbrot](/newtonbrot/)
 
-#### Instant Render (Experimental)
+#### Instant Render ()
 
 \buttonlist
 [Mandelbrot Set](/mandelbrot/webgl/)
 [Dark Mandelbrot](/mandelbrot/webgl2/)
+[Darkbrot 2](/mandelbrot/webgl3/)
 [Burning Ship](/burningship/webgl/)
 [Feather Fractal](/feather/webgl/)
 [Custom Fractal](/myfractal/)
+
+#### Newton's Variants
+
 [Newton's Fractal](/newton/webgl/)
 [Newton's Fractal (2)](/newton2/webgl/)
 [Newtonbrot](/newtonbrot/webgl/)
