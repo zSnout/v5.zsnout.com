@@ -22,6 +22,7 @@ js: ../index.js
 [Illegal Chess vs AI](/chess/illegal/)
 [AI vs AI](/chess/engine/)
 [Random AI vs Random AI](/chess/random/)
+[Capture AI vs Capture AI](/chess/cptvscpt/)
 [Instant Random Game](/chess/random/?instant)
 
 #### Custom Positions
