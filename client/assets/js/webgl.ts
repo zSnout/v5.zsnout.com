@@ -63,6 +63,7 @@ export interface OptionList {
   yStart?: number;
   yEnd?: number;
   colorMode?: number;
+  decimalVal?: number;
   maxIterations?: number;
   iterEQ?: string;
   colorEQ?: string;
@@ -101,6 +102,7 @@ export async function createFractal(
   let yStart = json.yStart ?? options.yStart ?? -1;
   let yEnd = json.yEnd ?? options.yEnd ?? 1;
   let colorMode = json.colorMode ?? options.colorMode ?? 0;
+  let decimalVal = json.decimalVal ?? options.decimalVal ?? 1;
   let iterEQ = json.iterEQ ?? options.iterEQ ?? "z^2 + c";
   let colorEQ = json.colorEQ ?? options.colorEQ ?? "sz + z";
 
@@ -117,6 +119,7 @@ export async function createFractal(
   let offsetLoc = gl.getUniformLocation(program, "offset");
   let colorModeLoc = gl.getUniformLocation(program, "colorMode");
   let maxIterationsLoc = gl.getUniformLocation(program, "maxIterations");
+  let decimalValLoc = gl.getUniformLocation(program, "decimalVal");
 
   /**
    * Normalizes the coordinates of the grid by zooming out certain directions.
@@ -156,6 +159,7 @@ export async function createFractal(
 
     gl.viewport(0, 0, canvas.width, canvas.height);
     gl.uniform1i(maxIterationsLoc, Math.floor(maxIterations));
+    gl.uniform1f(decimalValLoc, decimalVal);
     gl.uniform1i(colorModeLoc, Math.floor(colorMode + 3) % 3);
     gl.uniform2fv(scaleLoc, [xScale, yScale]);
     gl.uniform2fv(offsetLoc, [xStart + xScale, yStart + yScale]);
@@ -200,12 +204,13 @@ export async function createFractal(
     lastHashChange = Date.now();
 
     let obj: OptionList = {
+      decimalVal,
+      maxIterations,
       xStart,
       xEnd,
       yStart,
       yEnd,
       colorMode,
-      maxIterations,
       iterEQ,
       colorEQ,
     };
@@ -311,6 +316,18 @@ export async function createFractal(
 
   $("#icon-recolor").on("click", () => {
     colorMode = Math.floor(colorMode + 1) % 3;
+    setPageHash();
+    updateGl();
+  });
+
+  $("#icon-decimal-up").on("click", () => {
+    decimalVal = (Math.round(decimalVal * 100) + 1) / 100;
+    setPageHash();
+    updateGl();
+  });
+
+  $("#icon-decimal-down").on("click", () => {
+    decimalVal = (Math.round(decimalVal * 100) - 1) / 100;
     setPageHash();
     updateGl();
   });
