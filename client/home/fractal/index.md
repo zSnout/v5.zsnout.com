@@ -21,6 +21,7 @@ js: ../index.js
 [Mandelbrot Set](/mandelbrot/webgl/)
 [Dark Mandelbrot](/mandelbrot/webgl2/)
 [Darkbrot 2](/mandelbrot/webgl3/)
+[Layers of Ice](/mandelbrot/webgl4/)
 [Burning Ship](/burningship/webgl/)
 [Feather Fractal](/feather/webgl/)
 [Custom Fractal](/myfractal/)
