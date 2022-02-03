@@ -13,6 +13,7 @@ js: ../index.js
 [Chess Online](/chess/online/)
 [Chess vs AI](/chess/vsai/)
 [Chess vs Random AI](/chess/vsrandom/)
+[Chess vs Capturing AI](/chess/vscapture/)
 [Analyse Games](/chess/analysis/)
 
 #### Variants
