@@ -29,6 +29,7 @@ js: ../index.js
 
 #### Newton's Variants
 
+\buttonlist
 [Newton's Fractal](/newton/webgl/)
 [Newton's Fractal (2)](/newton2/webgl/)
 [Newtonbrot](/newtonbrot/webgl/)
