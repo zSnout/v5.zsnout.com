@@ -4,6 +4,7 @@ precision highp float;
 in vec2 _pos;
 out vec4 color;
 uniform int maxIterations;
+uniform float decimalVal;
 
 // 0 - INT_NONE, EXT_TIME
 // 1 - INT_ORBIT, EXT_NONE
@@ -43,7 +44,7 @@ vec4 iterate(vec2 c) {
   for(int i = 0; i < maxIterations; i++) {
     ppz = pz;
     pz = z;
-    z = div(mult(mult(z, z), z) + vec2(1, 0), mult(c, mult(z, z)) + vec2(1, 0));
+    z = div(mult(mult(z, z), z) + vec2(decimalVal, 0), mult(c, mult(z, z)) + vec2(1, 0));
     iterations++;
     if(length(z) > 2.0)
       break;
