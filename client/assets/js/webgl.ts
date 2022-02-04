@@ -84,6 +84,7 @@ export async function createFractal(
   }: OptionList & {
     vertexShader: string;
     fragmentShader: string;
+    colorModeCount?: number;
     saveEQs?: boolean | "iter" | "color";
   }
 ) {
@@ -105,6 +106,7 @@ export async function createFractal(
   let decimalVal = json.decimalVal ?? options.decimalVal ?? 1;
   let iterEQ = json.iterEQ ?? options.iterEQ ?? "z^2 + c";
   let colorEQ = json.colorEQ ?? options.colorEQ ?? "sz + z";
+  let colorModeCount = options.colorModeCount ?? 3;
 
   let vertShaderSrc = await fetch(vertexShader).then((e) => e.text());
   let fragShaderSrc = await fetch(fragmentShader)
@@ -160,7 +162,10 @@ export async function createFractal(
     gl.viewport(0, 0, canvas.width, canvas.height);
     gl.uniform1i(maxIterationsLoc, Math.floor(maxIterations));
     gl.uniform1f(decimalValLoc, decimalVal);
-    gl.uniform1i(colorModeLoc, Math.floor(colorMode + 3) % 3);
+    gl.uniform1i(
+      colorModeLoc,
+      Math.floor(colorMode + colorModeCount) % colorModeCount
+    );
     gl.uniform2fv(scaleLoc, [xScale, yScale]);
     gl.uniform2fv(offsetLoc, [xStart + xScale, yStart + yScale]);
     gl.drawArrays(gl.TRIANGLES, 0, 6);
@@ -318,7 +323,7 @@ export async function createFractal(
   });
 
   $("#icon-recolor").on("click", () => {
-    colorMode = Math.floor(colorMode + 1) % 3;
+    colorMode = Math.floor(colorMode + 1) % colorModeCount;
     setPageHash();
     updateGl();
   });
