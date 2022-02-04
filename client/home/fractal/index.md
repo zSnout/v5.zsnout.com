@@ -16,6 +16,8 @@ js: ../index.js
 
 #### Instant Render
 
+Instant render fractals may not work on mobile. Try it out on desktop.
+
 \buttonlist
 [Mandelbrot Set](/mandelbrot/webgl/)
 [Custom Fractal](/mandelbrot/custom/)
@@ -26,7 +28,7 @@ js: ../index.js
 [Layers of Ice](/mandelbrot/webgl4/)
 [Infinite Puddles](/mandelbrot/webgl5/)
 
-#### Newton's Variants
+#### Newton's Variants (Insta-render)
 
 \buttonlist
 [Newton's Fractal](/newton/webgl/)
