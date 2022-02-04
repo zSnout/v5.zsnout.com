@@ -76,9 +76,9 @@ vec4 iterate(vec2 c) {
     sz.y += dot(z - pz, z - pz);
     sz.z += dot(z - ppz, z - ppz);
 
-    if(colorMode == 2) {
+    if(colorMode == 2 || colorMode == 4) {
       sz -= sign(vec3(float(z), float(pz), float(ppz)));
-    } else if(colorMode == 3) {
+    } else if(colorMode == 3 || colorMode == 5) {
       sz += sign(vec3(float(z), float(pz), float(ppz)));
     }
   }
@@ -98,6 +98,8 @@ void main() {
     color = vec4(palette(frac), 1);
   } else if(colorMode == 0) {
     color = vec4(0, 0, 0, 1);
+  } else if(colorMode == 4 || colorMode == 5) {
+    color = vec4(palette(atan(sz.x, sz.y) / 3.14159265359), 1);
   } else {
     sz = abs(sz) / float(iterations);
     vec3 n1 = sin(abs(sz * 5.0)) * 0.45 + 0.5;
