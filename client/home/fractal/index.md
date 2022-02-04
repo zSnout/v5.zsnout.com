@@ -19,8 +19,8 @@ js: ../index.js
 \buttonlist
 [Mandelbrot Set](/mandelbrot/webgl/)
 [Custom Fractal](/mandelbrot/custom/)
-[Dark Mandelbrot](/mandelbrot/webgl2/)
-[Darkbrot 2](/mandelbrot/webgl3/)
+[Dark Mandelbrot](/mandelbrot/custom/#{"colorMode":2})
+[Inverse Darkbrot](/mandelbrot/custom/#{"colorMode":3})
 [Burning Ship](/burningship/webgl/)
 [Feather Fractal](/feather/webgl/)
 [Layers of Ice](/mandelbrot/webgl4/)
