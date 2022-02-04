@@ -84,7 +84,7 @@ export async function createFractal(
   }: OptionList & {
     vertexShader: string;
     fragmentShader: string;
-    saveEQs?: boolean;
+    saveEQs?: boolean | "iter" | "color";
   }
 ) {
   let json: OptionList = {};
@@ -211,9 +211,12 @@ export async function createFractal(
       yStart,
       yEnd,
       colorMode,
-      iterEQ,
-      colorEQ,
     };
+
+    if (options.saveEQs === true || options.saveEQs === "iter")
+      obj.iterEQ = iterEQ;
+    if (options.saveEQs === true || options.saveEQs === "color")
+      obj.colorEQ = colorEQ;
 
     setLocationHash(JSON.stringify(obj));
   }
