@@ -23,3 +23,4 @@ nav: [Shrink Icons, "@resize", expand]
 [![](./bubble.png)](</mandelbrot/custom/#%7B"maxIterations":150,"xStart":-14.792970083759334,"xEnd":-10.344190671928361,"yStart":-5.522561512085471,"yEnd":-9.971340923913822,"colorMode":2,"iterEQ":"(z%5E10+1)/(cz%5E2+1)"%7D>)
 [![](./trans.png)](/mandelbrot/custom/#%7B"maxIterations":150,"xStart":-0.8186694434587745,"xEnd":-0.8110482630267526,"yStart":-0.26452829068281214,"yEnd":-0.272149471114829,"colorMode":2,"iterEQ":"z%5E2%20-%20z%20+%20c%5E6"%7D)
 [![](./islands.png)](/mandelbrot/custom/#%7B"maxIterations":100,"xStart":-0.37914098719494593,"xEnd":-0.3770389398575108,"yStart":-0.8744928611204853,"yEnd":-0.8765949084579189,"colorMode":2,"iterEQ":"z%5E10+c-z"%7D)
+[![](./halloween.png)](/mandelbrot/custom/#%7B"maxIterations":150,"xStart":-0.08261051477385041,"xEnd":-0.06394631295549937,"yStart":-0.36194185148150154,"yEnd":-0.3806060532998526,"colorMode":3,"iterEQ":"z%5E4-z%5E4-z%5E6-c+z-c%5E6"%7D)
