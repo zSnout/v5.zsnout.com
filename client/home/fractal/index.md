@@ -10,7 +10,6 @@ js: ../index.js
 [Mandelbrot Set](/mandelbrot/)
 [Burning Ship](/burningship/)
 [Feather Fractal](/feather/)
-[Custom Fractal](/fractal/)
 [Newton's Fractal](/newton/)
 [Newton's Fractal (2)](/newton2/)
 [Newtonbrot](/newtonbrot/)
@@ -19,13 +18,13 @@ js: ../index.js
 
 \buttonlist
 [Mandelbrot Set](/mandelbrot/webgl/)
+[Custom Fractal](/mandelbrot/custom/)
 [Dark Mandelbrot](/mandelbrot/webgl2/)
 [Darkbrot 2](/mandelbrot/webgl3/)
 [Burning Ship](/burningship/webgl/)
 [Feather Fractal](/feather/webgl/)
 [Layers of Ice](/mandelbrot/webgl4/)
 [Infinite Puddles](/mandelbrot/webgl5/)
-[Custom Fractal](/myfractal/)
 
 #### Newton's Variants
 
