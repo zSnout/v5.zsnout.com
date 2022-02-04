@@ -26,8 +26,6 @@ Instant render fractals may not work on mobile. Try it out on desktop.
 [Inverse Darkbrot](/mandelbrot/custom/#{"colorMode":3})
 [Burning Ship](/burningship/webgl/)
 [Feather Fractal](/feather/webgl/)
-[Layers of Ice](/mandelbrot/webgl4/)
-[Infinite Puddles](/mandelbrot/webgl5/)
 
 #### Newton's Variants (Insta-render)
 
