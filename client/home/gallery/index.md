@@ -27,3 +27,4 @@ nav: [Shrink Icons, "@resize", expand]
 [![](./flop.png)](/mandelbrot/custom/#%7B"maxIterations":20,"xStart":-0.04673784379993834,"xEnd":0.1782931601922989,"yStart":0.030416257347924733,"yEnd":-0.1946147466443126,"colorMode":2,"iterEQ":"1%20-%20c%5E5%20-%20z%5E5%20+%20z%5E10"%7D)
 [![](./idk2.png)](/mandelbrot/custom/#%7B"maxIterations":20,"xStart":0.15933089102051032,"xEnd":0.1818953510689109,"yStart":-1.0161970235474023,"yEnd":-1.0387614835958026,"colorMode":2,"iterEQ":"1%20-%20c%5E5%20-%20z%5E5%20+%20z%5E10"%7D)
 [![](./tabs.png)](/mandelbrot/custom/#%7B"maxIterations":20,"xStart":0.17090654216365306,"xEnd":0.1713564453357809,"yStart":-1.031276049319976,"yEnd":-1.0317259524921047,"colorMode":2,"iterEQ":"1%20-%20c%5E5%20-%20z%5E5%20+%20z%5E10"%7D)
+[![](./peapod.png)](/mandelbrot/custom/#%7B"maxIterations":150,"xStart":-0.1497837675236526,"xEnd":-0.14841801524668138,"yStart":-0.9502090853078653,"yEnd":-0.9515748375847903,"colorMode":5,"iterEQ":"z%5E2+1/c"%7D)
