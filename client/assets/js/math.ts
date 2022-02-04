@@ -120,7 +120,13 @@ export function rpnToGLSL(rpn: (string | number)[]) {
     for (let token of rpn) {
       if (typeof token == "number") {
         stack.push(`vec2(${token}, 0)`);
-      } else if (token.match(/^(pi|pz|ppz|sz|e|i|c|z)$/)) {
+      } else if (token == "i") {
+        stack.push("vec2(0, 1)");
+      } else if (token == "pi") {
+        stack.push("vec2(3.141592653589793, 0)");
+      } else if (token == "e") {
+        stack.push("vec2(2.718281828459045, 0)");
+      } else if (token.match(/^(pz|ppz|sz|c|z)$/)) {
         stack.push(token);
       } else if (token == "+" || token == "-") {
         let t1 = stack.pop();
