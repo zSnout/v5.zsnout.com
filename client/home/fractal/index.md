@@ -19,6 +19,7 @@ js: ../index.js
 Instant render fractals may not work on mobile. Try it out on desktop.
 
 \buttonlist
+[Fractal Gallery](/home/gallery/)
 [Mandelbrot Set](/mandelbrot/webgl/)
 [Custom Fractal](/mandelbrot/custom/)
 [Dark Mandelbrot](/mandelbrot/custom/#{"colorMode":2})
