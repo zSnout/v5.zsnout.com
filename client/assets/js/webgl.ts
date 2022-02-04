@@ -7,6 +7,7 @@ let eqMap: Record<string, string> = {
   "z^2+c": "Mandelbrot Set",
   "z^3+c": "Multibrot Set",
   "z^3-z^2-z-c": "Snowflake",
+  "(z^3+1)/(cz^2+1)": "Infinite Puddles",
 };
 
 /**
