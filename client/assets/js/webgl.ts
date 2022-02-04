@@ -2,6 +2,13 @@ import $ from "./jsx.js";
 import { rpnToGLSL, toReversePolish } from "./math.js";
 import { getLocationHash, setLocationHash } from "./util.js";
 
+/** A list of names for different equations. */
+let eqMap: Record<string, string> = {
+  "z^2+c": "Mandelbrot Set",
+  "z^3+c": "Multibrot Set",
+  "z^3-z^2-z-c": "Snowflake",
+};
+
 /**
  * Converts an equation to GLSL.
  * @param equation The equation to convert.
@@ -86,6 +93,7 @@ export async function createFractal(
     fragmentShader: string;
     colorModeCount?: number;
     saveEQs?: boolean | "iter" | "color";
+    showIterEQ?: boolean;
   }
 ) {
   let json: OptionList = {};
@@ -228,7 +236,14 @@ export async function createFractal(
 
   /** Sets the page title according to the settings.. */
   function setPageTitle() {
-    document.title = title;
+    let pageTitle = title.replaceAll("{EQ}", iterEQ);
+
+    if (options.showIterEQ) {
+      let eq = iterEQ.replace(/\s+/g, "");
+      if (eq in eqMap) pageTitle = eqMap[eq];
+    }
+
+    document.title = pageTitle;
   }
 
   setPageTitle();
