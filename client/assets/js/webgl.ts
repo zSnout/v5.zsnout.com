@@ -1,6 +1,6 @@
 import $ from "./jsx.js";
 import { rpnToGLSL, toReversePolish } from "./math.js";
-import { getLocationHash, setLocationHash, shuffle } from "./util.js";
+import { getLocationHash, randint, setLocationHash, shuffle } from "./util.js";
 
 /** A list of names for different equations. */
 let eqMap: Record<string, string> = {
@@ -374,6 +374,7 @@ export async function createFractal(
 
   $("#icon-randeq").on("click", () => {
     iterEQ = shuffle(Object.keys(eqMap).filter((e) => e != iterEQ))[0];
+    colorMode = randint(1, colorModeCount - 1);
 
     setPageHash();
     location.reload();
