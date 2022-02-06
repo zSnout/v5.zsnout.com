@@ -12,7 +12,7 @@ zSnout is collection of different projects created for fun by Zachary Sakowitz d
 
 \iconlist
 [![](/home/icons/signup.png) _**Manage Account**_](/account/login/)
-[![](/home/icons/store.png) _**Fractalicious<br>by zSnout**_ _**Fractalicious**_](https://store.zsnout.com/)
+[![](/home/icons/store.png) _**zSnout Store**_](https://store.zsnout.com/)
 [![](/home/icons/blog.png) _**Blog**_](/blog/)
 [![](/home/icons/math.png) _**Math Tricks**_](/math/)
 [![](/home/icons/mandelbrot.png) _**Fractals**_](/home/fractal/)
