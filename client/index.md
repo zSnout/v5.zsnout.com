@@ -8,7 +8,7 @@ nav: [Shrink Icons, "@resize", expand]
 <h1 id="welcome-to-zsnout">Welcome to zSnout!</h1>
 
 \bottom_margin
-zSnout is collection of different projects created for fun by Zachary Sakowitz during COVID-19. You can help us by [contributing code](https://github.com/zsnout/zsnout.com/) or by [buying a product](https://store.zsnout.com/).
+zSnout is collection of different projects created for fun by Zachary Sakowitz during COVID-19. You can help us by [contributing code](https://github.com/zsnout/zsnout.com/) or by [buying a shirt](https://store.zsnout.com/).
 
 \iconlist
 [![](/home/icons/signup.png) _**Manage Account**_](/account/login/)
