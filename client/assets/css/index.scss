@@ -1,272 +1,19 @@
 @use "../.." as *;
-@use "sass:math";
 
-:root,
+html,
 body {
+  background: var(--background-color);
   overscroll-behavior-y: none;
+  height: 100%;
 }
 
 body {
-  margin: 0;
-}
-
-.select {
-  user-select: text;
-}
-
-.noselect {
-  user-select: none;
-}
-
-#nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  padding: calc($margin-top - (0.5 * $margin)) calc($inset-right + 0.25em)
-    0.25em calc($inset-left + 0.25em);
-  height: calc($navbar-height + $margin);
-  z-index: 2;
-  display: flex;
-  overflow: visible;
-  max-width: min(
-    980px,
-    calc(100% - 2 * $outer-margin - $inset-left - $inset-right)
-  );
-  margin: 0 auto;
-  background: $element;
-  box-shadow: $seperator 0 0 0.375em 0.0625em;
-  border-bottom-left-radius: 0.5em;
-  border-bottom-right-radius: 0.5em;
-  user-select: none;
-
-  a {
-    cursor: pointer;
-    padding: 0.25em;
-    border-radius: 0.125em;
-
-    &:first-child {
-      border-bottom-left-radius: 0.25em;
-    }
-
-    &:last-child {
-      border-bottom-right-radius: 0.25em;
-    }
-
-    @include focus {
-      background: $focused;
-    }
-
-    svg {
-      width: $navbar-height;
-      height: $navbar-height;
-
-      use {
-        fill: $text-color;
-      }
-    }
-  }
-
-  name {
-    flex: 1;
-    text-align: center;
-    font-weight: bold;
-    margin: auto 0;
-    font-size: 0.75 * $navbar-height;
-  }
-}
-
-#outer {
-  font-family: sans-serif;
-  background: top center $background;
-  color: $text-color;
-  overflow: hidden;
-  z-index: 1;
-  padding: calc($margin-top + ($outer-margin + $navbar-height + $margin))
-    $margin-right $margin-bottom $margin-left;
-  overflow: auto visible;
-  background-attachment: fixed;
-
-  .nobg & {
-    background: none;
-  }
-
-  --outer-margin: #{6 * $margin};
-  @include small {
-    --outer-margin: #{2 * $margin};
-  }
-}
-
-#main {
-  width: 100%;
-  min-height: calc(
-    100vh - calc($margin-top + ($outer-margin + $navbar-height + $margin)) -
-      $margin-bottom
-  );
-  max-width: 980px;
-  margin: 0 auto;
   position: relative;
+  margin: 0;
 
-  input,
-  button {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-  }
-}
-
-#outer-footer {
-  display: block;
-  position: absolute;
-  left: 0;
-  right: 0;
-  padding: $outer-margin $margin-right $outer-margin $margin-left;
-  border-top: 0.0625em solid $seperator;
-  background: $element;
-  margin-top: $margin-bottom;
-
-  #footer {
-    width: min(100%, 980px);
-    margin: 0 auto;
-  }
-
-  div {
-    margin-bottom: $margin;
-    display: grid;
-    grid-gap: $margin;
-    grid-template-columns: repeat(auto-fill, minmax(min(15em, 100%), 1fr));
-
-    a,
-    button {
-      background: $focused;
-      border-radius: 0.25em;
-      color: $text-color;
-      text-decoration: none;
-      font-size: 1em;
-      border: 0;
-      line-height: 1.5;
-      position: relative;
-      padding: 0.25em 0.5em;
-      text-align: center;
-      cursor: pointer;
-
-      @include focus {
-        text-decoration: underline;
-      }
-    }
-  }
-
-  h1 {
-    padding: 0;
-    margin: $margin 0;
-    font-size: 1.5em;
-    color: $heading-color;
-  }
-
-  hr {
-    border: 0;
-    border-top: 0.125em solid $seperator;
-    margin: $margin 0;
-  }
-
-  #footer {
-    > :first-child {
-      margin-top: 0;
-    }
-
-    > :last-child {
-      margin-bottom: 0;
-    }
-  }
-}
-
-@mixin fullscreen {
-  #outer-footer {
-    margin-top: 0;
-  }
-
-  #outer {
-    padding: 0;
-    width: 100%;
-    height: 100vh;
-  }
-
-  #main {
-    max-width: initial;
-    height: 100%;
-  }
-
-  #nav {
-    opacity: 0.8;
-  }
-}
-
-@mixin embed {
-  #outer-footer,
-  #nav {
-    display: none;
-  }
-}
-
-.fullscreen,
-.embed {
-  @include fullscreen;
-}
-
-.embed {
-  @include embed;
-}
-
-@include print {
-  @include fullscreen;
-  @include embed;
-}
-
-.notification {
-  z-index: 3;
-  overflow: hidden;
-  width: 25em;
-  padding: $margin;
-  max-width: calc(100% - 4 * $margin);
-  border-radius: $margin;
-  position: fixed;
-  left: calc($inset-left + $margin);
-  bottom: calc($inset-bottom + $margin);
-  background: $element;
-  box-shadow: $seperator 0 0 0.375em 0.0625em;
-  transition: opacity 1s;
-  display: flex;
-  gap: $margin;
-
-  &.hide {
-    opacity: 0;
-    transition: opacity 1s;
-
-    @include animation {
-      opacity: 1;
-      transition: transform 1s;
-      transform: translateY(calc($margin-bottom + 4em + 2 * $margin));
-    }
-  }
-
-  span {
-    flex: 1;
-    margin: auto 0;
-  }
-
-  button {
-    background: transparent;
-    border: none;
-    color: $text-color;
-    font-size: inherit;
-    padding: 0.125em 0.25em;
-    border: 0.0625em solid $seperator;
-    border-radius: 0.25em;
-    cursor: pointer;
-
-    @include focus {
-      background: $focused;
-    }
+  --outer-margin: 3em;
+  @include small {
+    --outer-margin: 1em;
   }
 }
 
@@ -275,7 +22,51 @@ body {
   outline: none;
 }
 
-::selection {
-  background: $selection-bg;
-  color: $selection-color;
+nav {
+  background: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 3em;
+  border-right: 0.0625em solid $seperator;
+  z-index: 2;
+  align-items: center;
+  justify-content: center;
+
+  a {
+    width: 2em;
+    height: 2em;
+    padding: 0.5em;
+    cursor: pointer;
+    user-select: none;
+
+    @include focus {
+      background: $focused;
+    }
+  }
+
+  svg {
+    width: 2em;
+    height: 2em;
+    fill: $text-color;
+  }
 }
+
+main {
+  z-index: 1;
+  position: relative;
+  left: 3.0625em;
+  width: calc(100% - 3.0625em - max(2 * $outer-margin, calc(100% - 980px)));
+  padding: $outer-margin max($outer-margin, calc((100% - 980px) / 2));
+}
+
+// TODO: NAVBAR
+// TODO: MOBILE-FRIENDLY
+// TODO: FULLSCREEN MODE
+// TODO: EMBED MODE
+// TODO: PRINT MODE
+// TODO: NOTIFICATIONS
+// TODO: FIX EVERYTHING
