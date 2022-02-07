@@ -3,6 +3,7 @@
 html,
 body {
   background: var(--background-color);
+  font-family: $sans;
   overscroll-behavior-y: none;
   height: 100%;
 }
@@ -57,9 +58,11 @@ nav {
 
 main {
   z-index: 1;
+  display: flex;
   position: relative;
   left: 3.0625em;
   width: calc(100% - 3.0625em - max(2 * $outer-margin, calc(100% - 980px)));
+  min-height: calc(100% - 2 * $outer-margin);
   padding: $outer-margin max($outer-margin, calc((100% - 980px) / 2));
 }
 
