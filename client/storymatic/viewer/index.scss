@@ -10,10 +10,10 @@
 
 #field {
   background: $element;
-  padding: $margin;
+  padding: 0.5em;
   height: 1em;
 
-  width: calc(100% - (2 * $margin));
+  width: calc(100% - 1em);
   border-radius: 0.5em;
   color: $text-color;
 
@@ -28,11 +28,11 @@
 }
 
 #output {
-  padding: 0 $margin;
+  padding: 0 0.5em;
 
   p {
     margin: 0;
-    margin-bottom: $margin;
+    margin-bottom: 0.5em;
 
     &:last-child {
       border-bottom-left-radius: 0.5em;
@@ -46,7 +46,7 @@
 
     &.menu {
       display: flex;
-      gap: $margin;
+      gap: 0.5em;
       flex-flow: row wrap;
       align-items: center;
 

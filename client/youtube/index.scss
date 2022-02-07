@@ -1,7 +1,7 @@
 @use ".." as *;
 
 #form {
-  margin-bottom: $margin;
+  margin-bottom: 0.5em;
 }
 
 #field {
@@ -22,7 +22,7 @@
 
 #infodiv {
   display: none;
-  gap: $margin;
+  gap: 0.5em;
 
   .showinfo & {
     display: flex;
@@ -47,7 +47,7 @@
 }
 
 #help {
-  margin: $margin 0;
+  margin: 0.5em 0;
   width: initial;
 
   .showinfo & {
@@ -75,16 +75,16 @@
 }
 
 #formats {
-  margin-top: $margin;
+  margin-top: 0.5em;
   display: flex;
   flex-direction: column;
-  gap: $margin;
+  gap: 0.5em;
 
   p {
     margin: 0;
     display: flex;
     flex-wrap: wrap;
-    gap: $margin;
+    gap: 0.5em;
     align-items: center;
   }
 

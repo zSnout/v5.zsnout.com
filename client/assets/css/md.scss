@@ -78,7 +78,7 @@
 
   p {
     margin-top: 0;
-    margin-bottom: $margin;
+    margin-bottom: 0.5em;
   }
 
   ol,
@@ -154,7 +154,7 @@
     max-height: 20em;
     display: block;
     margin: 0;
-    margin-bottom: $margin;
+    margin-bottom: 0.5em;
     border: none;
     background: none;
   }
@@ -166,7 +166,7 @@
     min-width: 50%;
     max-width: 100%;
     margin: 0 auto;
-    margin-bottom: $margin;
+    margin-bottom: 0.5em;
     text-align: center;
 
     thead {
@@ -177,7 +177,7 @@
     td,
     th {
       border: 0.0625em solid $seperator;
-      padding: $margin;
+      padding: 0.5em;
     }
   }
 
@@ -188,7 +188,7 @@
 
     &.buttonlist {
       display: grid;
-      grid-gap: $margin;
+      grid-gap: 0.5em;
       grid-template-columns: repeat(auto-fill, minmax(min(15em, 100%), 1fr));
 
       a,
@@ -201,7 +201,7 @@
 
     &.iconlist {
       display: grid;
-      grid-gap: $margin;
+      grid-gap: 0.5em;
       grid-template-columns: repeat(auto-fill, minmax(min(10em, 100%), 1fr));
 
       .icon-medium & {
@@ -283,7 +283,7 @@
     &.gallery,
     &.codegallery {
       display: grid;
-      grid-gap: $margin;
+      grid-gap: 0.5em;
       grid-template-columns: repeat(auto-fill, minmax(min(20em, 100%), 1fr));
 
       img {
@@ -330,7 +330,7 @@
     display: block;
 
     @include small {
-      height: calc(100% - (4 * $margin));
+      height: calc(100% - 2em);
     }
 
     > :first-child {
@@ -382,7 +382,7 @@
       p {
         overflow: hidden;
         display: flex;
-        gap: $margin;
+        gap: 0.5em;
         flex-wrap: wrap;
 
         &:first-child {
@@ -396,7 +396,7 @@
 
         a {
           border-radius: 0.5em;
-          padding: 0.5 * $margin $margin;
+          padding: 0.5 * 0.5em 0.5em;
           flex: 1;
           text-align: center;
           display: flex;
@@ -408,7 +408,7 @@
         }
 
         > em {
-          padding: 0.5 * $margin 0;
+          padding: 0.5 * 0.5em 0;
           font-style: normal;
           flex: 3;
         }

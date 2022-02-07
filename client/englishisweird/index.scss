@@ -3,7 +3,7 @@
 main {
   .intro p {
     margin: 0;
-    margin-bottom: $margin;
+    margin-bottom: 0.5em;
   }
 
   hr {
@@ -19,11 +19,11 @@ main {
   p:not(.intro p) {
     font-size: 1.5em;
     display: flex;
-    gap: $margin;
+    gap: 0.5em;
     flex-wrap: wrap;
-    margin: $margin 0;
+    margin: 0.5em 0;
     border-bottom: 0.0625em solid $seperator;
-    padding-bottom: $margin;
+    padding-bottom: 0.5em;
 
     &:last-child {
       border-bottom: 0;

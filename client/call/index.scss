@@ -17,7 +17,7 @@ main {
 
 #videos {
   display: none;
-  gap: $margin;
+  gap: 0.5em;
   grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
   width: 100%;
 
@@ -79,7 +79,7 @@ video {
 .video-2 {
   video:first-child {
     position: absolute;
-    top: calc($margin-top + ($navbar-height + $margin + $outer-margin));
+    top: calc($margin-top + ($navbar-height + 0.5em + $outer-margin));
     right: calc($outer-margin + $inset-right);
     max-width: max(15%, 100px);
     max-height: max(15%, 100px);

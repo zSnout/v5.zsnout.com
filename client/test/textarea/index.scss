@@ -3,16 +3,16 @@
 #main {
   display: flex;
   flex-direction: column;
-  gap: $margin;
+  gap: 0.5em;
 }
 
 textarea {
   display: block;
-  padding: $margin;
+  padding: 0.5em;
   border: 0.0625em solid $seperator;
   background: $element;
   resize: none;
-  border-radius: $margin;
+  border-radius: 0.5em;
   color: $text-color;
   font-family: $sans;
   font-size: inherit;
