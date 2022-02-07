@@ -17,20 +17,11 @@
         </svg>
       </a>
 
-      <name><%= title %></name>
-
       <%- indent(buttons.join("\n"), 6) %>
     </nav>
 
     <main id="main">
       <%- indent(body, 6).trim() %>
     </main>
-
-    <outer id="outer-footer">
-      <footer id="footer">
-        <h1>Recently Visited</h1>
-        <div id="last-visited"></div>
-      </footer>
-    </outer>
   </body>
 </html>
