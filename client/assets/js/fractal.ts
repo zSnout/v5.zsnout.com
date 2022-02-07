@@ -248,8 +248,11 @@ export default function createFractal<Equation>(
   });
 
   function onResize() {
-    canvas.width = 2 * window.innerWidth;
-    canvas.height = 2 * window.innerHeight;
+    canvas.style.display = "none";
+    canvas.width = 2 * $.main.width();
+    canvas.height = 2 * $.main.height();
+    canvas.style.display = "block";
+
     redrawFractal();
   }
 
