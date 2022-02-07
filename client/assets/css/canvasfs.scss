@@ -1,11 +1,6 @@
 @use "../.." as *;
 
-#main {
-  display: flex;
-}
-
 #canvas {
   background: $element;
   width: 100%;
-  height: 100%;
 }

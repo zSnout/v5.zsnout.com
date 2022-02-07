@@ -83,6 +83,14 @@ main {
   padding: $outer-margin max($outer-margin, calc((100% - 980px) / 2));
 }
 
+.fullscreen {
+  main {
+    width: calc(100% - 3.0625em);
+    min-height: 100%;
+    padding: 0;
+  }
+}
+
 // TODO: NAVBAR
 // TODO: MOBILE-FRIENDLY
 // TODO: FULLSCREEN MODE
