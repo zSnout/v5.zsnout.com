@@ -4,6 +4,7 @@ html,
 body {
   background: var(--background-color);
   font-family: $sans;
+  color: $text-color;
   overscroll-behavior-y: none;
   height: 100%;
 }
@@ -12,7 +13,19 @@ body {
   position: relative;
   margin: 0;
 
+  --navbar-size: 3em;
+  --navbar-icon: 2em;
+  @media (max-height: 400px) {
+    .large-sidebar & {
+      --navbar-size: 3em;
+      --navbar-icon: 1.5em;
+    }
+  }
+
   --outer-margin: 3em;
+  @include medium {
+    --outer-margin: 2em;
+  }
   @include small {
     --outer-margin: 1em;
   }
@@ -31,16 +44,17 @@ nav {
   top: 0;
   left: 0;
   bottom: 0;
-  width: 3em;
+  width: var(--navbar-size);
   border-right: 0.0625em solid $seperator;
   z-index: 2;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 
   a {
-    width: 2em;
-    height: 2em;
-    padding: 0.5em;
+    width: var(--navbar-icon);
+    height: var(--navbar-icon);
+    padding: 0.5em calc((var(--navbar-size) - var(--navbar-icon)) / 2);
     cursor: pointer;
     user-select: none;
 
@@ -50,8 +64,8 @@ nav {
   }
 
   svg {
-    width: 2em;
-    height: 2em;
+    width: var(--navbar-icon);
+    height: var(--navbar-icon);
     fill: $text-color;
   }
 }
@@ -61,7 +75,10 @@ main {
   display: flex;
   position: relative;
   left: 3.0625em;
-  width: calc(100% - 3.0625em - max(2 * $outer-margin, calc(100% - 980px)));
+  width: calc(
+    100% - var(--navbar-size) - 0.0625em -
+      max(2 * $outer-margin, calc(100% - 980px))
+  );
   min-height: calc(100% - 2 * $outer-margin);
   padding: $outer-margin max($outer-margin, calc((100% - 980px) / 2));
 }
