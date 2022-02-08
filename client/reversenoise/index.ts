@@ -85,6 +85,7 @@ function onResize() {
   canvas.width = ($.main.width() * canvasSize) / 2;
   canvas.height = ($.main.height() * canvasSize) / 2;
   $.main.append(canvas);
+  drawImage();
 }
 
 window.addEventListener("resize", onResize);
