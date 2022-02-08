@@ -91,6 +91,43 @@ main {
   }
 }
 
+@media (max-width: 400px) {
+  .large-sidebar {
+    body {
+      --navbar-size: 3em;
+      --navbar-icon: 1.5em;
+    }
+
+    nav a {
+      padding: calc((var(--navbar-size) - var(--navbar-icon)) / 2) 0.5em;
+    }
+  }
+
+  nav {
+    top: unset;
+    width: unset;
+    border-right: unset;
+    right: 0;
+    flex-direction: row;
+    height: var(--navbar-size);
+    border-top: 0.0625em solid $seperator;
+  }
+
+  main {
+    left: 0;
+    width: calc(100% - max(2 * $outer-margin, calc(100% - 980px)));
+    min-height: calc(100% - var(--navbar-size) - 0.0625em - 2 * $outer-margin);
+    padding-bottom: calc($outer-margin + var(--navbar-size) + 0.0625em);
+  }
+
+  .fullscreen {
+    main {
+      width: 100%;
+      min-height: calc(100% - var(--navbar-size) - 0.0625em);
+    }
+  }
+}
+
 @mixin embed {
   main {
     left: 0;
@@ -112,6 +149,5 @@ main {
   @include embed;
 }
 
-// TODO: MOBILE-FRIENDLY
 // TODO: NOTIFICATIONS
 // TODO: FIX EVERYTHING
