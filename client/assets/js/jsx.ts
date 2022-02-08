@@ -424,7 +424,7 @@ export class zQuery extends Array<HTMLElement> {
    * @param prop The property to get.
    * @returns The computed value of the CSS property in pixels or 0 if the property isn't measured in pixels.
    */
-  pxVal<K extends keyof CSSRules>(prop: K): number {
+  computePixelSize<K extends keyof CSSRules>(prop: K): number {
     let match = this.compute(prop).match(/^(\d+)px$/);
     if (!match) return 0;
     return parseInt(match[1]);
