@@ -216,13 +216,12 @@
         }
       }
 
-      --btn-bg: #808080;
-      --btn-focus: white;
+      --btn-bg: white;
+      --btn-focus: #808080;
 
-      .theme-light &,
-      .theme-yellow-pink & {
-        --btn-bg: white;
-        --btn-focus: #808080;
+      @include dark {
+        --btn-bg: #808080;
+        --btn-focus: white;
       }
 
       a,
