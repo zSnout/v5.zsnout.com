@@ -506,22 +506,50 @@ export class zQuery extends Array<HTMLElement> {
 
   /**
    * Gets the width of an element.
-   * @returns The scroll width of the first element in this zQuery.
+   * @param withPadding Whether to include padding in the calculation.
+   * @param withBorder Whether to include borders in the calculation.
+   * @returns The width of the first element in this zQuery.
    */
-  width(): number {
-    let box = this[0]?.getBoundingClientRect();
-    if (!box) return 0;
-    return box.width;
+  width(withPadding = false, withBorder = false): number {
+    if (!this[0]) return 0;
+
+    let width = this[0].getBoundingClientRect().width;
+
+    if (!withPadding)
+      width -=
+        this.computePixelSize("paddingLeft") +
+        this.computePixelSize("paddingRight");
+
+    if (!withBorder)
+      width -=
+        this.computePixelSize("borderLeftWidth") +
+        this.computePixelSize("borderRightWidth");
+
+    return width;
   }
 
   /**
    * Gets the height of an element.
-   * @returns The scroll height of the first element in this zQuery.
+   * @param withPadding Whether to include padding in the calculation.
+   * @param withBorder Whether to include borders in the calculation.
+   * @returns The height of the first element in this zQuery.
    */
-  height(): number {
-    let box = this[0]?.getBoundingClientRect();
-    if (!box) return 0;
-    return box.height;
+  height(withPadding = false, withBorder = false): number {
+    if (!this[0]) return 0;
+
+    let height = this[0].getBoundingClientRect().height;
+
+    if (!withPadding)
+      height -=
+        this.computePixelSize("paddingTop") +
+        this.computePixelSize("paddingBottom");
+
+    if (!withBorder)
+      height -=
+        this.computePixelSize("borderTopWidth") +
+        this.computePixelSize("borderBottomWidth");
+
+    return height;
   }
 }
 
