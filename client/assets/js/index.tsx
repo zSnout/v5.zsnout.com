@@ -2,20 +2,6 @@ import $, { jsx } from "./jsx.js";
 import { createNotification } from "./notification.js";
 import { getStorage, onStorageChange, setStorage } from "./util.js";
 
-/** Checks the current theme set in `localStorage` and updates the page accordingly. */
-function setTheme(theme = getStorage("options:theme")) {
-  $.root.removeClass(
-    ...[...$.root[0].classList].filter((className) =>
-      className.startsWith("theme-")
-    )
-  );
-
-  $.root.addClass(`theme-${theme || "light"}`);
-}
-
-setTheme(getStorage("options:theme"));
-onStorageChange("options:theme", setTheme);
-
 /** Gets all pages in the "Recently Visited" list. */
 export function getRecentlyVisited(
   data = getStorage("options:recentlyVisited")
@@ -134,9 +120,6 @@ checkRecentlyVisited();
 
 declare global {
   interface StorageItems {
-    /** The user's selected theme. When omitted, use the native theme. */
-    "options:theme"?: "light" | "aqua" | "dark" | "yellow-pink";
-
     /** A JSON list of the last 11 pages the user visited. */
     "options:recentlyVisited"?: string;
 
