@@ -1,7 +1,7 @@
 @use ".." as *;
 
 main {
-  display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 }
@@ -31,6 +31,7 @@ video {
   display: block;
   border: 0.0625em solid $seperator;
   border-radius: 0.25em;
+  padding: 0;
   max-width: calc(100% - 0.125em);
   max-height: calc(100% - 0.125em);
 }
@@ -52,6 +53,8 @@ video {
 .video {
   &.video-1,
   &.video-2 {
+    height: 100%;
+
     #videos {
       display: block;
     }
@@ -59,6 +62,7 @@ video {
     video {
       max-width: initial;
       max-height: initial;
+      border-radius: initial;
     }
   }
 }
@@ -79,11 +83,11 @@ video {
 .video-2 {
   video:first-child {
     position: absolute;
-    top: calc($margin-top + ($navbar-height + 0.5em + $outer-margin));
-    right: calc($outer-margin + $inset-right);
-    max-width: max(15%, 100px);
-    max-height: max(15%, 100px);
+    top: $outer-margin;
+    right: $outer-margin;
+    width: 200px;
     outline: 0.125em solid $seperator;
+    border-radius: 1em;
   }
 
   video:last-child {
@@ -99,7 +103,7 @@ video {
 }
 
 main:not(.video-1):not(.video-2) {
-  videos {
+  video {
     display: inline-block;
     max-width: 100%;
   }
