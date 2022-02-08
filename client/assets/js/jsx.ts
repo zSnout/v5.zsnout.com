@@ -380,7 +380,7 @@ export class zQuery extends Array<HTMLElement> {
   /**
    * Gets the value of a CSS property on the first element in this zQuery.
    * @param prop The property to get.
-   * @returns The current zQuery to allow for chaining.
+   * @returns The value of the CSS property.
    */
   css<K extends keyof CSSRules>(prop: K): CSSRules[K];
 
@@ -408,6 +408,15 @@ export class zQuery extends Array<HTMLElement> {
     }
 
     return this;
+  }
+
+  /**
+   * Gets the computed value of a CSS property on the first element in this zQuery.
+   * @param prop The property to get.
+   * @returns The computed value of the CSS property.
+   */
+  compute<K extends keyof CSSRules>(prop: K): CSSRules[K] {
+    return getComputedStyle(this[0])[prop];
   }
 
   /**
