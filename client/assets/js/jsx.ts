@@ -420,6 +420,17 @@ export class zQuery extends Array<HTMLElement> {
   }
 
   /**
+   * Gets the computed value of a CSS property on the first element in this zQuery.
+   * @param prop The property to get.
+   * @returns The computed value of the CSS property in pixels or 0 if the property isn't measured in pixels.
+   */
+  pxVal<K extends keyof CSSRules>(prop: K): number {
+    let match = this.compute(prop).match(/^(\d+)px$/);
+    if (!match) return 0;
+    return parseInt(match[1]);
+  }
+
+  /**
    * Gets the value of the first element in this zQuery.
    * @returns The value of the first element in this zQuery.
    */
