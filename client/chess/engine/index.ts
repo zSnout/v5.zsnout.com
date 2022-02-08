@@ -1,17 +1,8 @@
 import $ from "../../assets/js/jsx.js";
 import Chess from "../chessjs.js";
 import { bestMove } from "../engine.js";
+import { addResizeProcess } from "../index.js";
 import { setupUsingLocationHash } from "../position.js";
-
-/** Resizes the visible board. */
-function resize() {
-  let el = $("#board");
-  let size = Math.min($.main[0].clientWidth, $.main[0].clientHeight);
-
-  el.css("width", `${size}px`);
-  el.css("height", `${size}px`);
-  board.resize();
-}
 
 /** Makes the best move according to the engine. */
 async function makeBestMove() {
@@ -53,9 +44,7 @@ let board = Chessboard("board", {
   position: game.fen(),
 });
 
-resize();
-window.addEventListener("resize", resize);
-
+addResizeProcess(board);
 setPageTitle();
 if (game.game_over()) $("#board").addClass("game-over");
 if (game.in_check()) $("#board").addClass(`${game.turn()}-check`);

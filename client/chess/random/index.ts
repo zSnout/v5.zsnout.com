@@ -1,19 +1,10 @@
 import $ from "../../assets/js/jsx.js";
 import Chess from "../chessjs.js";
+import { addResizeProcess } from "../index.js";
 import { setupUsingLocationHash } from "../position.js";
 
 /** Whether the game should be played as fast as possible. */
 let isInstant = +!new URL(location.href).searchParams.has("instant");
-
-/** Resizes the visible board. */
-function resize() {
-  let el = $("#board");
-  let size = Math.min($.main[0].clientWidth, $.main[0].clientHeight);
-
-  el.css("width", `${size}px`);
-  el.css("height", `${size}px`);
-  board.resize();
-}
 
 /** Makes a random move. */
 function makeRandomMove() {
@@ -55,9 +46,7 @@ let board = Chessboard("board", {
   position: game.fen(),
 });
 
-resize();
-window.addEventListener("resize", resize);
-
+addResizeProcess(board);
 setPageTitle();
 if (game.game_over()) $("#board").addClass("game-over");
 if (game.in_check()) $("#board").addClass(`${game.turn()}-check`);

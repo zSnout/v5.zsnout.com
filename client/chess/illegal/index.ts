@@ -3,6 +3,7 @@ import type { Piece } from "chessboardjs";
 import $ from "../../assets/js/jsx.js";
 import Chess from "../chessjs.js";
 import { bestMove } from "../engine.js";
+import { addResizeProcess } from "../index.js";
 import { setupUsingLocationHash } from "../position.js";
 
 /** The turn that the AI takes. */
@@ -94,16 +95,6 @@ async function makeAIMove() {
   if (game.in_check()) $("#board").addClass(`${game.turn()}-check`);
 }
 
-/** Resizes the visible board. */
-function resize() {
-  let el = $("#board");
-  let size = Math.min($.main[0].clientWidth, $.main[0].clientHeight);
-
-  el.css("width", `${size}px`);
-  el.css("height", `${size}px`);
-  board.resize();
-}
-
 /** Sets the page title based on game status. */
 function setPageTitle() {
   let turn: "White" | "Black" | "AI" = game.turn() == "w" ? "White" : "Black";
@@ -137,9 +128,7 @@ let board = Chessboard("board", {
   onSnapEnd: onSnapEnd as any,
 });
 
-resize();
-window.addEventListener("resize", resize);
-
+addResizeProcess(board);
 setPageTitle();
 if (game.game_over()) $("#board").addClass("game-over");
 if (game.in_check()) $("#board").addClass(`${game.turn()}-check`);

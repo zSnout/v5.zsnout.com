@@ -2,6 +2,7 @@ import type { Square } from "chess.js";
 import type { Piece } from "chessboardjs";
 import Chess from "../chessjs.js";
 import $ from "../../assets/js/jsx.js";
+import { addResizeProcess } from "../index.js";
 
 /** The socket connected to the chess server. */
 let socket = io();
@@ -84,16 +85,6 @@ function onSnapEnd() {
   socket.emit("chess:data", game.fen());
 }
 
-/** Resizes the visible board. */
-function resize() {
-  let el = $("#board");
-  let size = Math.min($.main[0].clientWidth, $.main[0].clientHeight);
-
-  el.css("width", `${size}px`);
-  el.css("height", `${size}px`);
-  board.resize();
-}
-
 /** Sets the page title based on game status. */
 function setPageTitle() {
   let turn: "White" | "Black" = game.turn() == "w" ? "White" : "Black";
@@ -129,9 +120,7 @@ let board = Chessboard("board", {
 
 let myCode = Math.floor(Math.random() * 899999) + 100000;
 
-resize();
-window.addEventListener("resize", resize);
-
+addResizeProcess(board);
 setPageTitle();
 if (game.game_over()) $("#board").addClass("game-over");
 if (game.in_check()) $("#board").addClass(`${game.turn()}-check`);
