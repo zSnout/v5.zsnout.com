@@ -501,7 +501,7 @@ export class zQuery extends Array<HTMLElement> {
   height(): number {
     let box = this[0]?.getBoundingClientRect();
     if (!box) return 0;
-    return box.width;
+    return box.height;
   }
 }
 
