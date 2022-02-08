@@ -3,7 +3,7 @@ import { getLocationHash, setLocationHash } from "../assets/js/util.js";
 
 let canvas = $("#canvas")[0] as HTMLCanvasElement;
 let context = canvas.getContext("2d")!;
-let canvasSize: 170 | 340 = 340;
+let canvasSize = 1;
 let blobEndChance = 0.8;
 canvas.width = canvasSize;
 canvas.height = canvasSize;
@@ -52,8 +52,6 @@ function drawImage() {
   drawBlob(canvasSize / 2, canvasSize / 2);
 }
 
-$("#canvas").on("click", drawImage);
-
 $("#icon-smallblob").on("click", () => {
   if (blobEndChance >= 0.95) blobEndChance = 1;
   else blobEndChance += 0.05;
@@ -71,15 +69,22 @@ $("#icon-bigblob").on("click", () => {
 });
 
 $("#icon-resolution").on("click", () => {
-  if (canvasSize == 340) canvasSize = 170;
-  else canvasSize = 340;
-  canvas.width = canvasSize;
-  canvas.height = canvasSize;
+  canvasSize *= 2;
+  if (canvasSize >= 8) canvasSize = 1;
 
+  onResize();
   setPageHash();
   drawImage();
 });
 
-drawImage();
+function onResize() {
+  $.main.empty();
+  canvas.width = ($.main.width() * canvasSize) / 2;
+  canvas.height = ($.main.height() * canvasSize) / 2;
+  $.main.append(canvas);
+}
 
-$("#canvas").autoResize();
+window.addEventListener("resize", onResize);
+onResize();
+drawImage();
+$("#canvas").on("click", drawImage);

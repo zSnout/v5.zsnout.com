@@ -7,7 +7,7 @@ import {
 
 let canvas = $("#canvas")[0] as HTMLCanvasElement;
 let context = canvas.getContext("2d")!;
-let canvasSize: 340 | 680 | 1360 | 2720 = 1360;
+let canvasSize = 2;
 let noiseChance = 0.5;
 canvas.width = canvasSize;
 canvas.height = canvasSize;
@@ -33,13 +33,13 @@ let drawID = 0;
 /** Redraws the main canvas. */
 async function drawImage() {
   let myID = (drawID = Math.random());
-  let cxs = shuffle(Array.from({ length: canvasSize }, (_, i) => i));
+  let cxs = shuffle(Array.from({ length: canvas.width }, (_, i) => i));
   let c = 0;
 
   for (let i of cxs) {
     c++;
-    for (let j = 0; j < canvasSize; j++) {
-      let hue = (360 * (i + j)) / 2 / canvasSize;
+    for (let j = 0; j < canvas.height; j++) {
+      let hue = (360 * (i + j)) / (canvas.width + canvas.height);
       if (Math.random() < noiseChance) hue = Math.random() * 360;
 
       context.fillStyle = `hsl(${hue}, 100%, 50%)`;
@@ -52,9 +52,6 @@ async function drawImage() {
     }
   }
 }
-
-drawImage();
-$("#canvas").on("click", drawImage);
 
 $("#icon-blur").on("click", () => {
   if (noiseChance >= 0.95) noiseChance = 1;
@@ -73,15 +70,22 @@ $("#icon-focus").on("click", () => {
 });
 
 $("#icon-resolution").on("click", () => {
-  if (canvasSize == 340) canvasSize = 680;
-  else if (canvasSize == 680) canvasSize = 1360;
-  else if (canvasSize == 1360) canvasSize = 2720;
-  else canvasSize = 340;
-  canvas.width = canvasSize;
-  canvas.height = canvasSize;
+  canvasSize *= 2;
+  if (canvasSize >= 8) canvasSize = 1;
 
+  onResize();
   setPageHash();
   drawImage();
 });
 
-$("#canvas").autoResize();
+function onResize() {
+  $.main.empty();
+  canvas.width = ($.main.width() * canvasSize) / 2;
+  canvas.height = ($.main.height() * canvasSize) / 2;
+  $.main.append(canvas);
+}
+
+window.addEventListener("resize", onResize);
+onResize();
+drawImage();
+$("#canvas").on("click", drawImage);
