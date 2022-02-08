@@ -91,10 +91,27 @@ main {
   }
 }
 
-// TODO: NAVBAR
+@mixin embed {
+  main {
+    left: 0;
+    width: 100%;
+    min-height: 100%;
+    padding: 0;
+  }
+
+  nav {
+    display: none;
+  }
+}
+
+.embed {
+  @include embed;
+}
+
+@media print {
+  @include embed;
+}
+
 // TODO: MOBILE-FRIENDLY
-// TODO: FULLSCREEN MODE
-// TODO: EMBED MODE
-// TODO: PRINT MODE
 // TODO: NOTIFICATIONS
 // TODO: FIX EVERYTHING
