@@ -1,5 +1,5 @@
 /** The name of the cache to use. */
-let cacheID = "ae43b852-216c-4a60-b623-d795baa7fb6e";
+let cacheID = "3ce8e1ee-ff0c-4ae9-ac72-03f4a8a65406";
 
 /** The response to use when the user is offline. */
 let offlineResp = `<!DOCTYPE html>
@@ -153,8 +153,9 @@ async function onFetch(event: WindowEventMap["fetch"]) {
 self.addEventListener("install", (ev) => {
   ev.waitUntil(
     new Promise<void>(async (resolve) => {
+      await self.skipWaiting();
       let keys = await caches.keys();
-      keys.map((e) => e != cacheID && caches.delete(e));
+      keys.filter((e) => e != cacheID).map((e) => caches.delete(e));
       resolve();
     })
   );
@@ -163,6 +164,8 @@ self.addEventListener("install", (ev) => {
 self.addEventListener("fetch", onFetch);
 
 declare global {
+  function skipWaiting(): Promise<void>;
+
   interface WindowEventMap {
     /** The `install` event sent to service workers. */
     install: Event & { waitUntil(operation: Promise<any>): void };
