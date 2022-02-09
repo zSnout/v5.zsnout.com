@@ -48,3 +48,21 @@ declare var jdenticon: typeof import("jdenticon");
 declare var Peer: typeof import("peerjs");
 declare var png: typeof import("pngjs");
 declare var Quill: typeof import("quill").Quill;
+
+declare module "https://unpkg.com/metaballs-js@2.0.0/dist/index.js" {
+  export default function initMetaballs(
+    canvasSelector: string,
+    options?: MetaballsOptions
+  ): void;
+
+  export interface MetaballsOptions {
+    numMetaballs?: number;
+    minRadius?: number;
+    maxRadius?: number;
+    speed?: number;
+    color?: string;
+    backgroundColor?: string;
+    interactive?: false | "window" | "canvas";
+    useDevicePixelRatio?: boolean;
+  }
+}
