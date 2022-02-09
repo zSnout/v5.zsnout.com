@@ -207,6 +207,7 @@ export function getTheme(color: ThemeColor) {
 /** The different colors in a zSnout theme. */
 export enum ThemeColor {
   Background = "background",
+  BackgroundColor = "background-color",
   Element = "element",
   FocusedElement = "focused",
   TextColor = "text-color",
