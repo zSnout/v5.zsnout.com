@@ -1,5 +1,5 @@
 import $, { jsx } from "./jsx.js";
-import { createNotification } from "./notification.js";
+// import { createNotification } from "./notification.js";
 import { getStorage, onStorageChange, setStorage } from "./util.js";
 
 /** Gets all pages in the "Recently Visited" list. */
@@ -65,41 +65,41 @@ if (new URL(location.href).searchParams.has("nobg")) $.root.addClass("nobg");
 
 onStorageChange("options:recentlyVisited", checkRecentlyVisited);
 
-let hasPrompted = false;
-let didInstall = getStorage("pwa:isInstalled");
-if (
-  !didInstall ||
-  (didInstall == "false" &&
-    +getStorage("pwa:lastInstallTime")! < Date.now() - 1000 * 60 * 60 * 24 * 7)
-) {
-  window.addEventListener("beforeinstallprompt", (event: any) => {
-    if (hasPrompted) return;
-    hasPrompted = true;
-    let hide = createNotification(
-      "Did you know you can install this app to your device? If you do, you can use it offline!",
-      20000,
-      {
-        async Install() {
-          hide();
-          event.prompt();
+// let hasPrompted = false;
+// let didInstall = getStorage("pwa:isInstalled");
+// if (
+//   !didInstall ||
+//   (didInstall == "false" &&
+//     +getStorage("pwa:lastInstallTime")! < Date.now() - 1000 * 60 * 60 * 24 * 7)
+// ) {
+//   window.addEventListener("beforeinstallprompt", (event: any) => {
+//     if (hasPrompted) return;
+//     hasPrompted = true;
+//     let hide = createNotification(
+//       "Did you know you can install this app to your device? If you do, you can use it offline!",
+//       20000,
+//       {
+//         async Install() {
+//           hide();
+//           event.prompt();
 
-          let { outcome } = await event.userChoice;
+//           let { outcome } = await event.userChoice;
 
-          if (outcome == "dismissed") setStorage("pwa:isInstalled", "false");
-          else setStorage("pwa:isInstalled", "true");
+//           if (outcome == "dismissed") setStorage("pwa:isInstalled", "false");
+//           else setStorage("pwa:isInstalled", "true");
 
-          setStorage("pwa:lastInstallTime", "" + Date.now());
-        },
-        async Cancel() {
-          hide();
+//           setStorage("pwa:lastInstallTime", "" + Date.now());
+//         },
+//         async Cancel() {
+//           hide();
 
-          setStorage("pwa:isInstalled", "false");
-          setStorage("pwa:lastInstallTime", "" + Date.now());
-        },
-      }
-    );
-  });
-}
+//           setStorage("pwa:isInstalled", "false");
+//           setStorage("pwa:lastInstallTime", "" + Date.now());
+//         },
+//       }
+//     );
+//   });
+// }
 
 let recentlyVisited = getRecentlyVisited();
 
