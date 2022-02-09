@@ -201,7 +201,7 @@ export function createGen(seed: number) {
  */
 export function getTheme(color: ThemeColor) {
   let computed = getComputedStyle(document.documentElement);
-  return computed.getPropertyValue(`--${color}`);
+  return computed.getPropertyValue(`--${color}`).trim();
 }
 
 /** The different colors in a zSnout theme. */
