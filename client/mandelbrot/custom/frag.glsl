@@ -1,15 +1,11 @@
 #version 300 es
+#define ieq ITEREQ
 
 precision highp float;
 in vec2 _pos;
 out vec4 color;
 uniform int maxIterations;
-
-// 0 - INT_NONE, EXT_TIME
-// 1 - INT_ORBIT, EXT_NONE
-// 2 - INT_ORBIT, EXT_ORBIT
 uniform int colorMode;
-
 uniform vec2 scale;
 uniform vec2 offset;
 
@@ -63,11 +59,22 @@ vec4 iterate(vec2 c) {
   vec2 z, pz, ppz;
   vec3 sz;
 
+  if(colorMode == 7) {
+    z = c;
+    for(int i = 0; i < maxIterations; i++) {
+      ppz = pz;
+      pz = z;
+      z = ieq;
+    }
+
+    return vec4(sz, atan(z.y, z.x) / 3.14159265);
+  }
+
   int iterations = 0;
   for(int i = 0; i < maxIterations; i++) {
     ppz = pz;
     pz = z;
-    z = ITEREQ;
+    z = ieq;
     iterations++;
     if(length(z) > 2.0)
       break;
@@ -96,7 +103,9 @@ void main() {
   float iterations = res.w;
 
   float frac = float(iterations) / float(maxIterations);
-  if(frac < 1.0 && (colorMode == 0)) {
+  if(colorMode == 7) {
+    color = vec4(hsl2rgb(vec3(iterations, 1, 0.5)), 1);
+  } else if(frac < 1.0 && (colorMode == 0)) {
     color = vec4(palette(frac), 1);
   } else if(colorMode == 0) {
     color = vec4(0, 0, 0, 1);

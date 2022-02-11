@@ -27,7 +27,7 @@ createFractal(
     yEnd: -2,
     maxIterations: 150,
     colorMode: 1,
-    colorModeCount: 7,
+    colorModeCount: 8,
     vertexShader: "./vert.glsl",
     fragmentShader: "./frag.glsl",
     saveEQs: "iter",
