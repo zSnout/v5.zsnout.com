@@ -1,3 +1,9 @@
+let config: PropertyDescriptor = {
+  configurable: false,
+  enumerable: true,
+  writable: false,
+};
+
 export default class BigFraction implements Iterable<bigint> {
   static gcd(a: bigint, b: bigint): bigint {
     return b === 0n ? (a < 0n ? -a : a) : this.gcd(b, a % b);
@@ -8,8 +14,11 @@ export default class BigFraction implements Iterable<bigint> {
   }
 
   static trim(result: string) {
-    let trimmed = result.match(/^0*([\d.]+)(?:\.0*|0*)$/);
-    if (trimmed) result = trimmed[1];
+    let trimmed = result.match(/^0+/);
+    if (trimmed) result = result.slice(trimmed[0].length - 1);
+    trimmed = result.match(/\.0*$/);
+    if (trimmed) result = result.slice(0, trimmed.index);
+
     if (result.endsWith(".") && !result.endsWith(".."))
       result = result.slice(0, -1);
     if (result.length == 0) result = "0";
@@ -18,26 +27,29 @@ export default class BigFraction implements Iterable<bigint> {
   }
 
   static from(decimal: any) {
-    let number = String(decimal);
     let match;
+    let number = String(decimal);
+    let isNeg = number.startsWith("-") ? -1n : number.startsWith("+") ? 1n : 0n;
+    if (isNeg) number = number.slice(1);
+    let neg = new BigFraction(isNeg || 1n, 1n);
 
-    if ((match = number.match(/^(-?\d+)\/(-?\d+)$/)))
-      return new BigFraction(BigInt(match[1]), BigInt(match[2]));
+    if ((match = number.match(/^(\d+)\/(\d+)$/)))
+      return new BigFraction(BigInt(match[1]), BigInt(match[2])).mult(neg);
 
-    if ((match = number.match(/^(-?\d+)(?:\.0*)?$/)))
-      return new BigFraction(BigInt(match[1]));
+    if ((match = number.match(/^(\d+)(?:\.0*)?$/)))
+      return new BigFraction(BigInt(match[1])).mult(neg);
 
-    if ((match = number.match(/^(-?\d+)\.(\d+)$/)))
-      return new BigFraction(BigInt(match[1])).add(
-        new BigFraction(BigInt(match[2]), 10n ** BigInt(match[2]))
-      );
+    if ((match = number.match(/^(\d+)\.(\d+)$/)))
+      return new BigFraction(BigInt(match[1]))
+        .add(new BigFraction(BigInt(match[2]), 10n ** BigInt(match[2].length)))
+        .mult(neg);
 
-    if ((match = number.match(/^(-?\d+) (\d+)\/(\d+)$/)))
-      return new BigFraction(BigInt(match[1])).add(
-        new BigFraction(BigInt(match[2]), BigInt(match[3]))
-      );
+    if ((match = number.match(/^(\d+) (\d+)\/(\d+)$/)))
+      return new BigFraction(BigInt(match[1]))
+        .add(new BigFraction(BigInt(match[2]), BigInt(match[3])))
+        .mult(neg);
 
-    if ((match = number.match(/^(-\d+)\.(\d*)\[(\d+)\]\.\.\.$/)))
+    if ((match = number.match(/^(\d+)\.(\d*)\[(\d+)\]\.\.\.$/)))
       return new BigFraction(BigInt(match[1]))
         .add(
           new BigFraction(
@@ -47,9 +59,8 @@ export default class BigFraction implements Iterable<bigint> {
         )
         .add(
           new BigFraction(BigInt(match[3]), 10n ** BigInt(match[3].length) - 1n)
-        );
-
-    if (!number) throw new Error(`Invalid number: ${number}`);
+        )
+        .mult(neg);
 
     throw new RangeError(`Invalid number: ${number}`);
   }
@@ -71,8 +82,8 @@ export default class BigFraction implements Iterable<bigint> {
 
     let gcd = BigFraction.gcd(nmr, dnmr);
 
-    this.nmr = nmr / gcd;
-    this.dnmr = dnmr / gcd;
+    Object.defineProperty(this, "nmr", { ...config, value: nmr / gcd });
+    Object.defineProperty(this, "dnmr", { ...config, value: dnmr / gcd });
   }
 
   add(other: BigFraction): BigFraction {
@@ -152,10 +163,12 @@ export default class BigFraction implements Iterable<bigint> {
       history.push(operand);
       operand = operand % this.dnmr;
     }
+
+    throw new RangeError("Escaped infinite loop"); // should never happen
   }
 
-  toDecimal() {
-    return Number(this.nmr) / Number(this.dnmr);
+  toDecimal(precision: number = 20) {
+    return +this.toString(precision);
   }
 
   toMixed() {
@@ -182,4 +195,13 @@ export default class BigFraction implements Iterable<bigint> {
     yield this.nmr;
     yield this.dnmr;
   }
+
+  [Symbol.toPrimitive](hint: "string"): string;
+  [Symbol.toPrimitive](hint: "number"): number;
+  [Symbol.toPrimitive](hint?: any): string | number {
+    if (hint == "number") return this.toDecimal();
+    return this.toString();
+  }
 }
+
+let a = +new BigFraction(1, 2);
