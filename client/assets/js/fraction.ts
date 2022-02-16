@@ -143,6 +143,15 @@ export default class BigFraction implements Iterable<bigint> {
     return new BigFraction(BigInt(int) + 1n);
   }
 
+  scale(dnmr: bigint | number) {
+    dnmr = BigInt(dnmr);
+    let scalar = new BigFraction(dnmr, this.dnmr);
+    return new BigFraction(
+      new BigFraction(this.nmr).mult(scalar).round().nmr,
+      dnmr
+    );
+  }
+
   toString(precision: number = Infinity) {
     let generator = (function* (nmr) {
       yield* nmr.toString().split("").map(BigInt);
