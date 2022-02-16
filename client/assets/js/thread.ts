@@ -1,3 +1,11 @@
+/** Inverts the types of a `Thread`. */
+export type InvertThread<T extends Thread> = T extends Thread<
+  infer Recievable,
+  infer Sendable
+>
+  ? Thread<Sendable, Recievable>
+  : never;
+
 /** A thread used to exchange messages with a worker. */
 export interface Thread<Recievable = any, Sendable = Recievable> {
   /**
