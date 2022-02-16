@@ -25,7 +25,7 @@ export default class BigFraction implements Iterable<bigint> {
       return new BigFraction(BigInt(match[1]), BigInt(match[2]));
 
     if ((match = number.match(/^(-?\d+)(?:\.0*)?$/)))
-      return new BigFraction(BigInt(number[1]));
+      return new BigFraction(BigInt(match[1]));
 
     if ((match = number.match(/^(-?\d+)\.(\d+)$/)))
       return new BigFraction(BigInt(match[1])).add(
