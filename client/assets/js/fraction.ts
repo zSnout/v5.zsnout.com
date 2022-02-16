@@ -28,8 +28,8 @@ export default class BigFraction implements Iterable<bigint> {
       return new BigFraction(BigInt(number[1]));
 
     if ((match = number.match(/^(-?\d+)\.(\d+)$/)))
-      return new BigFraction(BigInt(match[0])).add(
-        new BigFraction(BigInt(match[1]), 10n ** BigInt(match[2]))
+      return new BigFraction(BigInt(match[1])).add(
+        new BigFraction(BigInt(match[2]), 10n ** BigInt(match[2]))
       );
 
     if ((match = number.match(/^(-?\d+) (\d+)\/(\d+)$/)))
