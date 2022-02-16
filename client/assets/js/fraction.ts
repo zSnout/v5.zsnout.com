@@ -8,16 +8,63 @@ export default class BigFraction implements Iterable<bigint> {
   }
 
   static trim(result: string) {
-    let trimmed = result.match(/^0*([0-9].+)(?:\.0*|0*)$/);
+    let trimmed = result.match(/^0*([\d.]+)(?:\.0*|0*)$/);
     if (trimmed) result = trimmed[1];
-    if (result.endsWith(".")) result = result.slice(0, -1);
+    if (result.endsWith(".") && !result.endsWith(".."))
+      result = result.slice(0, -1);
     if (result.length == 0) result = "0";
+
     return result;
   }
 
-  readonly nmr: bigint;
-  readonly dnmr: bigint;
-  constructor(nmr: bigint | number, dnmr: bigint | number = 1n) {
+  static from(decimal: any) {
+    let number = String(decimal);
+    let match;
+
+    if ((match = number.match(/^(-?\d+)\/(-?\d+)$/)))
+      return new BigFraction(BigInt(match[1]), BigInt(match[2]));
+
+    if ((match = number.match(/^(-?\d+)(?:\.0*)?$/)))
+      return new BigFraction(BigInt(number[1]));
+
+    if ((match = number.match(/^(-?\d+)\.(\d+)$/)))
+      return new BigFraction(BigInt(match[0])).add(
+        new BigFraction(BigInt(match[1]), 10n ** BigInt(match[2]))
+      );
+
+    if ((match = number.match(/^(-?\d+) (\d+)\/(\d+)$/)))
+      return new BigFraction(BigInt(match[1])).add(
+        new BigFraction(BigInt(match[2]), BigInt(match[3]))
+      );
+
+    if ((match = number.match(/^(-\d+)\.(\d*)\[(\d+)\]\.\.\.$/)))
+      return new BigFraction(BigInt(match[1]))
+        .add(
+          new BigFraction(
+            BigInt(match[2] || "0"),
+            10n ** BigInt((match[2] || "0").length)
+          )
+        )
+        .add(
+          new BigFraction(BigInt(match[3]), 10n ** BigInt(match[3].length) - 1n)
+        );
+
+    if (!number) throw new Error(`Invalid number: ${number}`);
+
+    throw new RangeError(`Invalid number: ${number}`);
+  }
+
+  readonly nmr!: bigint;
+  readonly dnmr!: bigint;
+
+  constructor(number: string);
+  constructor(nmr: number, dnmr?: number);
+  constructor(nmr: bigint, dnmr?: bigint);
+  constructor(nmr: bigint | number | string, dnmr: bigint | number = 1n) {
+    if (typeof nmr == "number" || typeof dnmr == "number")
+      return BigFraction.from(String(Number(nmr) / Number(dnmr)));
+    if (typeof nmr == "string") return BigFraction.from(nmr);
+
     nmr = BigInt(nmr);
     dnmr = BigInt(dnmr);
     if (dnmr < 0n) (nmr *= -1n), (dnmr *= -1n);
@@ -62,12 +109,17 @@ export default class BigFraction implements Iterable<bigint> {
     return new BigFraction(this.nmr * this.sign(), this.dnmr);
   }
 
+  flip() {
+    return new BigFraction(this.dnmr, this.nmr);
+  }
+
   toString(precision: number = Infinity) {
     let generator = (function* (nmr) {
       yield* nmr.toString().split("").map(BigInt);
       yield ".";
       while (true) yield 0n;
-    })(this.nmr);
+    })(this.nmr < 0n ? -this.nmr : this.nmr);
+    let neg = this.nmr < 0n ? "-" : "";
     let result = "0";
     let history: bigint[] = [];
     let digit = 0n;
@@ -84,16 +136,16 @@ export default class BigFraction implements Iterable<bigint> {
 
       if (decimal) decimal++;
       if (decimal - 2 >= precision || (decimal && operand == 0n && next == 0n))
-        return BigFraction.trim(result);
+        return neg + BigFraction.trim(result);
 
       operand = 10n * operand + next;
       digit = operand / this.dnmr;
 
       if (repeats && history.includes(operand)) {
         let index = history.indexOf(operand);
-        return BigFraction.trim(
-          `${result.slice(0, index + 2)}[${result.slice(index + 2)}]`
-        );
+        let prefix = result.slice(0, index + 2);
+        let repeated = result.slice(index + 2);
+        return neg + BigFraction.trim(`${prefix}[${repeated}]...`);
       }
 
       result += digit;
@@ -108,14 +160,17 @@ export default class BigFraction implements Iterable<bigint> {
 
   toMixed() {
     let [nmr, dnmr] = this.toArray();
-    if (nmr < dnmr) return `${nmr}/${dnmr}`;
+    if (nmr == 0n) return "0";
 
     let isNeg = nmr < 0n;
     nmr = nmr < 0n ? -nmr : nmr;
 
+    if (nmr < dnmr) return isNeg ? `-${nmr}/${dnmr}` : `${nmr}/${dnmr}`;
+
     let whole = nmr / dnmr;
     nmr = nmr % dnmr;
 
+    if (nmr == 0n) return isNeg ? `-${whole}` : `${whole}`;
     return `${isNeg ? "-" : ""}${whole} ${nmr}/${dnmr}`;
   }
 
