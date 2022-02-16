@@ -7,8 +7,12 @@ export default class BigFraction implements Iterable<bigint> {
     return (a * b) / this.gcd(a, b);
   }
 
-  static many(count: number, nmr: bigint | number, dnmr: bigint | number = 1) {
-    return Array.from({ length: count }, () => new BigFraction(nmr, dnmr));
+  static trim(result: string) {
+    let trimmed = result.match(/^0*([0-9].+)(?:\.0*|0*)$/);
+    if (trimmed) result = trimmed[1];
+    if (result.endsWith(".")) result = result.slice(0, -1);
+    if (result.length == 0) result = "0";
+    return result;
   }
 
   readonly nmr: bigint;
@@ -58,8 +62,44 @@ export default class BigFraction implements Iterable<bigint> {
     return new BigFraction(this.nmr * this.sign(), this.dnmr);
   }
 
-  toString() {
-    return `${this.nmr}/${this.dnmr}`;
+  toString(precision: number = Infinity) {
+    let generator = (function* (nmr) {
+      yield* nmr.toString().split("").map(BigInt);
+      yield ".";
+      while (true) yield 0n;
+    })(this.nmr);
+    let result = "0";
+    let history: bigint[] = [];
+    let digit = 0n;
+    let operand = 0n;
+    let repeats = precision == Infinity;
+    let decimal: true | number = 0;
+
+    for (let next of generator) {
+      if (next == ".") {
+        decimal = 1;
+        result += ".";
+        continue;
+      }
+
+      if (decimal) decimal++;
+      if (decimal - 2 >= precision || (decimal && operand == 0n && next == 0n))
+        return BigFraction.trim(result);
+
+      operand = 10n * operand + next;
+      digit = operand / this.dnmr;
+
+      if (repeats && history.includes(operand)) {
+        let index = history.indexOf(operand);
+        return BigFraction.trim(
+          `${result.slice(0, index + 2)}[${result.slice(index + 2)}]`
+        );
+      }
+
+      result += digit;
+      history.push(operand);
+      operand = operand % this.dnmr;
+    }
   }
 
   toDecimal() {
