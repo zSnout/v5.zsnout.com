@@ -14,8 +14,8 @@ export default class BigFraction implements Iterable<bigint> {
   }
 
   static trim(result: string) {
-    let trimmed = result.match(/^0+/);
-    if (trimmed) result = result.slice(trimmed[0].length - 1);
+    let trimmed = result.match(/^0*(?=\d\.|\d$)/);
+    if (trimmed) result = result.slice(trimmed[0].length);
     trimmed = result.match(/\.0*$/);
     if (trimmed) result = result.slice(0, trimmed.index);
 
@@ -71,10 +71,17 @@ export default class BigFraction implements Iterable<bigint> {
   constructor(number: string);
   constructor(nmr: number, dnmr?: number);
   constructor(nmr: bigint, dnmr?: bigint);
-  constructor(nmr: bigint | number | string, dnmr: bigint | number = 1n) {
-    if (typeof nmr == "number" || typeof dnmr == "number")
-      return BigFraction.from(String(Number(nmr) / Number(dnmr)));
-    if (typeof nmr == "string") return BigFraction.from(nmr);
+  constructor(nmr: bigint | number | string = 0n, dnmr: bigint | number = 1n) {
+    if (typeof nmr == "number" || typeof dnmr == "number") {
+      let a = Number(nmr);
+      let b = Number(dnmr);
+      let d = Math.max(
+        (a.toString().split(".")[1] || "").length,
+        (b.toString().split(".")[1] || "").length
+      );
+      let n = 10 ** d;
+      return new BigFraction(BigInt(a * n), BigInt(b * n));
+    } else if (typeof nmr == "string") return BigFraction.from(nmr);
 
     nmr = BigInt(nmr);
     dnmr = BigInt(dnmr);
@@ -124,6 +131,18 @@ export default class BigFraction implements Iterable<bigint> {
     return new BigFraction(this.dnmr, this.nmr);
   }
 
+  round() {
+    let str = this.toString(1);
+    if (!str.includes(".")) return this;
+
+    let match = str.match(/^(-?\d+)\.([0-9])/);
+    if (!match) return new BigFraction(BigInt(str.split(".")[0]));
+
+    let [, int, dec] = match;
+    if (+dec < 5) return new BigFraction(BigInt(int));
+    return new BigFraction(BigInt(int) + 1n);
+  }
+
   toString(precision: number = Infinity) {
     let generator = (function* (nmr) {
       yield* nmr.toString().split("").map(BigInt);
@@ -136,7 +155,7 @@ export default class BigFraction implements Iterable<bigint> {
     let digit = 0n;
     let operand = 0n;
     let repeats = precision == Infinity;
-    let decimal: true | number = 0;
+    let decimal = 0;
 
     for (let next of generator) {
       if (next == ".") {
