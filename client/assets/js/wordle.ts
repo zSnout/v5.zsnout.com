@@ -1,3 +1,5 @@
+import thread, { InvertThread, Thread } from "./thread.js";
+
 // #region Wordle Data
 
 let answers =
@@ -18,9 +20,6 @@ const enum Score {
   BadPosition,
   Correct,
 }
-
-let range = [0, 1, 2, 3, 4];
-let scoreArr = Array<Score>(5).fill(Score.BadLetter);
 
 export async function table(start?: number, end?: number) {
   let data = "";
@@ -46,11 +45,17 @@ export async function download(start?: number, end?: number) {
 }
 
 export function score(guessStr: string, answerStr: string) {
-  let score: FinalScore = scoreArr.slice();
+  let score: FinalScore = [
+    Score.BadLetter,
+    Score.BadLetter,
+    Score.BadLetter,
+    Score.BadLetter,
+    Score.BadLetter,
+  ];
   let guess = guessStr.toLowerCase().split("");
   let answer = answerStr.split("");
 
-  for (let i of range) {
+  for (let i = 0; i < 5; i++) {
     if (guess[i] == answer[i]) {
       guess[i] = "";
       answer[i] = "";
@@ -58,7 +63,7 @@ export function score(guessStr: string, answerStr: string) {
     }
   }
 
-  for (let i of range) {
+  for (let i = 0; i < 5; i++) {
     if (guess[i]) {
       let index = answer.indexOf(guess[i]);
       if (index != -1) {
@@ -69,4 +74,66 @@ export function score(guessStr: string, answerStr: string) {
   }
 
   return score.join("");
+}
+
+export function matches(guess: string, list = answers) {
+  let obj: Record<string, string[]> = Object.create(null);
+  for (let word of list) {
+    let wordScore = score(guess, word);
+    if (!obj[wordScore]) obj[wordScore] = [];
+    obj[wordScore].push(word);
+  }
+
+  return obj;
+}
+
+type ProbabilityData = Record<string, [count: number, words: string[]]>;
+export function prob(guess: string, list = answers) {
+  let data: Record<string, [count: number, words: string[]]> =
+    Object.create(null);
+  for (let word of list) {
+    let wordScore = score(guess, word);
+    if (!data[wordScore]) data[wordScore] = [0, []];
+    data[wordScore][0]++;
+    data[wordScore][1].push(word);
+  }
+
+  return data;
+}
+
+type WordleWorkerThread = Thread<
+  [words: string[], answers: string[]],
+  Record<string, ProbabilityData>
+>;
+
+type WordleScriptThread = InvertThread<WordleWorkerThread>;
+
+async function wordleWorker(thread: WordleWorkerThread) {
+  let { value } = await thread.reciever.next();
+  let [words, answers] = value;
+  let obj: Record<string, ProbabilityData> = {};
+
+  for (let guess of words) {
+    obj[guess] = prob(guess, answers);
+  }
+
+  thread.send(obj);
+}
+
+export async function makeWorker(start?: number, end?: number) {
+  let myThread: WordleScriptThread = thread(
+    `${String(wordleWorker).slice(0, -1)};${prob};${score}}`
+  );
+  myThread.send([words.slice(start, end), answers]);
+  return (await myThread.reciever.next()).value;
+}
+
+export async function usingManyWorkers(perWorker: number = 1000) {
+  let indices = Array<number>(Math.ceil(words.length / perWorker))
+    .fill(0)
+    .map((e, i) => i * perWorker);
+
+  return (
+    await Promise.all(indices.map((start) => makeWorker(start, start + 1000)))
+  ).reduce<Record<string, ProbabilityData>>((a, b) => ({ ...a, ...b }), {});
 }
