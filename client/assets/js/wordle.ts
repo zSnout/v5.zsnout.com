@@ -120,6 +120,16 @@ async function wordleWorker(thread: WordleWorkerThread) {
   thread.send(obj);
 }
 
+export function wordleMain() {
+  let obj: Record<string, ProbabilityData> = {};
+
+  for (let guess of words) {
+    obj[guess] = prob(guess, answers);
+  }
+
+  return obj;
+}
+
 export async function makeWorker(start?: number, end?: number) {
   let myThread: WordleScriptThread = thread(
     `${String(wordleWorker).slice(0, -1)};${prob};${score}}`
@@ -128,7 +138,8 @@ export async function makeWorker(start?: number, end?: number) {
   return (await myThread.reciever.next()).value;
 }
 
-export async function usingManyWorkers(perWorker: number = 1000) {
+export async function usingManyWorkers(perWorker = words.length) {
+  if (perWorker < 1) perWorker = words.length * perWorker;
   let indices = Array<number>(Math.ceil(words.length / perWorker))
     .fill(0)
     .map((e, i) => i * perWorker);
@@ -136,4 +147,20 @@ export async function usingManyWorkers(perWorker: number = 1000) {
   return (
     await Promise.all(indices.map((start) => makeWorker(start, start + 1000)))
   ).reduce<Record<string, ProbabilityData>>((a, b) => ({ ...a, ...b }), {});
+}
+
+export async function testPerf(perWorker?: number) {
+  let now = performance.now();
+  let data = await usingManyWorkers(perWorker);
+  let time = performance.now() - now;
+  console.log(`${Math.round(time)}ms`);
+  return data;
+}
+
+export async function testMainPerf() {
+  let now = performance.now();
+  let data = wordleMain();
+  let time = performance.now() - now;
+  console.log(`${Math.round(time)}ms`);
+  return data;
 }
