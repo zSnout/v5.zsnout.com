@@ -88,6 +88,9 @@ export function matches(guess: string, list = answers) {
 }
 
 type ProbabilityData = Record<string, [count: number, words: string[]]>;
+type ProbabilityRecord = Record<string, ProbabilityData>;
+type MultiProbData = Record<string, [count: number, data: ProbabilityData]>;
+
 export function prob(guess: string, list = answers) {
   let data: Record<string, [count: number, words: string[]]> =
     Object.create(null);
@@ -101,9 +104,83 @@ export function prob(guess: string, list = answers) {
   return data;
 }
 
+export function deepProb(record: ProbabilityData) {
+  let obj: MultiProbData = {};
+  for (let key in record) {
+    let [count, words] = record[key];
+    for (let word of words) {
+      obj[key] = [count, prob(word, words)];
+    }
+  }
+
+  return obj;
+}
+
+export function scoreDeepProb(record: MultiProbData) {
+  let entries: [string, [count: number, info: number]][] = [];
+  for (let key in record) {
+    entries.push([key, [record[key][0], getInfoOf(record[key][1])]]);
+  }
+
+  let totalCount = entries.reduce((sum, [, [count]]) => sum + count, 0);
+  let totalInfo = entries
+    .map(([, [count, info]]) => info * count)
+    .reduce((a, b) => a + b, 0);
+
+  return totalInfo / totalCount;
+}
+
+export function scoreAllDeepProb(record: ProbabilityRecord, cb?: () => void) {
+  let obj: Record<string, number> = {};
+  let index = 0;
+  for (let key in record) {
+    index++;
+    obj[key] = scoreDeepProb(deepProb(record[key]));
+    cb?.();
+  }
+
+  return obj;
+}
+
+let deepWorkerFuncs = `${lnHalf};${score};${prob};${getInfoOf};${deepProb};${scoreDeepProb};${scoreAllDeepProb}}`;
+let sdwSource = `${scoreDeepWorker.toString().slice(0, -1)};${deepWorkerFuncs}`; // prettier-ignore
+type DeepWorkerThread = Thread<
+  ProbabilityRecord,
+  Record<string, number> | null
+>;
+
+async function scoreDeepWorker(thread: DeepWorkerThread) {
+  let { value } = await thread.reciever.next();
+  thread.send(scoreAllDeepProb(value, () => thread.send(null)));
+  console.log("done!");
+}
+
+export async function createDeepScoreWorker(record: ProbabilityRecord) {
+  let worker: InvertThread<DeepWorkerThread> = thread(sdwSource);
+  worker.send(record);
+  return (await worker.reciever.next()).value;
+}
+
+export async function usingManyScoreWorkers(
+  record: ProbabilityRecord,
+  perWorker: number
+) {
+  let entries = Object.entries(record);
+  let indices = Array<number>(Math.ceil(entries.length / perWorker))
+    .fill(0)
+    .map((_, i) => i * perWorker);
+
+  let workers = indices.map((start) => {
+    let sliced = entries.slice(start, start + perWorker);
+    return createDeepScoreWorker(Object.fromEntries(sliced));
+  });
+
+  return (await Promise.all(workers)).reduce((a, b) => ({ ...a, ...b }), {});
+}
+
 type WordleWorkerThread = Thread<
   [words: string[], answers: string[]],
-  Record<string, ProbabilityData>
+  ProbabilityRecord
 >;
 
 type WordleScriptThread = InvertThread<WordleWorkerThread>;
@@ -111,7 +188,7 @@ type WordleScriptThread = InvertThread<WordleWorkerThread>;
 async function wordleWorker(thread: WordleWorkerThread) {
   let { value } = await thread.reciever.next();
   let [words, answers] = value;
-  let obj: Record<string, ProbabilityData> = {};
+  let obj: ProbabilityRecord = {};
 
   for (let guess of words) {
     obj[guess] = prob(guess, answers);
@@ -121,7 +198,7 @@ async function wordleWorker(thread: WordleWorkerThread) {
 }
 
 export function wordleMain() {
-  let obj: Record<string, ProbabilityData> = {};
+  let obj: ProbabilityRecord = {};
 
   for (let guess of words) {
     obj[guess] = prob(guess, answers);
@@ -139,14 +216,13 @@ export async function makeWorker(start?: number, end?: number) {
 }
 
 export async function usingManyWorkers(perWorker = words.length) {
-  if (perWorker < 1) perWorker = words.length * perWorker;
   let indices = Array<number>(Math.ceil(words.length / perWorker))
     .fill(0)
-    .map((e, i) => i * perWorker);
+    .map((_, i) => i * perWorker);
 
   return (
     await Promise.all(indices.map((start) => makeWorker(start, start + 1000)))
-  ).reduce<Record<string, ProbabilityData>>((a, b) => ({ ...a, ...b }), {});
+  ).reduce<ProbabilityRecord>((a, b) => ({ ...a, ...b }), {});
 }
 
 export async function testPerf(perWorker?: number) {
@@ -163,4 +239,35 @@ export async function testMainPerf() {
   let time = performance.now() - now;
   console.log(`${Math.round(time)}ms`);
   return data;
+}
+
+function lnHalf(num: number) {
+  return Math.log(num) / Math.log(0.5);
+}
+
+export function getInfoOf(record: ProbabilityData) {
+  let totalInfo = 0;
+  let totalWeights = 0;
+  let entries = Object.entries(record);
+  let totalCount = entries.reduce<number>((p, [, [c]]) => p + c, 0);
+
+  for (let [, val] of Object.entries(record)) {
+    let [count] = val;
+    let prob = count / totalCount;
+    let info = -lnHalf(prob);
+
+    totalInfo += info * prob;
+    totalWeights += prob;
+  }
+
+  return -totalInfo / totalWeights;
+}
+
+export function getAllInfo(record: ProbabilityRecord) {
+  let obj: Record<string, number> = {};
+  for (let key in record) {
+    obj[key] = getInfoOf(record[key]);
+  }
+
+  return obj;
 }
