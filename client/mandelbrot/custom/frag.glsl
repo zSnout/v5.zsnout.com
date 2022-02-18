@@ -59,7 +59,7 @@ vec4 iterate(vec2 c) {
   vec2 z, pz, ppz;
   vec3 sz;
 
-  if(colorMode == 7) {
+  if(colorMode == 7 || colorMode == 8) {
     z = c;
     for(int i = 0; i < maxIterations; i++) {
       ppz = pz;
@@ -67,7 +67,10 @@ vec4 iterate(vec2 c) {
       z = ieq;
     }
 
-    return vec4(sz, atan(z.y, z.x) / 3.14159265);
+    if(colorMode == 8 && z.y <= 0.0)
+      return vec4(sz, (atan(z.y, z.x) / 3.14159265) + 0.25);
+    else
+      return vec4(sz, atan(z.y, z.x) / 3.14159265);
   }
 
   int iterations = 0;
@@ -103,7 +106,7 @@ void main() {
   float iterations = res.w;
 
   float frac = float(iterations) / float(maxIterations);
-  if(colorMode == 7) {
+  if(colorMode == 7 || colorMode == 8) {
     color = vec4(hsl2rgb(vec3(iterations, 1, 0.5)), 1);
   } else if(frac < 1.0 && (colorMode == 0)) {
     color = vec4(palette(frac), 1);
