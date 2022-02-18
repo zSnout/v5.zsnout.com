@@ -50,6 +50,7 @@ export function toReversePolish(equation: string): (string | number)[] {
     } else if ((match = equation.match(/^[-+*\/^()]/))) {
       if (wasLastTokenAValue && match[0] == "(") tokens.push("**");
       wasLastTokenAValue = false;
+      if (match[0] == ")") wasLastTokenAValue = true;
 
       tokens.push(match[0]);
       equation = equation.slice(1);
