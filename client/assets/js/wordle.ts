@@ -132,9 +132,7 @@ export function scoreDeepProb(record: MultiProbData) {
 
 export function scoreAllDeepProb(record: ProbabilityRecord, cb?: () => void) {
   let obj: Record<string, number> = {};
-  let index = 0;
   for (let key in record) {
-    index++;
     obj[key] = scoreDeepProb(deepProb(record[key]));
     cb?.();
   }
@@ -155,10 +153,19 @@ async function scoreDeepWorker(thread: DeepWorkerThread) {
   console.log("done!");
 }
 
-export async function createDeepScoreWorker(record: ProbabilityRecord) {
+export async function createDeepScoreWorker(
+  record: ProbabilityRecord,
+  cb?: () => void
+) {
   let worker: InvertThread<DeepWorkerThread> = thread(sdwSource);
   worker.send(record);
-  return (await worker.reciever.next()).value;
+
+  for await (let msg of worker.reciever) {
+    if (msg === null) cb?.();
+    else return msg;
+  }
+
+  return worker.reciever.next().then((e) => e.value!);
 }
 
 export async function usingManyScoreWorkers(
@@ -169,10 +176,23 @@ export async function usingManyScoreWorkers(
   let indices = Array<number>(Math.ceil(entries.length / perWorker))
     .fill(0)
     .map((_, i) => i * perWorker);
+  let total = 0;
+  let size = entries.length;
+  let startTime = Date.now();
 
   let workers = indices.map((start) => {
     let sliced = entries.slice(start, start + perWorker);
-    return createDeepScoreWorker(Object.fromEntries(sliced));
+    return createDeepScoreWorker(Object.fromEntries(sliced), () => {
+      total++;
+      let time = Date.now() - startTime;
+      let left = (time * (size - total)) / total;
+
+      console.log(
+        `calculated ${total} of ${size} in ${Math.round(
+          time / 1000
+        )}s, ${Math.round(left / 1000)}s left`
+      );
+    });
   });
 
   return (await Promise.all(workers)).reduce((a, b) => ({ ...a, ...b }), {});
