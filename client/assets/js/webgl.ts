@@ -284,8 +284,33 @@ export async function createFractal(
     if (shiftKey === false) zoomType = "in";
   }
 
-  $(canvas).on("mousedown", onMouse).on("mousemove", onMouse);
+  function onWheel({ offsetX, offsetY, deltaY }: WheelEvent) {
+    let { height, width } = canvas.getBoundingClientRect();
+    let s = Math.min(height, width);
+    let x = (offsetX - (width - s) / 2) / s / 100;
+    let y = (height - offsetY - (height - s) / 2) / s / 100;
+    let f = Math.min(Math.abs(deltaY), 5);
+    x *= f;
+    y *= f;
+
+    if (deltaY < 0) {
+      xStart += x * (xEnd - xStart);
+      xEnd -= (0.01 * f - x) * (xEnd - xStart);
+      yStart += y * (yEnd - yStart);
+      yEnd -= (0.01 * f - y) * (yEnd - yStart);
+    } else {
+      xStart -= x * (xEnd - xStart);
+      xEnd += (0.01 * f - x) * (xEnd - xStart);
+      yStart -= y * (yEnd - yStart);
+      yEnd += (0.01 * f - y) * (yEnd - yStart);
+    }
+
+    setPageHash(true), updateGl();
+  }
+
   $.root.on("keydown", onKey).on("keyup", onKey).on("mouseup", onMouse);
+  $(canvas).on("mousedown", onMouse).on("mousemove", onMouse);
+  $(canvas).on("wheel", onWheel).on("wheel", (e) => e.preventDefault()); // prettier-ignore
 
   setInterval(() => {
     if (zoomType == "none") return;
