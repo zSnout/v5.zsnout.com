@@ -293,6 +293,8 @@ export async function createFractal(
     x *= f;
     y *= f;
 
+    // TODO: fix issue where scrolling out distorts display
+
     if (deltaY < 0) {
       xStart += x * (xEnd - xStart);
       xEnd -= (0.01 * f - x) * (xEnd - xStart);
