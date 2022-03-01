@@ -6,7 +6,17 @@ let config: PropertyDescriptor = {
 
 export default class BigFraction implements Iterable<bigint> {
   static gcd(a: bigint, b: bigint): bigint {
-    return b === 0n ? (a < 0n ? -a : a) : this.gcd(b, a % b);
+    if (a < 0n) a = -a;
+    if (b < 0n) b = -b;
+    if (b > a) [a, b] = [b, a];
+
+    while (true) {
+      if (!b) return a;
+      a %= b;
+
+      if (!a) return b;
+      b %= a;
+    }
   }
 
   static lcm(a: bigint, b: bigint): bigint {
