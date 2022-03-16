@@ -10,6 +10,9 @@ nav: [Shrink Icons, "@resize", expand]
 \bottom_margin
 zSnout is collection of different projects created for fun by Zachary Sakowitz during COVID-19. You can help us by [contributing code](https://github.com/zSnout/zsnout.com/), reporting an [issue or bug](https://github.com/zSnout/zsnout.com/issues/new/choose) or by [buying a shirt](https://store.zsnout.com/).
 
+\bottom_margin
+A new version of zSnout is now available at a temporary location at [zsnout.web.app](https://zsnout.web.app/) during our beta stages. It will be complete and active on the new site by April 3rd.
+
 \iconlist
 [![](/home/icons/signup.png) _**My Account**_](/account/login/)
 [![](/home/icons/store.png) _**zSnout Store**_](https://store.zsnout.com/)
