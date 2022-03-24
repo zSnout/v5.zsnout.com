@@ -1,3 +1,5 @@
+> This project has been deprecated. All code has been left as is for historical purposes. The sucessor to this project is being built with Vue at [zSnout/zsnout.com](https://github.com/zSnout/zsnout.com).
+
 This is the source code for the third iteration of https://zsnout.com/. For more information, check out JSDoc comments, which are available on all exported members. Additionally, expected environment variables are included in the NodeJS.ProcessEnv interface.
 
 - [Versioning System](#versioning-system)
