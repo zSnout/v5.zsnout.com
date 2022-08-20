@@ -32,7 +32,7 @@ let showInfo = (text: string) => ($.main.removeClass("video"), info.text(text));
 let requestMedia = () =>
   navigator.mediaDevices.getUserMedia({ video: true, audio: true });
 
-let peer = new Peer();
+let peer = new Peer.Peer();
 
 peer.on("error", (err) => {
   document.title = "zCall - Error";

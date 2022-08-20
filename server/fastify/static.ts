@@ -1,4 +1,4 @@
-import fastifyStatic from "fastify-static";
+import fastifyStatic from "fastify-static-deprecated";
 import { ServerResponse } from "http";
 import { join } from "path";
 import server from "..";

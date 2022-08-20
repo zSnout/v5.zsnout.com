@@ -16,8 +16,12 @@
   "license": "GNU",
   "author": "zsakowitz",
   "dependencies": {
+    "fastify-static": "^4.7.0",
     "prettier": "^2.5.1",
     "sass": "^1.46.0",
     "typescript": "^4.5.4"
+  },
+  "devDependencies": {
+    "@types/fastify-static": "^2.2.1"
   }
 }
