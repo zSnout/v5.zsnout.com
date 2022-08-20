@@ -1,9 +1,9 @@
 git clone https://github.com/zsnout/zsnout.com.git zsnout
 cd zsnout
-npm install
-cd builder; npm install; cd ..
-cd client; npm install; cd ..
-cd server; npm install; cd ..
+npm ci
+cd builder; npm ci; cd ..
+cd client; npm ci; cd ..
+cd server; npm ci; cd ..
 npm run build
 echo "
 zSnout has been installed!
