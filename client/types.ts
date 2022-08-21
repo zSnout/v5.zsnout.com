@@ -45,7 +45,7 @@ declare var io: (
   ...args: Partial<Parameters<typeof import("socket.io-client").io>>
 ) => import("socket.io-client").Socket<IOEvents, IOEvents>;
 declare var jdenticon: typeof import("jdenticon");
-declare var Peer: typeof import("peerjs");
+declare var Peer: typeof import("peerjs").Peer;
 declare var png: typeof import("pngjs");
 declare var Quill: typeof import("quill").Quill;
 
