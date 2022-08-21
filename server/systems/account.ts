@@ -1,6 +1,7 @@
-import server from "..";
-import { hash, compare } from "bcrypt";
+import { compare, hash } from "bcrypt";
 import { randomUUID } from "crypto";
+import { ObjectId } from "mongodb";
+import server from "..";
 
 /** The database collection for the accounts table. */
 let accounts = server.database("accounts");
@@ -139,22 +140,26 @@ export async function createPendingUser(
 
   password = await hashPassword(password);
   let session = randomUUID();
-  let id = randomUUID();
+  let _id = new ObjectId();
   let creation = Date.now();
 
   await accounts.insert({
-    id,
+    _id,
     creation,
     username,
     password,
     session,
     email,
     verified: false,
+    verifyCode: randomUUID(),
+    bookmarks: [],
+    notes: [],
+    chats: [],
   });
 
   if (await sendEmailToPendingUser(email, username, session)) return session;
 
-  await accounts.delete({ id });
+  await accounts.delete({ _id });
   return UserStatus.VerificationFailure;
 }
 
@@ -218,26 +223,17 @@ setInterval(async () => {
 
 /** The database table representing accounts. */
 export interface AccountTable {
-  /** The account's user ID. */
-  id: string;
-
-  /** The timestamp of the account's creation. */
   creation: number;
-
-  /** Whether the account is verified. */
-  verified: boolean;
-
-  /** The account's username. */
   username: string;
-
-  /** The account's hashed password. */
+  /** Passwords will be hashed using bcrypt before putting them into the database. */
   password: string;
-
-  /** The account's session ID. */
   session: string;
-
-  /** The account's email address. */
   email: string;
+  verified: boolean;
+  verifyCode: string;
+  bookmarks: unknown[];
+  notes: ObjectId[];
+  chats: ObjectId[];
 }
 
 declare global {

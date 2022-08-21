@@ -92,9 +92,6 @@ declare module "fastify" {
 
 /** The base interface all tables must implement. */
 export interface Table {
-  /** The entry's UUID. */
-  id: string;
-
   /** The timestamp of the entry's creation. */
   creation: number;
 }
