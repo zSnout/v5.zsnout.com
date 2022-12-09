@@ -18,7 +18,7 @@
   "dependencies": {
     "fastify-static": "^4.7.0",
     "prettier": "^2.8.0",
-    "sass": "^1.56.1",
+    "sass": "^1.56.2",
     "typescript": "^4.9.3"
   },
   "devDependencies": {
